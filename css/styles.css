@@ -2689,32 +2689,6 @@ body:not(.owner-mode-active) .owner-only {
   display: none !important;
 }
 
-.owner-mode-banner {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background: rgba(15, 23, 42, 0.96);
-  border-bottom: 2px solid #f59e0b;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  padding: 8px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  z-index: 1000;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-}
-
-body.owner-mode-active {
-  padding-top: 44px;
-}
-
-@media (max-width: 600px) {
-  body.owner-mode-active {
-    padding-top: 52px;
-  }
-}
 
 .floating-visitor-switch {
   position: fixed;

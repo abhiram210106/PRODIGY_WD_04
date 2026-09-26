@@ -24,18 +24,6 @@
 </head>
 <body>
 
-  <!-- Owner Mode Banner (Active for Abhiram so upload buttons are directly accessible; can switch to Visitor Preview) -->
-  <div id="ownerModeBanner" class="owner-mode-banner owner-only" aria-live="polite">
-    <div style="display: flex; align-items: center; gap: 8px;">
-      <span style="font-size: 1.1rem;">👑</span>
-      <span style="font-weight: 700; font-size: 0.85rem; color: #fbbf24;">Owner Mode Active</span>
-      <span style="font-size: 0.78rem; color: #94a3b8;">• Upload buttons for Certificates, Resume, &amp; Media are visible</span>
-    </div>
-    <div style="display: flex; gap: 8px; align-items: center;">
-      <button class="btn btn-primary btn-sm" style="font-size: 0.75rem; padding: 4px 10px;" id="ownerBannerManagerBtn" type="button">Manage All Files</button>
-      <button class="btn btn-outline btn-sm" style="font-size: 0.75rem; padding: 4px 10px; border-color: rgba(148,163,184,0.4); color: #cbd5e1;" id="ownerBannerExitBtn" type="button">👁️ Preview as Visitor</button>
-    </div>
-  </div>
 
   <!-- Ambient Glowing Background Elements -->
   <div class="ambient-bg" aria-hidden="true">
@@ -737,6 +725,10 @@
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
                   View Research Credential
                 </button>
+                <button class="btn btn-outline owner-only" type="button" id="editMlcvLinksBtn" title="Upload or edit live demo URL &amp; API link">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                  Edit Demo &amp; API Links
+                </button>
               </div>
             </div>
 
@@ -807,14 +799,18 @@
                 <span>Java application development</span>
               </li>
             </ul>
-            <div class="project-actions">
-              <button class="btn btn-outline btn-sm placeholder-link" data-label="Online Reservation System GitHub">
+            <div class="project-actions" style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <a href="https://github.com/abhiram210106/OIBSIP" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm proj-code-btn" id="projGithub-reservation" data-proj-id="reservation">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
                 GitHub
-              </button>
-              <button class="btn btn-secondary btn-sm placeholder-link" data-label="Online Reservation System Demo">
+              </a>
+              <button class="btn btn-secondary btn-sm proj-demo-btn" id="projDemo-reservation" type="button" data-proj-id="reservation" data-proj-title="Online Reservation System">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
-                Demo
+                <span class="demo-btn-label">Demo</span>
+              </button>
+              <button class="btn btn-outline btn-sm proj-edit-btn owner-only" type="button" data-proj-id="reservation" data-proj-title="Online Reservation System" title="Upload / edit live demo URL &amp; GitHub repository">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                Upload Demo Link
               </button>
             </div>
           </div>
@@ -852,14 +848,18 @@
                 <span>Responsive design</span>
               </li>
             </ul>
-            <div class="project-actions">
-              <button class="btn btn-outline btn-sm placeholder-link" data-label="ATM Web Interface GitHub">
+            <div class="project-actions" style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <a href="https://github.com/abhiram210106/OIBSIP" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm proj-code-btn" id="projGithub-atm" data-proj-id="atm">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
                 GitHub
-              </button>
-              <button class="btn btn-secondary btn-sm placeholder-link" data-label="ATM Web Interface Demo">
+              </a>
+              <button class="btn btn-secondary btn-sm proj-demo-btn" id="projDemo-atm" type="button" data-proj-id="atm" data-proj-title="ATM Web Interface">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
-                Demo
+                <span class="demo-btn-label">Demo</span>
+              </button>
+              <button class="btn btn-outline btn-sm proj-edit-btn owner-only" type="button" data-proj-id="atm" data-proj-title="ATM Web Interface" title="Upload / edit live demo URL &amp; GitHub repository">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                Upload Demo Link
               </button>
             </div>
           </div>
@@ -897,14 +897,18 @@
                 <span>Digital exam interface</span>
               </li>
             </ul>
-            <div class="project-actions">
-              <button class="btn btn-outline btn-sm placeholder-link" data-label="Online Examination System GitHub">
+            <div class="project-actions" style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <a href="https://github.com/abhiram210106/OIBSIP" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm proj-code-btn" id="projGithub-exam" data-proj-id="exam">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
                 GitHub
-              </button>
-              <button class="btn btn-secondary btn-sm placeholder-link" data-label="Online Examination System Demo">
+              </a>
+              <button class="btn btn-secondary btn-sm proj-demo-btn" id="projDemo-exam" type="button" data-proj-id="exam" data-proj-title="Online Examination System">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
-                Demo
+                <span class="demo-btn-label">Demo</span>
+              </button>
+              <button class="btn btn-outline btn-sm proj-edit-btn owner-only" type="button" data-proj-id="exam" data-proj-title="Online Examination System" title="Upload / edit live demo URL &amp; GitHub repository">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                Upload Demo Link
               </button>
             </div>
           </div>
@@ -942,14 +946,18 @@
                 <span>Application workflow</span>
               </li>
             </ul>
-            <div class="project-actions">
-              <button class="btn btn-outline btn-sm placeholder-link" data-label="Digital Library Management System GitHub">
+            <div class="project-actions" style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <a href="https://github.com/abhiram210106/OIBSIP" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm proj-code-btn" id="projGithub-library" data-proj-id="library">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
                 GitHub
-              </button>
-              <button class="btn btn-secondary btn-sm placeholder-link" data-label="Digital Library Management System Demo">
+              </a>
+              <button class="btn btn-secondary btn-sm proj-demo-btn" id="projDemo-library" type="button" data-proj-id="library" data-proj-title="Digital Library Management System">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
-                Demo
+                <span class="demo-btn-label">Demo</span>
+              </button>
+              <button class="btn btn-outline btn-sm proj-edit-btn owner-only" type="button" data-proj-id="library" data-proj-title="Digital Library Management System" title="Upload / edit live demo URL &amp; GitHub repository">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                Upload Demo Link
               </button>
             </div>
           </div>
@@ -1586,6 +1594,7 @@
   <input type="file" id="resumeUploadInput" accept=".pdf,application/pdf" style="display: none;" aria-hidden="true">
   <input type="file" id="certUploadInput" accept="image/*,.pdf" style="display: none;" aria-hidden="true">
   <input type="file" id="mlcvScreenshotInput" accept="image/*" style="display: none;" aria-hidden="true">
+  <input type="file" id="demoFileUploadInput" accept=".html,.htm,.zip,.pdf,.mp4" style="display: none;" aria-hidden="true">
 
   <!-- Main JavaScript File -->
   <script src="js/main.js"></script>

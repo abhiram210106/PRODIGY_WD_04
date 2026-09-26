@@ -713,7 +713,7 @@ function openAllInOneAssetManager() {
   const content = `
     <div style="text-align: left; line-height: 1.6;">
       <p style="font-size: 0.92rem; color: var(--text-secondary); margin-bottom: 20px;">
-        Manage all your real files, certificates, resume, and contact settings right in your browser:
+        Manage all your real files, certificates, project live demos, resume, and contact settings right in your browser:
       </p>
 
       <div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px;">
@@ -739,10 +739,21 @@ function openAllInOneAssetManager() {
           </button>
         </div>
 
-        <!-- Item 3: Profile Photo -->
+        <!-- Item 3: Project Live Demos & GitHub Links -->
         <div style="background: var(--bg-tertiary); padding: 16px; border-radius: 10px; border: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
           <div>
-            <h4 style="font-size: 1rem; font-weight: 700;">3. Profile Photograph</h4>
+            <h4 style="font-size: 1rem; font-weight: 700; color: #10b981;">3. Project Live Demos &amp; Code Links</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Upload or set live demo URLs (Vercel, Netlify, Render, GitHub Pages, or HTML files) for each project.</p>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="closeModal(); document.getElementById('projects').scrollIntoView({behavior:'smooth'}); showToast('Click Upload Demo Link on any project card below.');">
+            Upload / Edit Demos
+          </button>
+        </div>
+
+        <!-- Item 4: Profile Photo -->
+        <div style="background: var(--bg-tertiary); padding: 16px; border-radius: 10px; border: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+          <div>
+            <h4 style="font-size: 1rem; font-weight: 700;">4. Profile Photograph</h4>
             <p style="font-size: 0.85rem; color: var(--text-muted);">Upload your photograph to replace the monogram avatar.</p>
           </div>
           <button class="btn btn-outline btn-sm" onclick="document.getElementById('profilePhotoInput')?.click()">
@@ -750,10 +761,10 @@ function openAllInOneAssetManager() {
           </button>
         </div>
 
-        <!-- Item 4: Contact & Gmail -->
+        <!-- Item 5: Contact & Gmail -->
         <div style="background: var(--bg-tertiary); padding: 16px; border-radius: 10px; border: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
           <div>
-            <h4 style="font-size: 1rem; font-weight: 700;">4. Contact &amp; Gmail Settings</h4>
+            <h4 style="font-size: 1rem; font-weight: 700;">5. Contact &amp; Gmail Settings</h4>
             <p style="font-size: 0.85rem; color: var(--text-muted);">Set your Gmail, LinkedIn, GitHub, and phone privacy.</p>
           </div>
           <button class="btn btn-primary btn-sm" onclick="openContactEditModal()">
@@ -762,7 +773,10 @@ function openAllInOneAssetManager() {
         </div>
       </div>
 
-      <div style="text-align: right;">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; padding-top: 14px; border-top: 1px solid var(--border-subtle);">
+        <button class="btn btn-outline btn-sm" style="border-color: rgba(148,163,184,0.4); color: #cbd5e1;" onclick="closeModal(); setOwnerMode(false, true);">
+          👁️ Preview Website as Visitor
+        </button>
         <button class="btn btn-secondary btn-sm" onclick="closeModal()">Close Manager</button>
       </div>
     </div>
@@ -770,6 +784,7 @@ function openAllInOneAssetManager() {
 
   openModal('Portfolio Files &amp; Credentials Manager', content);
 }
+
 
 /* ==========================================================================
    12. FILE INPUT LISTENERS (CERTIFICATES & RESUME)
@@ -925,24 +940,332 @@ function initModalHandlers() {
   // Floating manager button
   document.getElementById('openAssetManagerBtn')?.addEventListener('click', openAllInOneAssetManager);
 
-  // Placeholder Link Handler
-  document.querySelectorAll('.placeholder-link').forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      const label = link.getAttribute('data-label') || 'Target Link';
-      if (label.includes('GitHub')) {
-        window.open('https://github.com/abhiram210106/OIBSIP', '_blank');
-        showToast('Opening GitHub Repository: abhiram210106/OIBSIP');
+  // Initialize contact DOM, file inputs, and project demo links
+  updateContactDOM();
+  initFileInputListeners();
+  initProjectLinks();
+}
+
+/* ==========================================================================
+   14. PROJECT LIVE DEMOS & GITHUB LINKS MANAGER
+   ========================================================================== */
+const PROJECT_DEFAULTS = {
+  mlcv: {
+    title: 'ML-Based Prediction of Cyclic Voltammetry for Supercapacitors',
+    demoUrl: 'https://anirudhrao-24.github.io/cv-ml-supercapacitor-bfo/',
+    apiUrl: 'https://cv-ml-supercapacitor-bfo-i0cu.onrender.com/',
+    githubUrl: 'https://github.com/abhiram210106/OIBSIP'
+  },
+  reservation: {
+    title: 'Online Reservation System',
+    demoUrl: '',
+    githubUrl: 'https://github.com/abhiram210106/OIBSIP'
+  },
+  atm: {
+    title: 'ATM Web Interface',
+    demoUrl: '',
+    githubUrl: 'https://github.com/abhiram210106/OIBSIP'
+  },
+  exam: {
+    title: 'Online Examination System',
+    demoUrl: '',
+    githubUrl: 'https://github.com/abhiram210106/OIBSIP'
+  },
+  library: {
+    title: 'Digital Library Management System',
+    demoUrl: '',
+    githubUrl: 'https://github.com/abhiram210106/OIBSIP'
+  }
+};
+
+let activeDemoUploadProjId = null;
+
+function getProjectLinks(projId) {
+  const defaults = PROJECT_DEFAULTS[projId] || { demoUrl: '', githubUrl: 'https://github.com/abhiram210106/OIBSIP' };
+  try {
+    return {
+      demoUrl: localStorage.getItem(`vaka-proj-demo-${projId}`) || defaults.demoUrl || '',
+      apiUrl: localStorage.getItem(`vaka-proj-api-${projId}`) || defaults.apiUrl || '',
+      githubUrl: localStorage.getItem(`vaka-proj-github-${projId}`) || defaults.githubUrl || 'https://github.com/abhiram210106/OIBSIP',
+      demoFile: localStorage.getItem(`vaka-proj-file-${projId}`) || null,
+      demoFileName: localStorage.getItem(`vaka-proj-filename-${projId}`) || ''
+    };
+  } catch (e) {
+    return defaults;
+  }
+}
+
+function setProjectLinks(projId, demoUrl, githubUrl, apiUrl = '') {
+  try {
+    if (demoUrl !== undefined) localStorage.setItem(`vaka-proj-demo-${projId}`, demoUrl);
+    if (githubUrl !== undefined) localStorage.setItem(`vaka-proj-github-${projId}`, githubUrl);
+    if (apiUrl !== undefined) localStorage.setItem(`vaka-proj-api-${projId}`, apiUrl);
+  } catch (e) {
+    console.warn('Storage limit reached for project links');
+  }
+  updateProjectLinksDOM();
+}
+
+function updateProjectLinksDOM() {
+  // Update other projects (Projects 2, 3, 4, 5)
+  ['reservation', 'atm', 'exam', 'library'].forEach(projId => {
+    const links = getProjectLinks(projId);
+    
+    // GitHub button
+    const ghBtn = document.getElementById(`projGithub-${projId}`);
+    if (ghBtn) {
+      ghBtn.href = links.githubUrl || 'https://github.com/abhiram210106/OIBSIP';
+    }
+
+    // Demo button
+    const demoBtn = document.getElementById(`projDemo-${projId}`);
+    if (demoBtn) {
+      const labelSpan = demoBtn.querySelector('.demo-btn-label');
+      if (links.demoUrl || links.demoFile) {
+        demoBtn.classList.remove('btn-secondary');
+        demoBtn.classList.add('btn-primary');
+        if (labelSpan) labelSpan.textContent = 'Live Demo ↗';
+        demoBtn.setAttribute('title', `Open live demo: ${links.demoUrl || links.demoFileName}`);
       } else {
-        showToast(`Live Demo Preview: ${label} simulated on page`);
+        demoBtn.classList.remove('btn-primary');
+        demoBtn.classList.add('btn-secondary');
+        if (labelSpan) labelSpan.textContent = 'Demo';
+        demoBtn.setAttribute('title', 'Click to view or upload live demo');
+      }
+    }
+  });
+
+  // Featured MLCV Links
+  const mlcvLinks = getProjectLinks('mlcv');
+  const mlcvDashBtn = document.getElementById('mlcvDashboardBtn');
+  if (mlcvDashBtn && mlcvLinks.demoUrl) {
+    mlcvDashBtn.href = mlcvLinks.demoUrl;
+  }
+  const mlcvApiBtn = document.getElementById('mlcvApiBtn');
+  if (mlcvApiBtn && mlcvLinks.apiUrl) {
+    mlcvApiBtn.href = mlcvLinks.apiUrl;
+  }
+}
+
+function openProjectLinkModal(projId, projTitle) {
+  activeDemoUploadProjId = projId;
+  const links = getProjectLinks(projId);
+
+  const content = `
+    <div style="text-align: left; line-height: 1.6;">
+      <p style="font-size: 0.92rem; color: var(--text-secondary); margin-bottom: 18px;">
+        Upload or set your live demo URL (Vercel, Netlify, Render, GitHub Pages, or Video demonstration) and GitHub repository for <strong>${escapeHtml(projTitle)}</strong>:
+      </p>
+
+      <form id="projectLinksForm">
+        <!-- Live Demo URL Input -->
+        <div class="form-group" style="margin-bottom: 16px;">
+          <label class="form-label" for="projDemoUrlInput" style="display: flex; justify-content: space-between;">
+            <span>Live Demo Web URL</span>
+            <span style="font-size: 0.76rem; color: #10b981; font-weight: normal;">${links.demoUrl ? '✓ Active Link Saved' : 'Optional / Paste URL'}</span>
+          </label>
+          <input type="url" id="projDemoUrlInput" class="form-control" placeholder="e.g. https://my-project.vercel.app or GitHub Pages link" value="${escapeHtml(links.demoUrl || '')}">
+          <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px;">
+            Paste your hosted deployment URL, GitHub Pages link, or YouTube/Loom demo video.
+          </p>
+        </div>
+
+        <!-- Local Demo File Upload (HTML, Video, PDF) -->
+        <div style="background: var(--bg-tertiary); border: 1px dashed var(--border-glow); border-radius: 8px; padding: 12px 16px; margin-bottom: 16px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+            <div>
+              <div style="font-size: 0.88rem; font-weight: 700; color: var(--text-primary);">Or Upload Offline Demo File</div>
+              <div style="font-size: 0.78rem; color: var(--text-muted);">Upload an HTML file, video, or demo bundle to run right in browser</div>
+            </div>
+            <button class="btn btn-outline btn-sm" type="button" onclick="document.getElementById('demoFileUploadInput')?.click()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+              Choose File
+            </button>
+          </div>
+          ${links.demoFileName ? `
+            <div id="demoFileBadge" style="margin-top: 8px; display: inline-flex; align-items: center; gap: 6px; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); padding: 4px 10px; border-radius: 4px; font-size: 0.78rem; color: #10b981; font-family: var(--font-mono);">
+              ✓ Stored File: ${escapeHtml(links.demoFileName)}
+              <button type="button" onclick="removeStoredDemoFile('${projId}')" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 0.9rem; margin-left: 4px;" title="Remove file">&times;</button>
+            </div>
+          ` : '<div id="demoFileBadge" style="display:none;"></div>'}
+        </div>
+
+        <!-- GitHub Repository URL -->
+        <div class="form-group" style="margin-bottom: 20px;">
+          <label class="form-label" for="projGithubUrlInput">GitHub Source Code Repository</label>
+          <input type="url" id="projGithubUrlInput" class="form-control" placeholder="https://github.com/abhiram210106/OIBSIP" value="${escapeHtml(links.githubUrl || 'https://github.com/abhiram210106/OIBSIP')}">
+        </div>
+
+        <!-- Action Buttons -->
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; padding-top: 14px; border-top: 1px solid var(--border-subtle);">
+          <div>
+            ${links.demoUrl ? `
+              <button class="btn btn-outline btn-sm" type="button" onclick="window.open('${escapeHtml(links.demoUrl)}', '_blank');">
+                Test Live Link ↗
+              </button>
+            ` : ''}
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button type="button" class="btn btn-secondary btn-sm" onclick="closeModal()">Cancel</button>
+            <button type="submit" class="btn btn-primary btn-sm">Save &amp; Apply Links</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  `;
+
+  openModal(`Upload &amp; Set Demo Link: ${projTitle}`, content);
+
+  const form = document.getElementById('projectLinksForm');
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const newDemoUrl = document.getElementById('projDemoUrlInput')?.value.trim();
+    const newGithubUrl = document.getElementById('projGithubUrlInput')?.value.trim() || 'https://github.com/abhiram210106/OIBSIP';
+
+    setProjectLinks(projId, newDemoUrl, newGithubUrl);
+    closeModal();
+    showToast(`✓ Demo link and GitHub URL saved for ${projTitle}!`);
+  });
+}
+
+function openMlcvLinksModal() {
+  const links = getProjectLinks('mlcv');
+
+  const content = `
+    <div style="text-align: left; line-height: 1.6;">
+      <p style="font-size: 0.92rem; color: var(--text-secondary); margin-bottom: 18px;">
+        Update the live dashboard and API deployment URLs for the <strong>ML-Based Prediction of Cyclic Voltammetry for Supercapacitors</strong> project:
+      </p>
+
+      <form id="mlcvLinksForm">
+        <div class="form-group" style="margin-bottom: 16px;">
+          <label class="form-label" for="mlcvDashboardInput">Live Web Dashboard URL (GitHub Pages)</label>
+          <input type="url" id="mlcvDashboardInput" class="form-control" value="${escapeHtml(links.demoUrl)}" required placeholder="https://anirudhrao-24.github.io/cv-ml-supercapacitor-bfo/">
+        </div>
+
+        <div class="form-group" style="margin-bottom: 20px;">
+          <label class="form-label" for="mlcvApiInput">Live ML API URL (Render / FastAPI)</label>
+          <input type="url" id="mlcvApiInput" class="form-control" value="${escapeHtml(links.apiUrl)}" required placeholder="https://cv-ml-supercapacitor-bfo-i0cu.onrender.com/">
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 8px; padding-top: 14px; border-top: 1px solid var(--border-subtle);">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="closeModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Save &amp; Apply Links</button>
+        </div>
+      </form>
+    </div>
+  `;
+
+  openModal('Edit MLCV Dashboard &amp; API Links', content);
+
+  document.getElementById('mlcvLinksForm')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const dash = document.getElementById('mlcvDashboardInput')?.value.trim();
+    const api = document.getElementById('mlcvApiInput')?.value.trim();
+    setProjectLinks('mlcv', dash, undefined, api);
+    closeModal();
+    showToast('✓ MLCV Live Dashboard and API links updated successfully!');
+  });
+}
+
+window.removeStoredDemoFile = function(projId) {
+  try {
+    localStorage.removeItem(`vaka-proj-file-${projId}`);
+    localStorage.removeItem(`vaka-proj-filename-${projId}`);
+  } catch (e) {}
+  const badge = document.getElementById('demoFileBadge');
+  if (badge) badge.style.display = 'none';
+  updateProjectLinksDOM();
+  showToast('Stored demo file removed.');
+};
+
+function initProjectLinks() {
+  updateProjectLinksDOM();
+
+  // Project Demo button clicks
+  document.querySelectorAll('.proj-demo-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const projId = btn.getAttribute('data-proj-id');
+      const projTitle = btn.getAttribute('data-proj-title') || 'Project';
+      const links = getProjectLinks(projId);
+
+      if (links.demoUrl) {
+        window.open(links.demoUrl, '_blank', 'noopener,noreferrer');
+        showToast(`Launching Live Demo: ${projTitle}`);
+      } else if (links.demoFile) {
+        // Open uploaded file in new window
+        const win = window.open();
+        if (win) {
+          win.document.write(`<iframe src="${links.demoFile}" style="border:0; top:0; left:0; bottom:0; right:0; width:100%; height:100%;" allowfullscreen></iframe>`);
+        }
+        showToast(`Launching Offline Demo File for ${projTitle}`);
+      } else {
+        // If in Owner Mode: open upload modal so user can paste their link!
+        if (isOwnerActive()) {
+          showToast(`Upload or set your live demo link for ${projTitle}`);
+          openProjectLinkModal(projId, projTitle);
+        } else {
+          // Visitor mode: show modal informing that link is coming soon + button to view GitHub code
+          const content = `
+            <div style="text-align: center; line-height: 1.6;">
+              <div style="font-size: 2.4rem; margin-bottom: 12px;">🚀</div>
+              <h4 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 8px;">Live Demo for ${escapeHtml(projTitle)}</h4>
+              <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 20px;">
+                The live deployment link is currently being prepared by the developer. You can explore the complete source code and implementation documentation on GitHub!
+              </p>
+              <div style="display: flex; justify-content: center; gap: 10px;">
+                <a href="${escapeHtml(links.githubUrl || 'https://github.com/abhiram210106/OIBSIP')}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
+                  View Source Code on GitHub
+                </a>
+                <button class="btn btn-secondary btn-sm" onclick="closeModal()">Close</button>
+              </div>
+            </div>
+          `;
+          openModal(`Live Demo: ${projTitle}`, content);
+        }
       }
     });
   });
 
-  // Initialize contact DOM and file inputs
-  updateContactDOM();
-  initFileInputListeners();
+  // Project Edit Link button clicks
+  document.querySelectorAll('.proj-edit-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const projId = btn.getAttribute('data-proj-id');
+      const projTitle = btn.getAttribute('data-proj-title') || 'Project';
+      openProjectLinkModal(projId, projTitle);
+    });
+  });
+
+  // Edit MLCV featured links button
+  document.getElementById('editMlcvLinksBtn')?.addEventListener('click', openMlcvLinksModal);
+
+  // Hidden demo file upload listener
+  const fileInput = document.getElementById('demoFileUploadInput');
+  fileInput?.addEventListener('change', (e) => {
+    const file = e.target.files?.[0];
+    if (!file || !activeDemoUploadProjId) return;
+
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      const dataUrl = evt.target.result;
+      try {
+        localStorage.setItem(`vaka-proj-file-${activeDemoUploadProjId}`, dataUrl);
+        localStorage.setItem(`vaka-proj-filename-${activeDemoUploadProjId}`, file.name);
+      } catch (err) {
+        console.warn('Local demo file too large for localStorage, active for session');
+      }
+      showToast(`✓ Demo file "${file.name}" uploaded successfully!`);
+      const projTitle = PROJECT_DEFAULTS[activeDemoUploadProjId]?.title || 'Project';
+      openProjectLinkModal(activeDemoUploadProjId, projTitle);
+      updateProjectLinksDOM();
+    };
+    reader.readAsDataURL(file);
+    fileInput.value = '';
+  });
 }
+
 
 /* ==========================================================================
    14. TOAST NOTIFICATION UTILITY
@@ -1587,13 +1910,11 @@ function isOwnerActive() {
 
 function setOwnerMode(active, showFeedback = true) {
   const restoreBtn = document.getElementById('restoreOwnerModeBtn');
-  const banner = document.getElementById('ownerModeBanner');
 
   if (active) {
     document.body.classList.add('owner-mode-active');
     localStorage.setItem('vaka-portfolio-mode', 'owner');
     if (restoreBtn) restoreBtn.style.display = 'none';
-    if (banner) banner.style.display = 'flex';
     if (showFeedback) {
       showToast('👑 Owner Mode Active: All upload buttons for Certificates, Resume, & Photos are enabled.');
     }
@@ -1601,7 +1922,6 @@ function setOwnerMode(active, showFeedback = true) {
     document.body.classList.remove('owner-mode-active');
     localStorage.setItem('vaka-portfolio-mode', 'visitor');
     if (restoreBtn) restoreBtn.style.display = 'flex';
-    if (banner) banner.style.display = 'none';
     if (showFeedback) {
       showToast('👁️ Visitor Preview Active: Upload controls hidden to preview what visitors see.');
     }
@@ -1625,18 +1945,6 @@ function initOwnerMode() {
   document.getElementById('restoreOwnerModeBtn')?.addEventListener('click', (e) => {
     e.preventDefault();
     setOwnerMode(true, true);
-  });
-
-  // Top banner button: switch to visitor preview
-  document.getElementById('ownerBannerExitBtn')?.addEventListener('click', (e) => {
-    e.preventDefault();
-    setOwnerMode(false, true);
-  });
-
-  // Top banner button: open manager modal
-  document.getElementById('ownerBannerManagerBtn')?.addEventListener('click', (e) => {
-    e.preventDefault();
-    openAllInOneAssetManager();
   });
 
   // Footer link trigger
