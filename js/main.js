@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initContactForm();
   initScrollEffects();
   initModalHandlers();
+  initMlcvDemo();
 });
 
 /* ==========================================================================
@@ -826,8 +827,16 @@ function initModalHandlers() {
   const modalBody = document.getElementById('modalBody');
   const modalCloseBtn = document.getElementById('modalCloseBtn');
 
-  window.openModal = function(title, htmlContent) {
+  window.openModal = function(title, htmlContent, isWide = false) {
     if (!modalBackdrop || !modalTitle || !modalBody) return;
+    const dialog = modalBackdrop.querySelector('.modal-dialog');
+    if (dialog) {
+      if (isWide) {
+        dialog.classList.add('modal-wide');
+      } else {
+        dialog.classList.remove('modal-wide');
+      }
+    }
     modalTitle.innerHTML = title;
     modalBody.innerHTML = htmlContent;
     modalBackdrop.classList.add('open');
@@ -836,6 +845,8 @@ function initModalHandlers() {
 
   window.closeModal = function() {
     if (!modalBackdrop) return;
+    const dialog = modalBackdrop.querySelector('.modal-dialog');
+    dialog?.classList.remove('modal-wide');
     modalBackdrop.classList.remove('open');
     document.body.style.overflow = '';
   };
@@ -956,4 +967,363 @@ function escapeHtml(str) {
             .replace(/"/g, '&quot;')
             .replace(/'/g, '&#039;');
 }
+
+/* ==========================================================================
+   15. MLCV DEMO & INTERACTIVE COMPUTER VISION SANDBOX
+   ========================================================================== */
+let cvFpsInterval = null;
+
+function initMlcvDemo() {
+  const mlcvImg = document.getElementById('mlcvMainPreviewImg');
+  const openDemoBtn = document.getElementById('openMlcvDemoBtn');
+  const previewMediaCard = document.getElementById('mlcvPreviewMediaCard');
+  const uploadScreenshotBtn = document.getElementById('uploadMlcvScreenshotBtn');
+  const screenshotInput = document.getElementById('mlcvScreenshotInput');
+
+  // Load custom MLCV screenshot if previously uploaded
+  const storedScreenshot = localStorage.getItem('vaka-custom-mlcv-img');
+  if (storedScreenshot && mlcvImg) {
+    mlcvImg.src = storedScreenshot;
+  }
+
+  // Interactive Live Demo triggers
+  openDemoBtn?.addEventListener('click', (e) => {
+    e.preventDefault();
+    openMlcvSandboxModal();
+  });
+
+  previewMediaCard?.addEventListener('click', (e) => {
+    e.preventDefault();
+    openMlcvSandboxModal();
+  });
+
+  // Custom Screenshot Upload
+  uploadScreenshotBtn?.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    screenshotInput?.click();
+  });
+
+  screenshotInput?.addEventListener('change', (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      showToast('Please select a valid image file (PNG, JPG, SVG, WebP).');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const dataUrl = event.target.result;
+      try {
+        localStorage.setItem('vaka-custom-mlcv-img', dataUrl);
+      } catch (err) {
+        console.warn('Storage limit reached, custom screenshot active for this session.');
+      }
+      if (mlcvImg) {
+        mlcvImg.src = dataUrl;
+      }
+      showToast('MLCV Featured Preview updated with your custom screenshot!');
+    };
+    reader.readAsDataURL(file);
+    screenshotInput.value = '';
+  });
+}
+
+function openMlcvSandboxModal() {
+  if (cvFpsInterval) {
+    clearInterval(cvFpsInterval);
+    cvFpsInterval = null;
+  }
+
+  const content = `
+    <div class="cv-sandbox-container">
+      <!-- Live Telemetry Stream HUD -->
+      <div class="cv-telemetry-bar">
+        <div class="cv-telemetry-badge">
+          <span class="cv-pulse-dot"></span>
+          <span>CV INFERENCE FEED: ACTIVE</span>
+        </div>
+        <div>
+          <span>FPS: <strong style="color:#10b981;" id="cvFpsVal">60.2</strong></span> &bull; 
+          <span>LATENCY: <strong style="color:#38bdf8;">12.4 ms</strong></span> &bull; 
+          <span>TENSOR: <strong style="color:#a855f7;">416x416 RGB</strong></span>
+        </div>
+      </div>
+
+      <!-- CV Visual Viewport -->
+      <div class="cv-viewport" id="cvViewport">
+        <div class="cv-viewport-bg" id="cvViewportBg"></div>
+        <img id="cvCustomBgImg" class="cv-custom-bg-img" style="display: none;" alt="User test image">
+        <div class="cv-scanline"></div>
+
+        <!-- Detection Box 1: Primary Target (Workstation) -->
+        <div class="cv-bounding-box box-cyan" id="cvBox1" style="top: 18%; left: 14%; width: 44%; height: 58%;" data-conf="98" data-label="WORKSTATION_DISPLAY" data-iou="0.91" title="Click to inspect tensor">
+          <div class="cv-box-tag tag-cyan">ROI_01: WORKSTATION [98.4%]</div>
+          <div class="cv-corner tl"></div><div class="cv-corner tr"></div>
+          <div class="cv-corner bl"></div><div class="cv-corner br"></div>
+        </div>
+
+        <!-- Detection Box 2: Secondary Target (Object / Peripheral) -->
+        <div class="cv-bounding-box box-purple" id="cvBox2" style="top: 36%; right: 12%; width: 24%; height: 38%;" data-conf="94" data-label="HARDWARE_PERIPHERAL" data-iou="0.87" title="Click to inspect tensor">
+          <div class="cv-box-tag tag-purple">ROI_02: HARDWARE [94.1%]</div>
+          <div class="cv-corner tl"></div><div class="cv-corner tr"></div>
+          <div class="cv-corner bl"></div><div class="cv-corner br"></div>
+        </div>
+
+        <!-- Detection Box 3: Subject / Pose Landmark Tracker -->
+        <div class="cv-bounding-box box-emerald" id="cvBox3" style="top: 8%; left: 62%; width: 28%; height: 42%;" data-conf="91" data-label="USER_FACIAL_POSE" data-iou="0.94" title="Click to inspect tensor">
+          <div class="cv-box-tag tag-emerald">ROI_03: POSE_TRACK [91.7%]</div>
+          <div class="cv-corner tl"></div><div class="cv-corner tr"></div>
+          <div class="cv-corner bl"></div><div class="cv-corner br"></div>
+        </div>
+
+        <!-- Keypoint Landmarks Overlay (SVG) -->
+        <svg id="cvLandmarksSvg" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 16;">
+          <circle cx="76%" cy="18%" r="4" fill="#38bdf8" />
+          <circle cx="82%" cy="18%" r="4" fill="#38bdf8" />
+          <circle cx="79%" cy="25%" r="4" fill="#818cf8" />
+          <circle cx="75%" cy="32%" r="4" fill="#a855f7" />
+          <circle cx="83%" cy="32%" r="4" fill="#a855f7" />
+          <line x1="76%" y1="18%" x2="82%" y2="18%" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="2 2" />
+          <line x1="76%" y1="18%" x2="79%" y2="25%" stroke="#818cf8" stroke-width="1.5" />
+          <line x1="82%" y1="18%" x2="79%" y2="25%" stroke="#818cf8" stroke-width="1.5" />
+          <line x1="79%" y1="25%" x2="75%" y2="32%" stroke="#a855f7" stroke-width="1.5" />
+          <line x1="79%" y1="25%" x2="83%" y2="32%" stroke="#a855f7" stroke-width="1.5" />
+        </svg>
+
+        <!-- Simulated Grad-CAM Heatmap Overlay -->
+        <div id="cvHeatmapOverlay" style="display: none; position: absolute; inset: 0; background: radial-gradient(circle at 35% 45%, rgba(239, 68, 68, 0.45) 0%, rgba(245, 158, 11, 0.3) 30%, rgba(6, 182, 212, 0.15) 60%, transparent 80%); pointer-events: none; z-index: 14;"></div>
+
+        <!-- Telemetry Details Floating Box -->
+        <div id="cvTensorDetails" style="position: absolute; bottom: 12px; left: 12px; right: 12px; background: rgba(15,23,42,0.92); border: 1px solid var(--border-glow); border-radius: 6px; padding: 8px 12px; font-family: var(--font-mono); font-size: 0.75rem; color: #38bdf8; display: flex; justify-content: space-between; align-items: center; z-index: 25;">
+          <span id="cvTensorInfoText">🔍 Click on any bounding box to inspect tensor coordinates &amp; IoU</span>
+          <span id="cvActiveDetectionsCount" style="color: #94a3b8;">Detections: 3/3 Visible</span>
+        </div>
+      </div>
+
+      <!-- Controls Panel -->
+      <div class="cv-controls-grid">
+        <!-- Detection Mode Buttons -->
+        <div>
+          <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-primary); display: block; margin-bottom: 6px;">Visual Processing Mode:</label>
+          <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+            <button class="cv-mode-btn active" id="modeDetectBtn" type="button">Object BBoxes</button>
+            <button class="cv-mode-btn" id="modeLandmarksBtn" type="button">Keypoints</button>
+            <button class="cv-mode-btn" id="modeCannyBtn" type="button">Canny Edge</button>
+            <button class="cv-mode-btn" id="modeHeatmapBtn" type="button">Grad-CAM</button>
+          </div>
+        </div>
+
+        <!-- Confidence Slider -->
+        <div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+            <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-primary);">Confidence Threshold:</label>
+            <span id="cvThresholdDisplay" style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: #06b6d4;">85%</span>
+          </div>
+          <input type="range" id="cvConfSlider" min="70" max="99" value="85" style="width: 100%; accent-color: #06b6d4; cursor: pointer;">
+        </div>
+
+        <!-- Custom Image Testing inside Sandbox -->
+        <div>
+          <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-primary); display: block; margin-bottom: 6px;">Input Source:</label>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn btn-outline btn-sm" id="cvUploadTestBtn" type="button" style="font-size: 0.78rem; flex-grow: 1;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+              Test Your Photo
+            </button>
+            <button class="btn btn-secondary btn-sm" id="cvResetStreamBtn" type="button" style="font-size: 0.78rem;">
+              Reset
+            </button>
+          </div>
+          <input type="file" id="cvModalImgInput" accept="image/*" style="display: none;">
+        </div>
+      </div>
+
+      <!-- Technical Architecture Breakdown -->
+      <div style="margin-top: 8px;">
+        <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; color: var(--text-primary);">OpenCV &amp; Machine Learning Pipeline Stages:</h4>
+        <div class="cv-pipeline-stages">
+          <div class="cv-stage-card">
+            <h5><span style="color:#06b6d4;">01</span> Acquisition &amp; Normalization</h5>
+            <p style="color: var(--text-muted);">Frame capture with OpenCV VideoCapture, colorspace BGR &rarr; RGB conversion, and tensor resize.</p>
+          </div>
+          <div class="cv-stage-card">
+            <h5><span style="color:#818cf8;">02</span> Feature Extraction</h5>
+            <p style="color: var(--text-muted);">Deep convolutional layers generate feature pyramids isolating edges, textures, and spatial landmarks.</p>
+          </div>
+          <div class="cv-stage-card">
+            <h5><span style="color:#a855f7;">03</span> Model Inference &amp; NMS</h5>
+            <p style="color: var(--text-muted);">Anchor box classification and Non-Maximum Suppression (NMS) to eliminate redundant detections.</p>
+          </div>
+          <div class="cv-stage-card">
+            <h5><span style="color:#10b981;">04</span> Real-Time HUD Rendering</h5>
+            <p style="color: var(--text-muted);">Bounding boxes, confidence score overlays, and telemetry dispatched at &gt;50 FPS.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border-subtle);">
+        <a href="https://github.com/abhiram210106/OIBSIP" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg>
+          View Code on GitHub
+        </a>
+        <button type="button" class="btn btn-secondary btn-sm" onclick="closeModal()">Close Sandbox</button>
+      </div>
+    </div>
+  `;
+
+  openModal('MLCV &bull; Interactive Computer Vision Sandbox', content, true);
+  initSandboxInteractions();
+}
+
+function initSandboxInteractions() {
+  const slider = document.getElementById('cvConfSlider');
+  const threshDisplay = document.getElementById('cvThresholdDisplay');
+  const activeCountDisplay = document.getElementById('cvActiveDetectionsCount');
+  const tensorInfo = document.getElementById('cvTensorInfoText');
+  const fpsDisplay = document.getElementById('cvFpsVal');
+  const viewport = document.getElementById('cvViewport');
+  const customImg = document.getElementById('cvCustomBgImg');
+  const heatmap = document.getElementById('cvHeatmapOverlay');
+  const landmarksSvg = document.getElementById('cvLandmarksSvg');
+  const uploadTestBtn = document.getElementById('cvUploadTestBtn');
+  const modalImgInput = document.getElementById('cvModalImgInput');
+  const resetStreamBtn = document.getElementById('cvResetStreamBtn');
+
+  const boxes = [
+    document.getElementById('cvBox1'),
+    document.getElementById('cvBox2'),
+    document.getElementById('cvBox3')
+  ].filter(Boolean);
+
+  // Live FPS telemetry jitter simulation
+  cvFpsInterval = setInterval(() => {
+    if (fpsDisplay && document.getElementById('universalModal')?.classList.contains('open')) {
+      fpsDisplay.textContent = (59.2 + Math.random() * 2.2).toFixed(1);
+    }
+  }, 1200);
+
+  // Update visible detections by confidence threshold
+  function updateThreshold() {
+    const threshold = parseInt(slider?.value || '85', 10);
+    if (threshDisplay) threshDisplay.textContent = `${threshold}%`;
+
+    let visibleCount = 0;
+    boxes.forEach(box => {
+      const conf = parseInt(box.getAttribute('data-conf') || '90', 10);
+      if (conf >= threshold) {
+        box.style.display = 'block';
+        box.style.opacity = '1';
+        visibleCount++;
+      } else {
+        box.style.display = 'none';
+        box.style.opacity = '0';
+      }
+    });
+
+    if (activeCountDisplay) {
+      activeCountDisplay.textContent = `Detections: ${visibleCount}/${boxes.length} Visible`;
+    }
+  }
+
+  slider?.addEventListener('input', updateThreshold);
+  updateThreshold();
+
+  // Inspect Bounding Box Tensor on Click
+  boxes.forEach(box => {
+    box.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const label = box.getAttribute('data-label');
+      const conf = box.getAttribute('data-conf');
+      const iou = box.getAttribute('data-iou');
+      const style = window.getComputedStyle(box);
+      const coords = `[x:${parseInt(style.left)}, y:${parseInt(style.top)}, w:${parseInt(style.width)}, h:${parseInt(style.height)}]`;
+      if (tensorInfo) {
+        tensorInfo.innerHTML = `🎯 <strong>${label}</strong> | Conf: <strong>${conf}%</strong> | IoU: <strong>${iou}</strong> | Box: <code>${coords}</code>`;
+      }
+      showToast(`Selected ${label} • IoU: ${iou}`);
+    });
+  });
+
+  // Mode Buttons
+  const modeButtons = [
+    { id: 'modeDetectBtn', action: () => {
+      boxes.forEach(b => b.style.visibility = 'visible');
+      if (landmarksSvg) landmarksSvg.style.display = 'block';
+      if (heatmap) heatmap.style.display = 'none';
+      if (viewport) viewport.style.filter = 'none';
+    }},
+    { id: 'modeLandmarksBtn', action: () => {
+      boxes.forEach(b => b.style.visibility = 'hidden');
+      if (landmarksSvg) landmarksSvg.style.display = 'block';
+      if (heatmap) heatmap.style.display = 'none';
+      if (viewport) viewport.style.filter = 'none';
+      showToast('Landmark & Pose Keypoint Mesh Mode Active');
+    }},
+    { id: 'modeCannyBtn', action: () => {
+      boxes.forEach(b => b.style.visibility = 'visible');
+      if (landmarksSvg) landmarksSvg.style.display = 'none';
+      if (heatmap) heatmap.style.display = 'none';
+      if (viewport) viewport.style.filter = 'grayscale(100%) contrast(250%) brightness(1.2)';
+      showToast('Canny Edge Detection Preprocessing Filter Simulated');
+    }},
+    { id: 'modeHeatmapBtn', action: () => {
+      boxes.forEach(b => b.style.visibility = 'visible');
+      if (landmarksSvg) landmarksSvg.style.display = 'none';
+      if (heatmap) heatmap.style.display = 'block';
+      if (viewport) viewport.style.filter = 'none';
+      showToast('Grad-CAM Feature Activation Heatmap Simulated');
+    }}
+  ];
+
+  modeButtons.forEach(mb => {
+    const btn = document.getElementById(mb.id);
+    btn?.addEventListener('click', () => {
+      document.querySelectorAll('.cv-mode-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      mb.action();
+    });
+  });
+
+  // Custom photo upload in sandbox
+  uploadTestBtn?.addEventListener('click', () => modalImgInput?.click());
+  modalImgInput?.addEventListener('change', (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      if (customImg) {
+        customImg.src = evt.target.result;
+        customImg.style.display = 'block';
+      }
+      showToast('Custom photo loaded into CV Inference Viewport!');
+      if (tensorInfo) {
+        tensorInfo.innerHTML = `📸 Custom input feed active: <strong>${escapeHtml(file.name)}</strong>`;
+      }
+    };
+    reader.readAsDataURL(file);
+    modalImgInput.value = '';
+  });
+
+  // Reset Stream
+  resetStreamBtn?.addEventListener('click', () => {
+    if (customImg) {
+      customImg.style.display = 'none';
+      customImg.src = '';
+    }
+    if (viewport) viewport.style.filter = 'none';
+    if (heatmap) heatmap.style.display = 'none';
+    if (landmarksSvg) landmarksSvg.style.display = 'block';
+    boxes.forEach(b => b.style.visibility = 'visible');
+    document.querySelectorAll('.cv-mode-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('modeDetectBtn')?.classList.add('active');
+    if (slider) slider.value = '85';
+    updateThreshold();
+    showToast('Inference stream reset to default benchmark.');
+  });
+}
+
 
