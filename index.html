@@ -1,0 +1,1500 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vaka Abhiram | Aspiring Software Developer | CSE Student</title>
+  <meta name="description" content="Portfolio of Vaka Abhiram, a Computer Science Engineering student interested in Software Development, AI/ML, Computer Vision and modern technology.">
+  <meta name="keywords" content="Vaka Abhiram, Software Developer, Java Development, Machine Learning, Computer Vision, Web Development, KMCE, Hyderabad, Portfolio">
+  <meta name="author" content="Vaka Abhiram">
+  
+  <!-- Open Graph / Meta -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Vaka Abhiram | Aspiring Software Developer | CSE Student">
+  <meta property="og:description" content="Building Software. Solving Problems. Exploring AI. Computer Science Student at KMCE.">
+  <meta property="og:image" content="assets/profile-placeholder.svg">
+
+  <!-- Google Fonts Preconnect & Stylesheet -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Ambient Glowing Background Elements -->
+  <div class="ambient-bg" aria-hidden="true">
+    <div class="ambient-orb ambient-orb-1"></div>
+    <div class="ambient-orb ambient-orb-2"></div>
+    <div class="ambient-orb ambient-orb-3"></div>
+  </div>
+
+  <!-- ==========================================================================
+       STICKY NAVIGATION HEADER
+       ========================================================================== -->
+  <header class="site-header" id="siteHeader">
+    <div class="container header-container">
+      <a href="#home" class="brand-logo" aria-label="Vaka Abhiram Portfolio Home">
+        <div class="brand-monogram">VA</div>
+        <div class="brand-text">
+          <span class="brand-name">Vaka Abhiram</span>
+          <span class="brand-subtitle">Software Developer</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Menu -->
+      <nav aria-label="Main Navigation">
+        <ul class="nav-menu">
+          <li><a href="#home" class="nav-link active">Home</a></li>
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="#education" class="nav-link">Education</a></li>
+          <li><a href="#skills" class="nav-link">Skills</a></li>
+          <li><a href="#experience" class="nav-link">Experience</a></li>
+          <li><a href="#projects" class="nav-link">Projects</a></li>
+          <li><a href="#software" class="nav-link">Software</a></li>
+          <li><a href="#certifications" class="nav-link">Certifications</a></li>
+          <li><a href="#resume" class="nav-link">Resume</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- Header Actions: Theme Switcher & Mobile Hamburger -->
+      <div class="nav-actions">
+        <button id="themeToggleBtn" class="theme-toggle-btn" aria-label="Toggle Dark/Light Mode" title="Toggle Theme">
+          <span id="themeIcon">
+            <!-- Sun Icon (Default Dark Mode) -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="4"></circle>
+              <path d="M12 2v2"></path>
+              <path d="M12 20v2"></path>
+              <path d="m4.93 4.93 1.41 1.41"></path>
+              <path d="m17.66 17.66 1.41 1.41"></path>
+              <path d="M2 12h2"></path>
+              <path d="M20 12h2"></path>
+              <path d="m6.34 17.66-1.41 1.41"></path>
+              <path d="m19.07 4.93-1.41 1.41"></path>
+            </svg>
+          </span>
+        </button>
+
+        <button id="hamburgerBtn" class="hamburger-btn" aria-label="Toggle navigation menu" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation Drawer -->
+  <div class="mobile-nav-overlay" id="mobileNavOverlay" aria-hidden="true"></div>
+  <aside class="mobile-nav-drawer" id="mobileNavDrawer" aria-label="Mobile Navigation">
+    <ul class="mobile-nav-links">
+      <li><a href="#home" class="nav-link">Home</a></li>
+      <li><a href="#about" class="nav-link">About</a></li>
+      <li><a href="#education" class="nav-link">Education</a></li>
+      <li><a href="#skills" class="nav-link">Skills</a></li>
+      <li><a href="#experience" class="nav-link">Experience</a></li>
+      <li><a href="#projects" class="nav-link">Projects</a></li>
+      <li><a href="#software" class="nav-link">Software Development</a></li>
+      <li><a href="#certifications" class="nav-link">Certifications</a></li>
+      <li><a href="#resume" class="nav-link">Resume</a></li>
+      <li><a href="#contact" class="nav-link">Contact</a></li>
+    </ul>
+    <div style="padding-top: 20px; border-top: 1px solid var(--border-subtle);">
+      <p style="font-size: 0.8rem; color: var(--text-muted);">Vaka Abhiram • Portfolio</p>
+      <p style="font-size: 0.75rem; color: var(--accent-secondary); margin-top: 4px;">Hyderabad, Telangana, India</p>
+    </div>
+  </aside>
+
+  <!-- Hidden File Input for Custom Profile Photo Upload -->
+  <input type="file" id="profilePhotoInput" accept="image/*" style="display: none;" aria-hidden="true">
+
+  <!-- ==========================================================================
+       HERO SECTION
+       ========================================================================== -->
+  <section class="hero-section" id="home">
+    <div class="container hero-grid">
+      
+      <!-- Left Column: Headline, Bio & Actions -->
+      <div class="hero-content">
+        <!-- Status Radar Pill -->
+        <div class="hero-badge-pill">
+          <span class="radar-dot"></span>
+          <span class="hero-badge-text">Available for Software Development Opportunities</span>
+        </div>
+
+        <!-- Small Introduction -->
+        <p class="hero-small-intro">Hello, I'm</p>
+
+        <!-- Main Heading -->
+        <h1 class="hero-name">Vaka Abhiram</h1>
+
+        <!-- Main Professional Heading -->
+        <h2 class="hero-role">Computer Science Student &amp; Aspiring Software Developer</h2>
+
+        <!-- Main Professional Positioning Message -->
+        <div class="hero-tagline">"Building Software. Solving Problems. Exploring AI."</div>
+
+        <!-- Supporting Text -->
+        <p class="hero-description">
+          Passionate about Software Development, AI/ML, Computer Vision and building practical technology solutions. Focused on writing clean, reliable code and engineering applications that deliver real-world value.
+        </p>
+
+        <!-- Hero Badges -->
+        <div class="hero-badges-container">
+          <span class="badge badge-primary">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+            CSE 2028
+          </span>
+          <span class="badge badge-cyan">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+            Software Development
+          </span>
+          <span class="badge badge-purple">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>
+            AI/ML
+          </span>
+          <span class="badge badge-emerald">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            Computer Vision
+          </span>
+        </div>
+
+        <!-- Call to Action Buttons -->
+        <div class="hero-actions">
+          <a href="#projects" class="btn btn-primary btn-glow">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+            View My Projects
+          </a>
+          <button class="btn btn-secondary action-download-resume" type="button">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Download Resume
+          </button>
+          <a href="#contact" class="btn btn-outline">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+            Let's Connect
+          </a>
+        </div>
+
+        <!-- Quick Meta Details -->
+        <div class="hero-meta-stats">
+          <div class="meta-stat-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            <span>Hyderabad, Telangana, India</span>
+          </div>
+          <div class="meta-stat-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            <span>KMCE • B.Tech CSE (3rd Year)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Professional Profile Photo Area -->
+      <div class="hero-profile-column">
+        <div class="hero-visual-card">
+          <div class="profile-avatar-wrapper">
+            <div class="profile-avatar-inner">
+              <img id="mainProfileImg" class="profile-image-elem" src="assets/profile-placeholder.svg" alt="Vaka Abhiram Profile Photo Placeholder">
+            </div>
+            <!-- Interactive Photo Upload Button -->
+            <button class="photo-upload-overlay-trigger trigger-photo-upload" title="Upload your photograph" aria-label="Upload your photograph">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"></path>
+                <circle cx="12" cy="13" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+
+          <h3 class="profile-card-name">Vaka Abhiram</h3>
+          <p class="profile-card-title">Computer Science Student | Aspiring Software Developer</p>
+
+          <div class="profile-info-pills">
+            <div class="info-pill">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+              <span>Keshav Memorial College of Engineering</span>
+            </div>
+            <div class="info-pill">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              <span>Graduation: 2028 (3rd Year CSE)</span>
+            </div>
+            <div class="info-pill">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+              <span>Hyderabad, Telangana, India</span>
+            </div>
+          </div>
+
+          <p class="profile-upload-helper">
+            Professional photo placeholder. <span class="profile-upload-btn-link trigger-photo-upload">Upload photo</span> or save as <code>assets/profile.jpg</code>.
+          </p>
+          <button id="resetPhotoBtn" class="btn btn-outline btn-sm" style="display: none; margin-top: 10px;">Reset Photo</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       SKILLS SUMMARY BAR (HOMEPAGE QUICK VIEW)
+       ========================================================================== -->
+  <div class="quick-skills-bar" id="skillsSummaryBar">
+    <div class="container">
+      <div class="skills-summary-header">
+        <span class="skills-summary-title">Core Competencies &amp; Technical Capabilities</span>
+        <a href="#skills" class="btn-outline btn-sm" style="font-size: 0.78rem;">Explore All Skills &rarr;</a>
+      </div>
+      <div class="skills-chips-row">
+        <span class="tech-chip"><span class="tech-dot" style="background:#ef4444;"></span> Java</span>
+        <span class="tech-chip"><span class="tech-dot" style="background:#3b82f6;"></span> Python</span>
+        <span class="tech-chip"><span class="tech-dot" style="background:#f59e0b;"></span> JavaScript</span>
+        <span class="tech-chip"><span class="tech-dot" style="background:#06b6d4;"></span> React</span>
+        <span class="tech-chip"><span class="tech-dot" style="background:#8b5cf6;"></span> Computer Vision</span>
+        <span class="tech-chip"><span class="tech-dot" style="background:#10b981;"></span> Machine Learning</span>
+        <span class="tech-chip"><span class="tech-dot" style="background:#6366f1;"></span> Object-Oriented Programming</span>
+        <span class="tech-chip"><span class="tech-dot" style="background:#ec4899;"></span> Git &amp; GitHub</span>
+        <span class="tech-chip"><span class="tech-dot" style="background:#14b8a6;"></span> Problem Solving</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       ABOUT ME SECTION
+       ========================================================================== */ -->
+  <section class="about-section" id="about">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">About Me</span>
+        <h2 class="section-title">Background &amp; Software Journey</h2>
+        <p class="section-subtitle">Dedicated to mastering computer science foundations and engineering practical software applications.</p>
+      </div>
+
+      <div class="about-grid">
+        
+        <!-- Left Column: Detailed Foundation Text & Goals -->
+        <div class="about-content-card">
+          <blockquote class="about-lead-quote">
+            "I am a Computer Science Engineering student from Hyderabad with a strong interest in software development and the technology industry."
+          </blockquote>
+
+          <div class="about-body-text">
+            <p>
+              I enjoy writing code, building applications, learning new technologies and turning ideas into practical software solutions. My primary focus centers around software engineering, developing structured applications, and understanding how robust systems are architected and scaled.
+            </p>
+            <p>
+              My interests include Java development, web development, Artificial Intelligence, Machine Learning and Computer Vision. I am intrigued by the potential of blending foundational software development with intelligent machine learning techniques to tackle complex challenges.
+            </p>
+            <p>
+              Through academic projects, internships and personal projects, I am continuously improving my programming, problem-solving and software development skills. Each project presents an opportunity to refine code quality, master debugging, and practice collaborative version control.
+            </p>
+            <p>
+              I am looking forward to building a career in the software industry where I can learn, contribute and develop useful technology solutions.
+            </p>
+          </div>
+
+          <!-- Focus Points Grid -->
+          <div class="about-focus-points">
+            <div class="focus-point-item">
+              <div class="focus-point-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+              </div>
+              <div class="focus-point-text">
+                <h4>Software Engineering</h4>
+                <p>Building reliable, maintainable codebases</p>
+              </div>
+            </div>
+
+            <div class="focus-point-item">
+              <div class="focus-point-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12h20"></path><path d="M12 2a15 15 0 0 1 0 20"></path></svg>
+              </div>
+              <div class="focus-point-text">
+                <h4>AI / Machine Learning</h4>
+                <p>Applying intelligent models to real problems</p>
+              </div>
+            </div>
+
+            <div class="focus-point-item">
+              <div class="focus-point-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="m4.93 4.93 4.24 4.24"></path><path d="m14.83 9.17 4.24-4.24"></path><path d="m14.83 14.83 4.24 4.24"></path><path d="m9.17 14.83-4.24 4.24"></path></svg>
+              </div>
+              <div class="focus-point-text">
+                <h4>Problem Solving</h4>
+                <p>Structured algorithmic thinking &amp; debugging</p>
+              </div>
+            </div>
+
+            <div class="focus-point-item">
+              <div class="focus-point-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"></path></svg>
+              </div>
+              <div class="focus-point-text">
+                <h4>Continuous Learning</h4>
+                <p>Adopting new frameworks and paradigms</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Structured Overview Breakdown -->
+        <div class="about-side-cards">
+          
+          <!-- Card 1: Background -->
+          <div class="side-card">
+            <div class="side-card-header">
+              <div class="side-card-icon" style="background: rgba(99,102,241,0.15); color: #818cf8;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              </div>
+              <h3 class="side-card-title">Background</h3>
+            </div>
+            <p class="side-card-body">
+              3rd Year Computer Science and Engineering student at Keshav Memorial College of Engineering (KMCE) in Hyderabad, Telangana, India. Expected graduation in 2028.
+            </p>
+          </div>
+
+          <!-- Card 2: Career Interests -->
+          <div class="side-card">
+            <div class="side-card-header">
+              <div class="side-card-icon" style="background: rgba(6,182,212,0.15); color: #38bdf8;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+              </div>
+              <h3 class="side-card-title">Career Interests</h3>
+            </div>
+            <p class="side-card-body">
+              Primary ambition is Software Development in the technology industry, with focus on Java systems, full-stack web applications, and artificial intelligence integration.
+            </p>
+          </div>
+
+          <!-- Card 3: Personal Development Goals -->
+          <div class="side-card">
+            <div class="side-card-header">
+              <div class="side-card-icon" style="background: rgba(16,185,129,0.15); color: #34d399;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+              </div>
+              <h3 class="side-card-title">Development Goals</h3>
+            </div>
+            <p class="side-card-body">
+              Strengthening software engineering practices through practical projects, contributing effectively to industry internships, and preparing for high-impact software engineering roles.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       EDUCATION SECTION
+       ========================================================================== -->
+  <section class="education-section" id="education">
+    <div class="container education-container">
+      <div class="section-header">
+        <span class="section-tag">Education</span>
+        <h2 class="section-title">Academic Foundation</h2>
+        <p class="section-subtitle">Rigorous computer science curriculum emphasizing software design, computing theory, and engineering principles.</p>
+      </div>
+
+      <div class="education-card">
+        <div class="education-card-top">
+          <div class="education-institution">
+            <div class="edu-badge-icon">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+            </div>
+            <div>
+              <h3 class="edu-title">B.Tech – Computer Science and Engineering</h3>
+              <p class="edu-college">Keshav Memorial College of Engineering (KMCE)</p>
+            </div>
+          </div>
+          <span class="edu-status-badge">Graduation: 2028</span>
+        </div>
+
+        <div class="education-details-grid">
+          <div class="edu-detail-box">
+            <div class="edu-detail-label">Current Academic Level</div>
+            <div class="edu-detail-val">3rd Year B.Tech Student</div>
+          </div>
+          <div class="edu-detail-box">
+            <div class="edu-detail-label">Discipline / Branch</div>
+            <div class="edu-detail-val">Computer Science &amp; Engg.</div>
+          </div>
+          <div class="edu-detail-box">
+            <div class="edu-detail-label">Campus Location</div>
+            <div class="edu-detail-val">Hyderabad, Telangana, India</div>
+          </div>
+        </div>
+
+        <p class="edu-coursework-note">
+          <strong>Key Academic Focus:</strong> Object-Oriented Programming, Data Structures &amp; Algorithms, Computer Architecture, Operating Systems, Database Management Systems, Software Engineering Methodologies, and Machine Learning Fundamentals.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       SKILLS SECTION (DETAILED CATEGORIES - NO FAKE PERCENTAGES)
+       ========================================================================== -->
+  <section class="skills-section" id="skills">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Skills Inventory</span>
+        <h2 class="section-title">Technical Proficiency &amp; Stack</h2>
+        <p class="section-subtitle">Organized by core domains with genuine hands-on toolsets and applied software competencies.</p>
+      </div>
+
+      <div class="skills-categories-grid">
+        
+        <!-- Category 1: Programming -->
+        <div class="skill-category-card">
+          <div class="skill-cat-header">
+            <div class="skill-cat-icon" style="background: linear-gradient(135deg, #ef4444, #f97316);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+            </div>
+            <h3 class="skill-cat-title">Programming</h3>
+          </div>
+          <div class="skill-tags-list">
+            <span class="skill-tag-pill">Java</span>
+            <span class="skill-tag-pill">Python</span>
+          </div>
+        </div>
+
+        <!-- Category 2: Web Development -->
+        <div class="skill-category-card">
+          <div class="skill-cat-header">
+            <div class="skill-cat-icon" style="background: linear-gradient(135deg, #3b82f6, #06b6d4);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+            </div>
+            <h3 class="skill-cat-title">Web Development</h3>
+          </div>
+          <div class="skill-tags-list">
+            <span class="skill-tag-pill">HTML</span>
+            <span class="skill-tag-pill">CSS</span>
+            <span class="skill-tag-pill">JavaScript</span>
+            <span class="skill-tag-pill">React</span>
+            <span class="skill-tag-pill">Express.js</span>
+          </div>
+        </div>
+
+        <!-- Category 3: Tools & Platforms -->
+        <div class="skill-category-card">
+          <div class="skill-cat-header">
+            <div class="skill-cat-icon" style="background: linear-gradient(135deg, #8b5cf6, #ec4899);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+            </div>
+            <h3 class="skill-cat-title">Tools &amp; Platforms</h3>
+          </div>
+          <div class="skill-tags-list">
+            <span class="skill-tag-pill">Git</span>
+            <span class="skill-tag-pill">GitHub</span>
+            <span class="skill-tag-pill">VS Code</span>
+            <span class="skill-tag-pill">Google Colab</span>
+            <span class="skill-tag-pill">MS Excel</span>
+          </div>
+        </div>
+
+        <!-- Category 4: AI / ML -->
+        <div class="skill-category-card">
+          <div class="skill-cat-header">
+            <div class="skill-cat-icon" style="background: linear-gradient(135deg, #10b981, #06b6d4);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 3.3 2 6.2 5 7.4V20a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-2.6c3-1.2 5-4.1 5-7.4a8 8 0 0 0-8-8z"></path><line x1="9.5" y1="9" x2="14.5" y2="9"></line></svg>
+            </div>
+            <h3 class="skill-cat-title">AI / Machine Learning</h3>
+          </div>
+          <div class="skill-tags-list">
+            <span class="skill-tag-pill">Machine Learning</span>
+            <span class="skill-tag-pill">Computer Vision</span>
+            <span class="skill-tag-pill">CatBoost</span>
+            <span class="skill-tag-pill">Logistic Regression</span>
+            <span class="skill-tag-pill">LightGBM</span>
+            <span class="skill-tag-pill">SHAP</span>
+            <span class="skill-tag-pill">RDKit</span>
+          </div>
+        </div>
+
+        <!-- Category 5: Core Software Skills (Highlight Card) -->
+        <div class="skill-category-card highlight-card">
+          <div class="skill-cat-header">
+            <div class="skill-cat-icon" style="background: linear-gradient(135deg, #6366f1, #3b82f6);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="m9 8 3 3-3 3"></path><line x1="15" y1="14" x2="15.01" y2="14"></line></svg>
+            </div>
+            <h3 class="skill-cat-title">Core Software Skills</h3>
+          </div>
+          <div class="skill-tags-list">
+            <span class="skill-tag-pill">Object-Oriented Programming (OOP)</span>
+            <span class="skill-tag-pill">Problem Solving</span>
+            <span class="skill-tag-pill">Software Development</span>
+            <span class="skill-tag-pill">Debugging &amp; Troubleshooting</span>
+            <span class="skill-tag-pill">Version Control &amp; Branching</span>
+            <span class="skill-tag-pill">Project Lifecycle Development</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       PROFESSIONAL EXPERIENCE SECTION
+       ========================================================================== -->
+  <section class="experience-section" id="experience">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Experience</span>
+        <h2 class="section-title">Professional Experience</h2>
+        <p class="section-subtitle">Practical industry exposure applied to Java software engineering and project delivery.</p>
+      </div>
+
+      <div class="experience-timeline">
+        <div class="timeline-item">
+          <div class="timeline-marker">
+            <div class="timeline-dot"></div>
+            <div class="timeline-line"></div>
+          </div>
+
+          <div class="experience-card">
+            <div class="exp-header">
+              <div>
+                <h3 class="exp-role-title">Java Development Intern</h3>
+                <p class="exp-company">Oasis Infobyte / OIBSIP</p>
+              </div>
+              <span class="exp-type-tag">Internship Experience</span>
+            </div>
+
+            <ul class="exp-bullet-list">
+              <li class="exp-bullet-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Worked on Java-based software development projects applying core programming and architecture principles.</span>
+              </li>
+              <li class="exp-bullet-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Developed practical applications as part of the internship curriculum, addressing user flow and data management.</span>
+              </li>
+              <li class="exp-bullet-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Applied Java programming concepts including OOP, collections, exception handling, and modular structure to application development.</span>
+              </li>
+              <li class="exp-bullet-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Worked on multiple software projects targeting real-world functional requirements and workflows.</span>
+              </li>
+              <li class="exp-bullet-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Used GitHub to manage, organize, and showcase project work, ensuring consistent version control and commit history.</span>
+              </li>
+            </ul>
+
+            <div class="exp-tech-row">
+              <span class="badge badge-primary">Java</span>
+              <span class="badge badge-cyan">Software Development</span>
+              <span class="badge badge-purple">Object-Oriented Programming</span>
+              <span class="badge badge-emerald">GitHub</span>
+              <span class="badge">Version Control</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       FEATURED PROJECT & PROJECTS SECTION
+       ========================================================================== -->
+  <section class="projects-section" id="projects">
+    <div class="container">
+      
+      <div class="section-header">
+        <span class="section-tag">Showcase</span>
+        <h2 class="section-title">Projects &amp; Implementations</h2>
+        <p class="section-subtitle">Real-world software applications demonstrating problem-solving, code structure, and technical execution.</p>
+      </div>
+
+      <!-- FEATURED PROJECT: MLCV (MOST PROMINENT PRESENTATION) -->
+      <div class="featured-project-container">
+        <div class="featured-project-card">
+          <div class="featured-ribbon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            Featured Project • Star Showcase
+          </div>
+
+          <div class="featured-project-grid">
+            
+            <!-- Left Info Column -->
+            <div class="featured-info-col">
+              <h3 class="featured-title">MLCV – Machine Learning &amp; Computer Vision Project</h3>
+              <p class="featured-desc">
+                A practical Machine Learning and Computer Vision project demonstrating the application of AI techniques to solve real-world problems.
+              </p>
+
+              <!-- Detailed Showcase Sections -->
+              <div class="mlcv-sections">
+                <div class="mlcv-subbox">
+                  <div class="mlcv-subbox-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    1. Project Overview
+                  </div>
+                  <p class="mlcv-subbox-text">
+                    Comprehensive technical implementation designed to integrate computer vision pipelines with machine learning inference, addressing practical image/video analysis requirements.
+                  </p>
+                </div>
+
+                <div class="mlcv-subbox">
+                  <div class="mlcv-subbox-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                    2. Problem Statement &amp; 3. Approach
+                  </div>
+                  <p class="mlcv-subbox-text">
+                    Translating complex visual data into actionable machine learning signals. The approach structures frame acquisition, image preprocessing via OpenCV, and model inference into a coherent, modular pipeline.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Key Capabilities -->
+              <div style="margin-bottom: 20px;">
+                <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 12px; color: var(--text-primary);">Key Capabilities:</h4>
+                <div class="featured-capabilities-list">
+                  <div class="cap-item">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span>Machine Learning</span>
+                  </div>
+                  <div class="cap-item">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span>Computer Vision</span>
+                  </div>
+                  <div class="cap-item">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span>Python &amp; OpenCV</span>
+                  </div>
+                  <div class="cap-item">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span>Model Development</span>
+                  </div>
+                  <div class="cap-item">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span>Practical Problem Solving</span>
+                  </div>
+                  <div class="cap-item">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span>Technical Implementation</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Tech Badges -->
+              <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px;">
+                <span class="badge badge-cyan">Python</span>
+                <span class="badge badge-primary">Machine Learning</span>
+                <span class="badge badge-emerald">Computer Vision</span>
+                <span class="badge badge-purple">OpenCV</span>
+                <span class="badge">AI/ML tools</span>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="featured-actions">
+                <a href="#contact" class="btn btn-primary placeholder-link" data-label="MLCV GitHub Repository">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg>
+                  GitHub Repository
+                </a>
+                <a href="#contact" class="btn btn-secondary placeholder-link" data-label="MLCV Live Demo">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+                  Live Demo
+                </a>
+                <button class="btn btn-outline view-cert-btn" type="button" data-cert-name="MLCV Project Certificate" data-cert-org="MLCV Implementation Verification" data-cert-desc="Certificate validating practical problem solving and technical implementation in Machine Learning and Computer Vision.">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+                  View Certificate
+                </button>
+              </div>
+            </div>
+
+            <!-- Right Preview Screenshot Column -->
+            <div class="featured-preview-col">
+              <div class="featured-preview-media">
+                <img src="assets/mlcv-preview.svg" alt="MLCV Computer Vision and Machine Learning Pipeline Simulation" class="featured-preview-img">
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- FILTER CONTROLS FOR PROJECTS -->
+      <div class="projects-filter-bar">
+        <button class="filter-btn active" data-filter="all">All Projects</button>
+        <button class="filter-btn" data-filter="software">Software</button>
+        <button class="filter-btn" data-filter="java">Java</button>
+        <button class="filter-btn" data-filter="web">Web Development</button>
+        <button class="filter-btn" data-filter="aiml">AI/ML</button>
+        <button class="filter-btn" data-filter="cv">Computer Vision</button>
+      </div>
+
+      <!-- OTHER PROJECTS GRID (Projects 2, 3, 4, 5) -->
+      <div class="projects-grid" id="otherProjectsGrid">
+        
+        <!-- PROJECT 2: ONLINE RESERVATION SYSTEM -->
+        <div class="project-card" data-categories="software java">
+          <div class="project-thumbnail-wrapper">
+            <img src="assets/reservation-preview.svg" alt="Online Reservation System Preview" class="project-thumbnail-img">
+          </div>
+          <div class="project-body">
+            <div class="project-tag-row">
+              <span class="badge badge-primary">Java</span>
+              <span class="badge">OIBSIP Internship</span>
+            </div>
+            <h3 class="project-title">Online Reservation System</h3>
+            <p class="project-desc">
+              A Java-based online reservation management application developed during the OIBSIP internship.
+            </p>
+            <ul class="project-feature-list">
+              <li class="project-feature-item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Reservation management</span>
+              </li>
+              <li class="project-feature-item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>User interaction</span>
+              </li>
+              <li class="project-feature-item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Data handling</span>
+              </li>
+              <li class="project-feature-item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Java application development</span>
+              </li>
+            </ul>
+            <div class="project-actions">
+              <button class="btn btn-outline btn-sm placeholder-link" data-label="Online Reservation System GitHub">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                GitHub
+              </button>
+              <button class="btn btn-secondary btn-sm placeholder-link" data-label="Online Reservation System Demo">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+                Demo
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PROJECT 3: ATM WEB INTERFACE -->
+        <div class="project-card" data-categories="web">
+          <div class="project-thumbnail-wrapper">
+            <img src="assets/atm-preview.svg" alt="ATM Web Interface Preview" class="project-thumbnail-img">
+          </div>
+          <div class="project-body">
+            <div class="project-tag-row">
+              <span class="badge badge-cyan">HTML / CSS / JS</span>
+              <span class="badge">Web Application</span>
+            </div>
+            <h3 class="project-title">ATM Web Interface</h3>
+            <p class="project-desc">
+              A web-based ATM interface designed to simulate common ATM operations through an interactive user interface.
+            </p>
+            <ul class="project-feature-list">
+              <li class="project-feature-item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Interactive interface</span>
+              </li>
+              <li class="project-feature-item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>ATM-style navigation</span>
+              </li>
+              <li class="project-feature-item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Transaction interaction</span>
+              </li>
+              <li class="project-feature-item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Responsive design</span>
+              </li>
+            </ul>
+            <div class="project-actions">
+              <button class="btn btn-outline btn-sm placeholder-link" data-label="ATM Web Interface GitHub">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                GitHub
+              </button>
+              <button class="btn btn-secondary btn-sm placeholder-link" data-label="ATM Web Interface Demo">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+                Demo
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PROJECT 4: ONLINE EXAMINATION SYSTEM -->
+        <div class="project-card" data-categories="software java web">
+          <div class="project-thumbnail-wrapper">
+            <img src="assets/exam-preview.svg" alt="Online Examination System Preview" class="project-thumbnail-img">
+          </div>
+          <div class="project-body">
+            <div class="project-tag-row">
+              <span class="badge badge-primary">Java</span>
+              <span class="badge badge-cyan">Web Technologies</span>
+            </div>
+            <h3 class="project-title">Online Examination System</h3>
+            <p class="project-desc">
+              An online examination application designed to simulate a digital examination workflow.
+            </p>
+            <ul class="project-feature-list">
+              <li class="project-feature-item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Examination workflow</span>
+              </li>
+              <li class="project-feature-item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Question handling</span>
+              </li>
+              <li class="project-feature-item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>User interaction</span>
+              </li>
+              <li class="project-feature-item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Digital exam interface</span>
+              </li>
+            </ul>
+            <div class="project-actions">
+              <button class="btn btn-outline btn-sm placeholder-link" data-label="Online Examination System GitHub">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                GitHub
+              </button>
+              <button class="btn btn-secondary btn-sm placeholder-link" data-label="Online Examination System Demo">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+                Demo
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PROJECT 5: DIGITAL LIBRARY MANAGEMENT SYSTEM -->
+        <div class="project-card" data-categories="software java">
+          <div class="project-thumbnail-wrapper">
+            <img src="assets/library-preview.svg" alt="Digital Library Management System Preview" class="project-thumbnail-img">
+          </div>
+          <div class="project-body">
+            <div class="project-tag-row">
+              <span class="badge badge-primary">Java</span>
+              <span class="badge">Systems Development</span>
+            </div>
+            <h3 class="project-title">Digital Library Management System</h3>
+            <p class="project-desc">
+              A digital library management application designed to manage books and library operations.
+            </p>
+            <ul class="project-feature-list">
+              <li class="project-feature-item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Book management</span>
+              </li>
+              <li class="project-feature-item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Library operations</span>
+              </li>
+              <li class="project-feature-item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Search and organization</span>
+              </li>
+              <li class="project-feature-item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Application workflow</span>
+              </li>
+            </ul>
+            <div class="project-actions">
+              <button class="btn btn-outline btn-sm placeholder-link" data-label="Digital Library Management System GitHub">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                GitHub
+              </button>
+              <button class="btn btn-secondary btn-sm placeholder-link" data-label="Digital Library Management System Demo">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+                Demo
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       SOFTWARE DEVELOPMENT (MAJOR FOCUS SECTION)
+       ========================================================================== -->
+  <section class="software-dev-section" id="software">
+    <div class="container">
+      
+      <div class="section-header">
+        <span class="section-tag">Core Calling</span>
+        <h2 class="section-title">Software Development</h2>
+        <p class="section-subtitle">Engineering robust applications with structured architectures, clean code, and disciplined development workflows.</p>
+      </div>
+
+      <!-- Major Career Commitment Banner -->
+      <div class="software-hero-banner">
+        <h3 class="career-statement-highlight">"I want to build my career in the software industry."</h3>
+        <p class="career-statement-sub">
+          Passionate about building applications, writing code, Java development, web development, backend engineering, frontend development, problem solving, debugging, version control, software engineering, learning new technologies, and building real-world applications.
+        </p>
+      </div>
+
+      <!-- Visual Development Workflow Pipeline -->
+      <div class="workflow-pipeline-wrapper">
+        <h4 class="workflow-pipeline-title">Software Development Lifecycle &amp; Engineering Pipeline</h4>
+        
+        <div class="pipeline-steps-track">
+          <!-- Step 1: IDEA -->
+          <div class="pipeline-node active" data-phase="idea">
+            <div class="node-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path><circle cx="12" cy="12" r="7"></circle></svg>
+            </div>
+            <span class="node-name">IDEA</span>
+            <span class="node-subtext">Problem scoping</span>
+          </div>
+
+          <div class="pipeline-connector-line"></div>
+
+          <!-- Step 2: DESIGN -->
+          <div class="pipeline-node" data-phase="design">
+            <div class="node-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+            </div>
+            <span class="node-name">DESIGN</span>
+            <span class="node-subtext">Architecture</span>
+          </div>
+
+          <div class="pipeline-connector-line"></div>
+
+          <!-- Step 3: CODE -->
+          <div class="pipeline-node" data-phase="code">
+            <div class="node-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+            </div>
+            <span class="node-name">CODE</span>
+            <span class="node-subtext">Implementation</span>
+          </div>
+
+          <div class="pipeline-connector-line"></div>
+
+          <!-- Step 4: TEST -->
+          <div class="pipeline-node" data-phase="test">
+            <div class="node-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            </div>
+            <span class="node-name">TEST</span>
+            <span class="node-subtext">Verification</span>
+          </div>
+
+          <div class="pipeline-connector-line"></div>
+
+          <!-- Step 5: DEBUG -->
+          <div class="pipeline-node" data-phase="debug">
+            <div class="node-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="8" height="14" x="8" y="6" rx="4"></rect><path d="m19 7-3 2"></path><path d="m5 7 3 2"></path><path d="m19 19-3-2"></path><path d="m5 19 3-2"></path><path d="M20 13h-4"></path><path d="M4 13h4"></path><path d="m10 4 1 2"></path><path d="m14 4-1 2"></path></svg>
+            </div>
+            <span class="node-name">DEBUG</span>
+            <span class="node-subtext">Resolution</span>
+          </div>
+
+          <div class="pipeline-connector-line"></div>
+
+          <!-- Step 6: GITHUB -->
+          <div class="pipeline-node" data-phase="github">
+            <div class="node-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path></svg>
+            </div>
+            <span class="node-name">GITHUB</span>
+            <span class="node-subtext">Version control</span>
+          </div>
+
+          <div class="pipeline-connector-line"></div>
+
+          <!-- Step 7: DEPLOY -->
+          <div class="pipeline-node" data-phase="deploy">
+            <div class="node-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path></svg>
+            </div>
+            <span class="node-name">DEPLOY</span>
+            <span class="node-subtext">Release</span>
+          </div>
+        </div>
+
+        <!-- Dynamic Phase Detail Box -->
+        <div id="workflowPhaseDetail" style="margin-top: 24px; text-align: center; font-size: 0.95rem; font-family: var(--font-mono); color: var(--accent-secondary); background: var(--bg-tertiary); padding: 14px 20px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+          Click any phase above to inspect how each step is executed in my development workflow.
+        </div>
+      </div>
+
+      <!-- Core Software Engineering Pillars -->
+      <div class="software-pillars-grid">
+        <div class="pillar-card">
+          <div class="pillar-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+          </div>
+          <h4 class="pillar-title">Java &amp; Object-Oriented Design</h4>
+          <p class="pillar-desc">
+            Applying encapsulation, inheritance, polymorphism, and modular package architecture to develop robust enterprise and desktop software.
+          </p>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="3" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+          </div>
+          <h4 class="pillar-title">Web Development</h4>
+          <p class="pillar-desc">
+            Constructing interactive frontends and server backends with HTML, CSS, JavaScript, React, and Express.js with clean APIs and state flow.
+          </p>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"></path></svg>
+          </div>
+          <h4 class="pillar-title">Debugging &amp; Problem Solving</h4>
+          <p class="pillar-desc">
+            Systematic diagnosis of exceptions, optimizing memory performance, tracing execution stacks, and writing regression-free fixes.
+          </p>
+        </div>
+      </div>
+
+      <!-- Technology Stack Matrix -->
+      <div style="margin-top: 36px; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 24px; text-align: center;">
+        <h4 style="font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 16px;">Core Software Technology Stack</h4>
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
+          <span class="badge badge-primary">Java</span>
+          <span class="badge badge-cyan">Python</span>
+          <span class="badge">HTML</span>
+          <span class="badge">CSS</span>
+          <span class="badge badge-purple">JavaScript</span>
+          <span class="badge badge-cyan">React</span>
+          <span class="badge">Express.js</span>
+          <span class="badge badge-emerald">Git</span>
+          <span class="badge">GitHub</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       CAREER INTERESTS SECTION ("What I'm Interested In")
+       ========================================================================== -->
+  <section class="interests-section" id="interests">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Aspirations</span>
+        <h2 class="section-title">What I'm Interested In</h2>
+        <p class="section-subtitle">Core areas shaping my career path, learning trajectory, and software pursuits.</p>
+      </div>
+
+      <div class="interests-grid">
+        
+        <!-- 1. SOFTWARE DEVELOPMENT (LARGEST CARD) -->
+        <div class="interest-card primary-huge-card">
+          <div class="interest-header">
+            <div class="interest-icon-box" style="background: rgba(99,102,241,0.25); color: #818cf8; width: 56px; height: 56px;">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+            </div>
+            <div>
+              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
+                <h3 class="interest-title" style="font-size: 1.65rem;">1. SOFTWARE DEVELOPMENT</h3>
+                <span class="interest-badge badge-primary">Primary Identity</span>
+              </div>
+              <p style="font-size: 0.88rem; color: var(--accent-secondary);">My Ultimate Focus &amp; Career Commitment</p>
+            </div>
+          </div>
+          <p class="interest-desc" style="font-size: 1.12rem; line-height: 1.7; color: #f1f5f9;">
+            "Building applications, solving problems with code and continuously improving my software engineering skills."
+          </p>
+          <p style="margin-top: 14px; font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6;">
+            Dedicated to software design patterns, structured algorithmic approaches, writing clean codebases, and developing practical software solutions for industry applications.
+          </p>
+        </div>
+
+        <!-- 2. SOFTWARE ENGINEERING -->
+        <div class="interest-card">
+          <div class="interest-header">
+            <div class="interest-icon-box" style="background: rgba(6,182,212,0.15); color: #38bdf8;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"></rect><line x1="9" y1="9" x2="15" y2="15"></line><line x1="15" y1="9" x2="9" y2="15"></line></svg>
+            </div>
+            <div>
+              <h3 class="interest-title">2. SOFTWARE ENGINEERING</h3>
+            </div>
+          </div>
+          <p class="interest-desc">
+            "Learning how to design, develop, test and maintain reliable software."
+          </p>
+        </div>
+
+        <!-- 3. AI / MACHINE LEARNING -->
+        <div class="interest-card">
+          <div class="interest-header">
+            <div class="interest-icon-box" style="background: rgba(139,92,246,0.15); color: #c084fc;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>
+            </div>
+            <div>
+              <h3 class="interest-title">3. AI / MACHINE LEARNING</h3>
+            </div>
+          </div>
+          <p class="interest-desc">
+            "Exploring how AI and machine learning can be applied to practical problems."
+          </p>
+        </div>
+
+        <!-- 4. COMPUTER VISION -->
+        <div class="interest-card">
+          <div class="interest-header">
+            <div class="interest-icon-box" style="background: rgba(16,185,129,0.15); color: #34d399;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            </div>
+            <div>
+              <h3 class="interest-title">4. COMPUTER VISION</h3>
+            </div>
+          </div>
+          <p class="interest-desc">
+            "Interested in developing intelligent applications using computer vision."
+          </p>
+        </div>
+
+        <!-- 5. WEB DEVELOPMENT -->
+        <div class="interest-card">
+          <div class="interest-header">
+            <div class="interest-icon-box" style="background: rgba(245,158,11,0.15); color: #fbbf24;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="3" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+            </div>
+            <div>
+              <h3 class="interest-title">5. WEB DEVELOPMENT</h3>
+            </div>
+          </div>
+          <p class="interest-desc">
+            "Building responsive and interactive web applications."
+          </p>
+        </div>
+
+        <!-- 6. PRODUCT DEVELOPMENT (SECONDARY INTEREST) -->
+        <div class="interest-card">
+          <div class="interest-header">
+            <div class="interest-icon-box" style="background: rgba(236,72,153,0.15); color: #f472b6;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            </div>
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <h3 class="interest-title">6. PRODUCT DEVELOPMENT</h3>
+                <span class="badge" style="font-size: 0.68rem; padding: 2px 6px;">Secondary</span>
+              </div>
+            </div>
+          </div>
+          <p class="interest-desc">
+            "Interested in understanding users and creating useful technology products."
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       CERTIFICATIONS & ACCOMPLISHMENTS SECTION
+       ========================================================================== -->
+  <section class="certifications-section" id="certifications">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Credentials</span>
+        <h2 class="section-title">Certifications &amp; Accomplishments</h2>
+        <p class="section-subtitle">Verified programs and technical milestones achieved throughout my academic and professional journey.</p>
+      </div>
+
+      <div class="certs-grid">
+        
+        <!-- Certificate 1: Career Essentials in Generative AI -->
+        <div class="cert-card">
+          <div>
+            <div class="cert-top-row">
+              <div class="cert-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+              </div>
+              <div>
+                <h3 class="cert-name">Career Essentials in Generative AI</h3>
+                <p class="cert-org">Microsoft / LinkedIn</p>
+              </div>
+            </div>
+            <p class="cert-desc">
+              Foundational certification covering generative artificial intelligence principles, core capabilities, real-world applications, and ethical implementation frameworks.
+            </p>
+          </div>
+          <div class="cert-footer">
+            <button class="btn btn-outline btn-sm view-cert-btn" data-cert-name="Career Essentials in Generative AI" data-cert-org="Microsoft / LinkedIn" data-cert-desc="Foundational certification covering generative artificial intelligence principles and ethical implementation.">
+              View Certificate
+            </button>
+          </div>
+        </div>
+
+        <!-- Certificate 2: B10x Workshop Certificate -->
+        <div class="cert-card">
+          <div>
+            <div class="cert-top-row">
+              <div class="cert-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+              </div>
+              <div>
+                <h3 class="cert-name">B10x Workshop Certificate</h3>
+                <p class="cert-org">B10x</p>
+              </div>
+            </div>
+            <p class="cert-desc">
+              Hands-on workshop certification focused on modern technology productivity, tool workflows, and applied technical skills.
+            </p>
+          </div>
+          <div class="cert-footer">
+            <button class="btn btn-outline btn-sm view-cert-btn" data-cert-name="B10x Workshop Certificate" data-cert-org="B10x" data-cert-desc="Hands-on workshop certification on modern developer productivity and applied toolsets.">
+              View Certificate
+            </button>
+          </div>
+        </div>
+
+        <!-- Certificate 3: MLCV Project Certificate -->
+        <div class="cert-card">
+          <div>
+            <div class="cert-top-row">
+              <div class="cert-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+              </div>
+              <div>
+                <h3 class="cert-name">MLCV Project Certificate</h3>
+                <p class="cert-org">MLCV Project Recognition</p>
+              </div>
+            </div>
+            <p class="cert-desc">
+              Recognition certificate for successful implementation and technical problem solving in the Machine Learning &amp; Computer Vision project.
+            </p>
+          </div>
+          <div class="cert-footer">
+            <button class="btn btn-outline btn-sm view-cert-btn" data-cert-name="MLCV Project Certificate" data-cert-org="MLCV Project Recognition" data-cert-desc="Recognition for practical implementation of Machine Learning and Computer Vision models.">
+              View Certificate
+            </button>
+          </div>
+        </div>
+
+        <!-- Certificate 4: Oasis Infobyte / OIBSIP Internship Certificate / Offer Letter -->
+        <div class="cert-card">
+          <div>
+            <div class="cert-top-row">
+              <div class="cert-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+              </div>
+              <div>
+                <h3 class="cert-name">Oasis Infobyte / OIBSIP Internship Certificate / Offer Letter</h3>
+                <p class="cert-org">Oasis Infobyte</p>
+              </div>
+            </div>
+            <p class="cert-desc">
+              Official internship documentation and certificate verifying role as Java Development Intern and completion of software development assignments.
+            </p>
+          </div>
+          <div class="cert-footer">
+            <button class="btn btn-outline btn-sm view-cert-btn" data-cert-name="Oasis Infobyte / OIBSIP Internship Certificate" data-cert-org="Oasis Infobyte" data-cert-desc="Verification of Java Development internship completion and project deliverables.">
+              View Certificate
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       RESUME SECTION (STRONG CTA)
+       ========================================================================== -->
+  <section class="resume-cta-section" id="resume">
+    <div class="container">
+      <div class="resume-cta-card">
+        <h2 class="resume-heading">Let's Build Something.</h2>
+        <p class="resume-text">
+          I'm actively interested in software development opportunities, internships and technology projects where I can learn, build and contribute.
+        </p>
+        <div class="resume-buttons">
+          <button class="btn btn-primary btn-glow action-view-resume" type="button">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            View Resume
+          </button>
+          <button class="btn btn-secondary action-download-resume" type="button">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Download Resume
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       CONTACT SECTION
+       ========================================================================== -->
+  <section class="contact-section" id="contact">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Get In Touch</span>
+        <h2 class="section-title">Let's Connect</h2>
+        <p class="section-subtitle">Reach out for software development roles, internship opportunities, or collaboration.</p>
+      </div>
+
+      <div class="contact-grid">
+        
+        <!-- Left Column: Personal Information & Placeholders -->
+        <div class="contact-info-panel">
+          
+          <div class="contact-detail-card">
+            <div class="contact-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </div>
+            <div class="contact-info-text">
+              <h4>Candidate Name</h4>
+              <p class="contact-placeholder-val" style="color: var(--text-primary);">Vaka Abhiram</p>
+            </div>
+          </div>
+
+          <div class="contact-detail-card">
+            <div class="contact-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            </div>
+            <div class="contact-info-text">
+              <h4>Current Location</h4>
+              <p class="contact-placeholder-val" style="color: var(--text-primary);">Hyderabad, Telangana, India</p>
+            </div>
+          </div>
+
+          <div class="contact-detail-card">
+            <div class="contact-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+            </div>
+            <div class="contact-info-text">
+              <h4>Email Address</h4>
+              <p class="contact-placeholder-val">[ADD EMAIL]</p>
+            </div>
+          </div>
+
+          <div class="contact-detail-card">
+            <div class="contact-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path></svg>
+            </div>
+            <div class="contact-info-text">
+              <h4>GitHub Profile</h4>
+              <p class="contact-placeholder-val">[ADD GITHUB URL]</p>
+            </div>
+          </div>
+
+          <div class="contact-detail-card">
+            <div class="contact-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect width="4" height="12" x="2" y="9"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+            </div>
+            <div class="contact-info-text">
+              <h4>LinkedIn Profile</h4>
+              <p class="contact-placeholder-val">[ADD LINKEDIN URL]</p>
+            </div>
+          </div>
+
+          <div class="contact-detail-card">
+            <div class="contact-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            </div>
+            <div class="contact-info-text">
+              <h4>Phone Number</h4>
+              <p class="contact-placeholder-val">[ADD PHONE]</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right Column: Interactive Contact Form -->
+        <div class="contact-form-card">
+          <h3 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 8px;">Send a Direct Message</h3>
+          <p style="font-size: 0.92rem; color: var(--text-secondary); margin-bottom: 24px;">
+            Have a question or looking to recruit? Leave your message below.
+          </p>
+
+          <form id="contactForm">
+            <div class="form-group">
+              <label class="form-label" for="contactName">Your Name</label>
+              <input type="text" id="contactName" class="form-control" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="contactEmail">Your Email</label>
+              <input type="email" id="contactEmail" class="form-control" placeholder="name@company.com" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="contactMessage">Message</label>
+              <textarea id="contactMessage" class="form-control" placeholder="Tell me about your software development opportunity or project..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-glow" style="width: 100%;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+              Send Message
+            </button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       FOOTER
+       ========================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="brand-logo">
+          <div class="brand-monogram">VA</div>
+          <div class="brand-text">
+            <span class="brand-name">Vaka Abhiram</span>
+            <span class="brand-subtitle">Computer Science Student &amp; Aspiring Software Developer</span>
+          </div>
+        </div>
+
+        <ul class="footer-nav">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#education">Education</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#software">Software</a></li>
+          <li><a href="#certifications">Certifications</a></li>
+          <li><a href="#resume">Resume</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Vaka Abhiram. All rights reserved. Web Development Task-04 Submission.</p>
+        <p>Built with Vanilla HTML5, CSS3 &amp; JavaScript. Modern Dark &amp; Light UI.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       BACK TO TOP BUTTON
+       ========================================================================== -->
+  <button id="backToTopBtn" class="back-to-top-btn" aria-label="Back to top" title="Back to top">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+  </button>
+
+  <!-- ==========================================================================
+       UNIVERSAL MODAL DIALOG
+       ========================================================================== -->
+  <div class="modal-backdrop" id="universalModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-dialog">
+      <button class="modal-close-btn" id="modalCloseBtn" aria-label="Close dialog">&times;</button>
+      <h3 id="modalTitle" style="font-size: 1.4rem; font-weight: 700; margin-bottom: 16px; color: var(--text-primary);">Notice</h3>
+      <div id="modalBody">
+        <!-- Injected via JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- Main JavaScript File -->
+  <script src="js/main.js"></script>
+</body>
+</html>

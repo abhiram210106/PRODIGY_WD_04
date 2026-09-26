@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="mlBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16" />
+      <stop offset="60%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e1b4b" />
+    </linearGradient>
+    <linearGradient id="cyanPurple" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="50%" stop-color="#6366f1" />
+      <stop offset="100%" stop-color="#a855f7" />
+    </linearGradient>
+    <linearGradient id="boxGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="rgba(6, 182, 212, 0.25)" />
+      <stop offset="100%" stop-color="rgba(99, 102, 241, 0.05)" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="480" rx="20" fill="url(#mlBg)" />
+
+  <!-- Code/Terminal Top Bar -->
+  <rect width="800" height="44" rx="20" fill="#131b2e" />
+  <rect y="30" width="800" height="14" fill="#131b2e" />
+  <circle cx="28" cy="22" r="6" fill="#ef4444" />
+  <circle cx="48" cy="22" r="6" fill="#f59e0b" />
+  <circle cx="68" cy="22" r="6" fill="#10b981" />
+  <text x="400" y="27" font-family="'Fira Code', monospace" font-size="12" fill="#94a3b8" text-anchor="middle">MLCV Pipeline • Computer Vision & Machine Learning Inference</text>
+
+  <!-- Left Side: CV Detection Canvas Simulation -->
+  <rect x="30" y="70" width="460" height="375" rx="14" fill="#030712" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" />
+  
+  <!-- Canvas Grid & Scanlines -->
+  <pattern id="camGrid" width="24" height="24" patternUnits="userSpaceOnUse">
+    <path d="M 24 0 L 0 0 0 24" fill="none" stroke="rgba(6, 182, 212, 0.08)" stroke-width="1" />
+  </pattern>
+  <rect x="30" y="70" width="460" height="375" rx="14" fill="url(#camGrid)" />
+
+  <!-- Video Stream / Frame Feed Indicators -->
+  <text x="50" y="100" font-family="'Fira Code', monospace" font-size="11" fill="#06b6d4">LIVE CAMERA STREAM / OPENCV FRAME BUFFER</text>
+  <circle cx="460" cy="96" r="4" fill="#ef4444">
+    <animate attributeName="opacity" values="1;0.2;1" dur="1.5s" repeatCount="indefinite" />
+  </circle>
+  <text x="440" y="100" font-family="'Fira Code', monospace" font-size="10" fill="#ef4444" text-anchor="end">REC</text>
+
+  <!-- CV Bounding Box 1 -->
+  <rect x="70" y="130" width="220" height="220" rx="8" fill="url(#boxGrad)" stroke="#06b6d4" stroke-width="2" stroke-dasharray="6 4" />
+  <!-- Corner Crosshairs -->
+  <path d="M 60 130 L 70 130 L 70 120 M 290 120 L 290 130 L 300 130 M 60 350 L 70 350 L 70 360 M 300 350 L 290 350 L 290 360" fill="none" stroke="#38bdf8" stroke-width="2" />
+  <rect x="70" y="130" width="130" height="22" rx="4" fill="#06b6d4" />
+  <text x="78" y="145" font-family="'Fira Code', monospace" font-size="10" font-weight="700" fill="#0f172a">ROI_DETECTION_01</text>
+
+  <!-- Keypoint landmarks -->
+  <circle cx="150" cy="180" r="4" fill="#38bdf8" />
+  <circle cx="210" cy="180" r="4" fill="#38bdf8" />
+  <circle cx="180" cy="220" r="4" fill="#818cf8" />
+  <circle cx="150" cy="270" r="4" fill="#a855f7" />
+  <circle cx="210" cy="270" r="4" fill="#a855f7" />
+  <line x1="150" y1="180" x2="210" y2="180" stroke="#38bdf8" stroke-width="1.5" opacity="0.6" />
+  <line x1="150" y1="180" x2="180" y2="220" stroke="#38bdf8" stroke-width="1.5" opacity="0.6" />
+  <line x1="210" y1="180" x2="180" y2="220" stroke="#38bdf8" stroke-width="1.5" opacity="0.6" />
+  <line x1="180" y1="220" x2="150" y2="270" stroke="#818cf8" stroke-width="1.5" opacity="0.6" />
+  <line x1="180" y1="220" x2="210" y2="270" stroke="#818cf8" stroke-width="1.5" opacity="0.6" />
+
+  <!-- CV Bounding Box 2 -->
+  <rect x="310" y="190" width="150" height="180" rx="8" fill="rgba(168, 85, 247, 0.1)" stroke="#a855f7" stroke-width="1.5" />
+  <rect x="310" y="190" width="110" height="20" rx="4" fill="#a855f7" />
+  <text x="318" y="204" font-family="'Fira Code', monospace" font-size="9" font-weight="700" fill="#ffffff">TARGET_REGION_02</text>
+
+  <!-- Bottom Telemetry on Left Panel -->
+  <rect x="50" y="380" width="420" height="46" rx="8" fill="rgba(15, 23, 42, 0.85)" stroke="rgba(255,255,255,0.06)" />
+  <text x="65" y="408" font-family="'Fira Code', monospace" font-size="11" fill="#94a3b8">MODE: <tspan fill="#38bdf8">REAL-TIME CV INFERENCE</tspan> | STACK: <tspan fill="#a855f7">PYTHON / OPENCV</tspan></text>
+
+  <!-- Right Side: Architecture & ML Telemetry -->
+  <rect x="510" y="70" width="260" height="375" rx="14" fill="#111827" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" />
+
+  <text x="530" y="105" font-family="'Plus Jakarta Sans', sans-serif" font-size="14" font-weight="700" fill="#f8fafc">PIPELINE ARCHITECTURE</text>
+  
+  <!-- Step 1 Card -->
+  <g transform="translate(530, 125)">
+    <rect width="220" height="52" rx="8" fill="#1e293b" stroke="rgba(6, 182, 212, 0.3)" />
+    <circle cx="20" cy="26" r="10" fill="rgba(6, 182, 212, 0.2)" />
+    <text x="20" y="30" font-family="'Fira Code', monospace" font-size="10" font-weight="700" fill="#06b6d4" text-anchor="middle">1</text>
+    <text x="40" y="22" font-family="'Plus Jakarta Sans', sans-serif" font-size="11" font-weight="600" fill="#f1f5f9">Frame Acquisition</text>
+    <text x="40" y="38" font-family="'Inter', sans-serif" font-size="9" fill="#94a3b8">Video feed & preprocessing</text>
+  </g>
+
+  <!-- Arrow -->
+  <path d="M 640 185 L 640 195" stroke="#6366f1" stroke-width="2" stroke-linecap="round" />
+
+  <!-- Step 2 Card -->
+  <g transform="translate(530, 200)">
+    <rect width="220" height="52" rx="8" fill="#1e293b" stroke="rgba(99, 102, 241, 0.3)" />
+    <circle cx="20" cy="26" r="10" fill="rgba(99, 102, 241, 0.2)" />
+    <text x="20" y="30" font-family="'Fira Code', monospace" font-size="10" font-weight="700" fill="#818cf8" text-anchor="middle">2</text>
+    <text x="40" y="22" font-family="'Plus Jakarta Sans', sans-serif" font-size="11" font-weight="600" fill="#f1f5f9">Computer Vision Processing</text>
+    <text x="40" y="38" font-family="'Inter', sans-serif" font-size="9" fill="#94a3b8">Feature detection & OpenCV</text>
+  </g>
+
+  <!-- Arrow -->
+  <path d="M 640 260 L 640 270" stroke="#a855f7" stroke-width="2" stroke-linecap="round" />
+
+  <!-- Step 3 Card -->
+  <g transform="translate(530, 275)">
+    <rect width="220" height="52" rx="8" fill="#1e293b" stroke="rgba(168, 85, 247, 0.3)" />
+    <circle cx="20" cy="26" r="10" fill="rgba(168, 85, 247, 0.2)" />
+    <text x="20" y="30" font-family="'Fira Code', monospace" font-size="10" font-weight="700" fill="#c084fc" text-anchor="middle">3</text>
+    <text x="40" y="22" font-family="'Plus Jakarta Sans', sans-serif" font-size="11" font-weight="600" fill="#f1f5f9">Machine Learning Model</text>
+    <text x="40" y="38" font-family="'Inter', sans-serif" font-size="9" fill="#94a3b8">Predictive analysis & output</text>
+  </g>
+
+  <!-- Tech Badges -->
+  <g transform="translate(530, 350)">
+    <rect x="0" y="0" width="65" height="24" rx="6" fill="#0f172a" stroke="#06b6d4" stroke-width="1" />
+    <text x="32" y="16" font-family="'Fira Code', monospace" font-size="9" fill="#38bdf8" text-anchor="middle">Python</text>
+
+    <rect x="73" y="0" width="70" height="24" rx="6" fill="#0f172a" stroke="#6366f1" stroke-width="1" />
+    <text x="108" y="16" font-family="'Fira Code', monospace" font-size="9" fill="#818cf8" text-anchor="middle">OpenCV</text>
+
+    <rect x="151" y="0" width="69" height="24" rx="6" fill="#0f172a" stroke="#a855f7" stroke-width="1" />
+    <text x="185" y="16" font-family="'Fira Code', monospace" font-size="9" fill="#c084fc" text-anchor="middle">ML Tools</text>
+  </g>
+
+  <!-- Status Bar Bottom -->
+  <g transform="translate(530, 395)">
+    <rect width="220" height="30" rx="6" fill="rgba(16, 185, 129, 0.1)" stroke="rgba(16, 185, 129, 0.4)" stroke-width="1" />
+    <circle cx="16" cy="15" r="4" fill="#10b981" />
+    <text x="28" y="19" font-family="'Plus Jakarta Sans', sans-serif" font-size="10" font-weight="600" fill="#34d399">Pipeline Active • Practical AI</text>
+  </g>
+</svg>
