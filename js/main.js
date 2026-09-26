@@ -242,8 +242,8 @@ function initProfilePhotoUpload() {
       } catch (err) {
         console.warn('Image is large, rendered in session.');
       }
-      if (resetBtn) resetBtn.style.display = 'inline-flex';
-      showToast('Profile photo updated! To make permanent, place image at assets/profile.jpg');
+      if (resetBtn && isOwnerActive()) resetBtn.style.display = 'inline-flex';
+      showToast('Profile photo updated in your browser session!');
     };
     reader.readAsDataURL(file);
   });
@@ -251,10 +251,10 @@ function initProfilePhotoUpload() {
   resetBtn?.addEventListener('click', () => {
     localStorage.removeItem('vaka-custom-profile-photo');
     if (profileImg) {
-      profileImg.src = 'assets/profile-placeholder.svg';
+      profileImg.src = 'assets/profile.png';
     }
     resetBtn.style.display = 'none';
-    showToast('Reset to default profile placeholder');
+    showToast('Reset to default profile photo');
   });
 }
 
