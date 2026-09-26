@@ -85,17 +85,19 @@ Right-click `index.html` in VS Code and select **"Open with Live Server"**.
    - Core responsibilities, practical Java software projects, and GitHub version control.
    - *Strict adherence to verified professional internship records.*
 
-6. **Featured Project: MLCV (Machine Learning & Computer Vision)**:
+6. **Featured Project: ML-Based Prediction of Cyclic Voltammetry for Supercapacitors (BiFeO₃)**:
    - Given the most prominent and largest presentation on the site.
-   - Details: Overview, Problem, Approach, Technologies (Python, ML, CV, OpenCV, AI/ML tools), Key Capabilities, Preview illustration, and action buttons.
-   - *Strictly avoids invented datasets, metrics, or accuracy percentages.*
+   - Live Web Dashboard: [https://anirudhrao-24.github.io/cv-ml-supercapacitor-bfo/](https://anirudhrao-24.github.io/cv-ml-supercapacitor-bfo/)
+   - Live ML API (Render): [https://cv-ml-supercapacitor-bfo-i0cu.onrender.com/](https://cv-ml-supercapacitor-bfo-i0cu.onrender.com/)
+   - Key Results: Stacked Meta-Model (ANN + Random Forest + XGBoost with RidgeCV Regressor), R² 99.74%, RMSE 0.000401 on unseen 60 mV/s dataset, Specific Capacitance 114.84 F g⁻¹ vs 115.39 F g⁻¹ lab value (0.47% error margin).
+   - Interactive In-Browser Voltammogram Simulator with real-time scan rate sweeps and experimental benchmark overlay.
 
 7. **Other Projects**:
    - Online Reservation System (Java)
    - ATM Web Interface (HTML, CSS, JavaScript)
    - Online Examination System (Java, Web Technologies)
    - Digital Library Management System (Java)
-   - Interactive project filtering by domain (`Software`, `Java`, `Web Development`, `AI/ML`, `Computer Vision`).
+   - Interactive project filtering by domain (`Software`, `Java`, `Web Development`, `AI/ML`, `Electrochemistry`).
 
 8. **Software Development (Major Section)**:
    - Primary career commitment: `"I want to build my career in the software industry."`
@@ -106,14 +108,14 @@ Right-click `index.html` in VS Code and select **"Open with Live Server"**.
    - 1. Software Development (Largest primary card)
    - 2. Software Engineering
    - 3. AI / Machine Learning
-   - 4. Computer Vision
-   - 5. Web Development
-   - 6. Product Development (Secondary interest).
+   - 4. Full-Stack Web Development
+   - 5. Scientific ML & Materials Informatics
+   - 6. Product Engineering.
 
 10. **Certifications & Accomplishments**:
     - Career Essentials in Generative AI (Microsoft / LinkedIn)
     - B10x Workshop Certificate (B10x)
-    - MLCV Project Certificate
+    - ML-CV Supercapacitor Research Recognition (Materials Science & AI Research)
     - Oasis Infobyte / OIBSIP Internship Certificate / Offer Letter.
 
 11. **Resume Section**:
