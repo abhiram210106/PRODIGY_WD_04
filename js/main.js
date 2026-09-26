@@ -493,7 +493,6 @@ function processAndSaveUploadedCert(certId, file, callback) {
 function updateCertCardPreviews() {
   const certList = [
     { id: 'cert-genai', name: 'Career Essentials in Generative AI', org: 'Microsoft / LinkedIn' },
-    { id: 'cert-b10x', name: 'Be10x Project Certification', org: 'Be10x' },
     { id: 'cert-mlcv', name: 'ML-CV Supercapacitor Research Recognition', org: 'Materials Science & AI Research' },
     { id: 'cert-oibsip', name: 'Oasis Infobyte / OIBSIP Internship Certificate', org: 'Oasis Infobyte' }
   ];
