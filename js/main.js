@@ -211,9 +211,13 @@ function initProfilePhotoUpload() {
     if (resetBtn) resetBtn.style.display = 'inline-flex';
   }
 
-  // Bind upload triggers
+  // Bind upload triggers (owner-only)
   uploadTriggers.forEach(trig => {
     trig.addEventListener('click', () => {
+      if (!isOwnerActive()) {
+        openOwnerPinModal();
+        return;
+      }
       uploadInput?.click();
     });
   });
@@ -689,6 +693,10 @@ function openCertificateModal(certId, certName, certOrg, certDesc) {
 // Global triggers for cert uploads
 let activeCertUploadId = null;
 window.triggerCertUpload = function(certId) {
+  if (!isOwnerActive()) {
+    openOwnerPinModal();
+    return;
+  }
   activeCertUploadId = certId;
   const input = document.getElementById('certUploadInput');
   input?.click();
@@ -777,12 +785,20 @@ window.downloadCustomResume = function() {
     document.body.removeChild(a);
     showToast(`Downloading: ${fileName}`);
   } else {
-    showToast('Please upload your resume PDF first using the upload button.');
+    if (isOwnerActive()) {
+      showToast('Please upload your resume PDF first using the upload button.');
+    } else {
+      showToast('Resume preview opened. Official PDF document will be available shortly.');
+    }
     openResumeViewerModal();
   }
 };
 
 window.triggerResumeUpload = function() {
+  if (!isOwnerActive()) {
+    openOwnerPinModal();
+    return;
+  }
   const input = document.getElementById('resumeUploadInput');
   input?.click();
 };
@@ -834,6 +850,10 @@ function updateContactDOM() {
 }
 
 function openContactEditModal() {
+  if (!isOwnerActive()) {
+    openOwnerPinModal();
+    return;
+  }
   const contact = getStoredContact();
 
   const content = `
@@ -904,6 +924,10 @@ function openContactEditModal() {
    11. ALL-IN-ONE ASSET MANAGER MODAL
    ========================================================================== */
 function openAllInOneAssetManager() {
+  if (!isOwnerActive()) {
+    openOwnerPinModal();
+    return;
+  }
   const content = `
     <div style="text-align: left; line-height: 1.6;">
       <p style="font-size: 0.92rem; color: var(--text-secondary); margin-bottom: 20px;">
@@ -968,7 +992,7 @@ function openAllInOneAssetManager() {
       </div>
 
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; padding-top: 14px; border-top: 1px solid var(--border-subtle);">
-        <button class="btn btn-outline btn-sm" style="border-color: rgba(148,163,184,0.4); color: #cbd5e1;" onclick="closeModal(); setOwnerMode(false, true);">
+        <button class="btn btn-outline btn-sm" style="border-color: rgba(148,163,184,0.4); color: #cbd5e1;" onclick="closeModal(); switchToVisitorPreview();">
           👁️ Preview Website as Visitor
         </button>
         <button class="btn btn-secondary btn-sm" onclick="closeModal()">Close Manager</button>
@@ -1062,6 +1086,12 @@ function initModalHandlers() {
     dialog?.classList.remove('modal-wide');
     modalBackdrop.classList.remove('open');
     document.body.style.overflow = '';
+
+    // If modal was dismissed before a role was picked, safely treat as viewer
+    if (!sessionStorage.getItem('vaka-role-selected')) {
+      sessionStorage.setItem('vaka-role-selected', 'viewer');
+      setOwnerMode(false, false);
+    }
   };
 
   modalCloseBtn?.addEventListener('click', closeModal);
@@ -1235,6 +1265,10 @@ function updateProjectLinksDOM() {
 }
 
 function openProjectLinkModal(projId, projTitle) {
+  if (!isOwnerActive()) {
+    openOwnerPinModal();
+    return;
+  }
   activeDemoUploadProjId = projId;
   const links = getProjectLinks(projId);
 
@@ -1316,6 +1350,10 @@ function openProjectLinkModal(projId, projTitle) {
 }
 
 function openMlcvLinksModal() {
+  if (!isOwnerActive()) {
+    openOwnerPinModal();
+    return;
+  }
   const links = getProjectLinks('mlcv');
 
   const content = `
@@ -1523,6 +1561,10 @@ function initMlcvDemo() {
   uploadScreenshotBtn?.addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
+    if (!isOwnerActive()) {
+      openOwnerPinModal();
+      return;
+    }
     screenshotInput?.click();
   });
 
@@ -2087,7 +2129,7 @@ function initCvSimulationInteractions() {
 }
 
 /* ==========================================================================
-   16. OWNER / ADMIN MODE (VISITORS ONLY WATCH, OWNER CAN UPLOAD & EDIT)
+   16. ACCESS MODE SELECTION & OWNER AUTHENTICATION
    ========================================================================== */
 const OWNER_DEFAULT_PIN = '2101'; // Default Owner PIN for Vaka Abhiram
 
@@ -2101,78 +2143,277 @@ function setOwnerMode(active, showFeedback = true) {
   if (active) {
     document.body.classList.add('owner-mode-active');
     localStorage.setItem('vaka-portfolio-mode', 'owner');
+    sessionStorage.removeItem('vaka-owner-preview');
     if (restoreBtn) restoreBtn.style.display = 'none';
     if (showFeedback) {
-      showToast('👑 Owner Mode Active: All upload buttons for Certificates, Resume, & Photos are enabled.');
+      showToast('👑 Owner Mode Active: Document uploads & management controls are enabled.');
     }
   } else {
     document.body.classList.remove('owner-mode-active');
-    localStorage.setItem('vaka-portfolio-mode', 'visitor');
-    if (restoreBtn) restoreBtn.style.display = 'flex';
+    if (sessionStorage.getItem('vaka-owner-preview') !== 'true') {
+      localStorage.setItem('vaka-portfolio-mode', 'visitor');
+    }
+    // Only show the floating switch button if the owner explicitly clicked 'Preview as Visitor'
+    if (restoreBtn) {
+      if (sessionStorage.getItem('vaka-owner-preview') === 'true') {
+        restoreBtn.style.display = 'flex';
+      } else {
+        restoreBtn.style.display = 'none';
+      }
+    }
     if (showFeedback) {
-      showToast('👁️ Visitor Preview Active: Upload controls hidden to preview what visitors see.');
+      showToast('👁️ Viewer Mode Active: Read-only view. Upload controls are hidden.');
     }
   }
 }
 
-function initOwnerMode() {
-  // Check stored mode. Default to OWNER MODE so Abhiram always sees his upload controls!
-  const storedMode = localStorage.getItem('vaka-portfolio-mode');
-  const urlParams = new URLSearchParams(window.location.search);
-  const wantsVisitor = urlParams.has('view') || urlParams.has('visitor') || storedMode === 'visitor';
+// Select Viewer Mode (regular visitor/recruiter view)
+window.selectVisitorRole = function(showToastMsg = true) {
+  sessionStorage.setItem('vaka-role-selected', 'viewer');
+  setOwnerMode(false, false);
+  closeModal();
+  if (showToastMsg) {
+    showToast('👁️ Viewing as Visitor: Enjoy exploring Vaka Abhiram\'s portfolio!');
+  }
+};
 
-  if (wantsVisitor) {
+// Select Owner Mode (triggers login PIN prompt)
+window.selectOwnerRole = function() {
+  openOwnerPinModal();
+};
+
+// Switch to temporary visitor preview while in Owner Mode
+window.switchToVisitorPreview = function() {
+  sessionStorage.setItem('vaka-owner-preview', 'true');
+  setOwnerMode(false, true);
+  const restoreBtn = document.getElementById('restoreOwnerModeBtn');
+  if (restoreBtn) restoreBtn.style.display = 'flex';
+};
+
+// Lock / Log out of Owner Mode and switch to Viewer Mode
+window.lockOwnerMode = function() {
+  localStorage.setItem('vaka-portfolio-mode', 'visitor');
+  sessionStorage.setItem('vaka-role-selected', 'viewer');
+  sessionStorage.removeItem('vaka-owner-preview');
+  setOwnerMode(false, false);
+  closeModal();
+  showToast('🔒 Owner Mode Locked. Switched to Viewer mode.');
+};
+
+// Change Owner PIN
+window.openChangePinModal = function() {
+  const content = `
+    <div style="text-align: left; line-height: 1.6;">
+      <h4 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px;">Change Owner PIN</h4>
+      <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 18px;">
+        Set a new private PIN to protect owner access across your devices.
+      </p>
+      <form id="changePinForm" style="max-width: 320px; margin: 0 auto;">
+        <div class="form-group" style="margin-bottom: 14px;">
+          <label class="form-label" for="currentPinInput">Current Owner PIN</label>
+          <input type="password" id="currentPinInput" class="form-control" placeholder="Current PIN" required style="letter-spacing: 3px;">
+          <div id="changePinCurrentError" style="display: none; color: #ef4444; font-size: 0.8rem; margin-top: 4px; font-weight: 600;">
+            ✕ Current PIN is incorrect.
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom: 18px;">
+          <label class="form-label" for="newPinInput">New Owner PIN (min 4 characters)</label>
+          <input type="password" id="newPinInput" class="form-control" placeholder="New PIN" required minlength="4" style="letter-spacing: 3px;">
+        </div>
+        <div style="display: flex; gap: 10px; justify-content: flex-end;">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="openOwnerPinModal()">Back</button>
+          <button type="submit" class="btn btn-primary btn-sm">Save New PIN</button>
+        </div>
+      </form>
+    </div>
+  `;
+  openModal('🔑 Change Owner PIN', content);
+
+  const changeForm = document.getElementById('changePinForm');
+  changeForm?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const curr = document.getElementById('currentPinInput')?.value.trim();
+    const newP = document.getElementById('newPinInput')?.value.trim();
+    const validCurrent = localStorage.getItem('vaka-owner-pin') || OWNER_DEFAULT_PIN;
+    const errorEl = document.getElementById('changePinCurrentError');
+
+    if (curr !== validCurrent) {
+      if (errorEl) errorEl.style.display = 'block';
+      return;
+    }
+
+    if (!newP || newP.length < 4) {
+      showToast('PIN must be at least 4 characters long.');
+      return;
+    }
+
+    localStorage.setItem('vaka-owner-pin', newP);
+    closeModal();
+    showToast('✓ Owner PIN updated successfully!');
+  });
+};
+
+// Role selection modal on website opening
+window.openRoleSelectionModal = function() {
+  const content = `
+    <div style="text-align: center; line-height: 1.6;">
+      <div style="display: inline-flex; align-items: center; justify-content: center; width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, rgba(99,102,241,0.2) 0%, rgba(16,185,129,0.2) 100%); border: 1px solid var(--border-glow); font-size: 1.8rem; margin-bottom: 14px;">
+        👋
+      </div>
+      <h3 style="font-family: var(--font-heading); font-size: 1.35rem; font-weight: 800; color: var(--text-primary); margin-bottom: 6px;">
+        Welcome to Vaka Abhiram's Portfolio
+      </h3>
+      <p style="font-size: 0.92rem; color: var(--text-secondary); max-width: 480px; margin: 0 auto 20px;">
+        Please select your access role to continue:
+      </p>
+
+      <div class="role-choice-grid">
+        <!-- Option 1: Viewer Mode -->
+        <div class="role-choice-card role-viewer" onclick="selectVisitorRole(true)">
+          <div>
+            <div class="role-choice-icon">👁️</div>
+            <div class="role-choice-title">
+              <span>Viewer</span>
+              <span class="role-choice-badge role-badge-visitor">Visitor / Recruiter</span>
+            </div>
+            <p class="role-choice-desc">
+              Browse projects, skills, education, internship experience, interactive supercapacitor CV simulation, and verified credentials in read-only mode.
+            </p>
+          </div>
+          <button type="button" class="btn btn-outline btn-sm role-choice-btn" style="border-color: rgba(52, 211, 153, 0.4); color: #34d399;">
+            Enter as Viewer →
+          </button>
+        </div>
+
+        <!-- Option 2: Owner Mode -->
+        <div class="role-choice-card role-owner" onclick="selectOwnerRole()">
+          <div>
+            <div class="role-choice-icon">👑</div>
+            <div class="role-choice-title">
+              <span>Owner</span>
+              <span class="role-choice-badge role-badge-owner">PIN Required</span>
+            </div>
+            <p class="role-choice-desc">
+              Restricted to portfolio owner (Vaka Abhiram). Enter Owner PIN to unlock document uploads, certificate replacement, photo updates, and project demos.
+            </p>
+          </div>
+          <button type="button" class="btn btn-primary btn-sm role-choice-btn">
+            Owner Login 🔐
+          </button>
+        </div>
+      </div>
+
+      <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 10px;">
+        💡 You can switch modes at any time via the link in the footer.
+      </p>
+    </div>
+  `;
+
+  openModal('Select Access Mode', content, true);
+};
+
+// Initialize mode on site launch
+function initOwnerMode() {
+  const storedMode = localStorage.getItem('vaka-portfolio-mode');
+  const sessionRole = sessionStorage.getItem('vaka-role-selected');
+  const urlParams = new URLSearchParams(window.location.search);
+  const wantsAdminLogin = urlParams.has('admin') || urlParams.has('owner') || urlParams.has('login');
+  const wantsVisitor = urlParams.has('view') || urlParams.has('visitor');
+
+  // Handle URL shortcuts first
+  if (wantsAdminLogin) {
+    setOwnerMode(false, false);
+    setTimeout(() => {
+      openOwnerPinModal();
+    }, 350);
+  } else if (wantsVisitor) {
+    selectVisitorRole(false);
+  } else if (sessionRole === 'owner' && storedMode === 'owner') {
+    // Already authenticated as owner in current session
+    setOwnerMode(true, false);
+  } else if (sessionRole === 'viewer') {
+    // Already active viewer in current session
     setOwnerMode(false, false);
   } else {
-    // Default: Owner Mode is ON
-    setOwnerMode(true, false);
+    // FRESH SESSION OR OPENING FROM ANY DEVICE:
+    // Safe default is Viewer mode (all upload options strictly hidden)
+    setOwnerMode(false, false);
+    // Open the Role Selection modal (Viewer vs Owner)
+    setTimeout(() => {
+      openRoleSelectionModal();
+    }, 400);
   }
 
-  // Restore Owner Mode button (appears when previewing as visitor)
+  // Restore button handler (shown only during active owner preview)
   document.getElementById('restoreOwnerModeBtn')?.addEventListener('click', (e) => {
     e.preventDefault();
-    setOwnerMode(true, true);
+    if (sessionStorage.getItem('vaka-owner-preview') === 'true') {
+      sessionStorage.removeItem('vaka-owner-preview');
+      setOwnerMode(true, true);
+    } else {
+      openOwnerPinModal();
+    }
   });
 
-  // Footer link trigger
+  // Footer link trigger: Opens role selection for visitors or owner manager for owner
   document.getElementById('ownerLoginFooterLink')?.addEventListener('click', (e) => {
     e.preventDefault();
-    openOwnerPinModal();
+    if (isOwnerActive()) {
+      openOwnerPinModal();
+    } else {
+      openRoleSelectionModal();
+    }
   });
 
   // Double-click on Monogram or Brand Logo in header
   document.querySelectorAll('.brand-logo, .brand-monogram').forEach(elem => {
     elem.addEventListener('dblclick', (e) => {
       e.preventDefault();
-      openOwnerPinModal();
+      if (isOwnerActive()) {
+        openOwnerPinModal();
+      } else {
+        openRoleSelectionModal();
+      }
     });
   });
 
-  // Keyboard shortcut: Ctrl + Shift + A
+  // Keyboard shortcut: Ctrl + Shift + A or Ctrl + Shift + O (Cmd on Mac)
   document.addEventListener('keydown', (e) => {
     if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'A' || e.key === 'a' || e.key === 'O' || e.key === 'o')) {
       e.preventDefault();
-      openOwnerPinModal();
+      if (isOwnerActive()) {
+        openOwnerPinModal();
+      } else {
+        openRoleSelectionModal();
+      }
     }
   });
 }
 
 function openOwnerPinModal() {
   if (isOwnerActive()) {
-    // Already in owner mode - offer options
+    // Already in owner mode - offer owner management options
     const content = `
       <div style="text-align: center; line-height: 1.6;">
         <div style="font-size: 2.2rem; margin-bottom: 12px;">👑</div>
         <h4 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 8px;">Owner Management Mode is Active</h4>
-        <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 24px;">
-          You currently have full upload and edit permissions active. All upload buttons for certificates, resume, and photos are visible.
+        <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 22px;">
+          You are authenticated as the portfolio owner. Document uploads and management options are visible.
         </p>
-        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 18px;">
           <button class="btn btn-primary btn-sm" onclick="closeModal(); openAllInOneAssetManager();">
-            Manage Files &amp; Certs
+            📁 Upload &amp; Manage Files
           </button>
-          <button class="btn btn-outline btn-sm" style="border-color: rgba(148,163,184,0.4); color: #cbd5e1;" onclick="setOwnerMode(false); closeModal();">
-            👁️ Switch to Visitor Preview
+          <button class="btn btn-outline btn-sm" style="border-color: rgba(148,163,184,0.4); color: #cbd5e1;" onclick="closeModal(); switchToVisitorPreview();">
+            👁️ Preview as Visitor
+          </button>
+          <button class="btn btn-outline btn-sm" style="border-color: rgba(239,68,68,0.5); color: #f87171;" onclick="lockOwnerMode();">
+            🔒 Log Out / Switch to Viewer
+          </button>
+        </div>
+        <div style="padding-top: 12px; border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center;">
+          <button class="btn btn-text btn-sm" style="font-size: 0.8rem; color: var(--text-muted); padding: 0;" onclick="openChangePinModal();">
+            🔑 Change Owner PIN
           </button>
           <button class="btn btn-secondary btn-sm" onclick="closeModal()">Close</button>
         </div>
@@ -2182,33 +2423,29 @@ function openOwnerPinModal() {
     return;
   }
 
-  // Not in owner mode - prompt for PIN or quick restore
+  // Not in owner mode - prompt for PIN
   const content = `
     <div style="text-align: center; line-height: 1.6;">
       <div style="font-size: 2.2rem; margin-bottom: 12px;">🔐</div>
-      <h4 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 6px;">Owner Authentication</h4>
+      <h4 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 6px;">Owner Authentication</h4>
       <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 20px;">
-        Enter your Owner PIN to activate upload buttons and file management.
+        Owner access is restricted to Vaka Abhiram. Enter your Owner PIN to unlock document uploads and management controls.
       </p>
 
-      <form id="ownerPinForm" style="max-width: 300px; margin: 0 auto;">
+      <form id="ownerPinForm" style="max-width: 320px; margin: 0 auto;">
         <div class="form-group" style="text-align: left; margin-bottom: 16px;">
           <label class="form-label" for="ownerPinInput">Owner PIN</label>
-          <input type="password" id="ownerPinInput" class="form-control" placeholder="Enter PIN (Default: 2101)" required autofocus style="text-align: center; font-size: 1.2rem; letter-spacing: 4px;">
+          <input type="password" id="ownerPinInput" class="form-control" placeholder="••••" required autofocus style="text-align: center; font-size: 1.3rem; letter-spacing: 6px;">
           <div id="pinErrorMsg" style="display: none; color: #ef4444; font-size: 0.8rem; margin-top: 6px; font-weight: 600;">
-            ✕ Incorrect PIN. Please try again.
+            ✕ Incorrect PIN. Access denied.
           </div>
         </div>
 
         <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
-          <button type="button" class="btn btn-secondary btn-sm" onclick="closeModal()">Cancel</button>
+          <button type="button" class="btn btn-secondary btn-sm" onclick="openRoleSelectionModal()">← Back</button>
           <button type="submit" class="btn btn-primary btn-sm">Unlock Owner Mode</button>
         </div>
       </form>
-
-      <p style="font-size: 0.76rem; color: var(--text-muted); margin-top: 18px;">
-        💡 Default Owner PIN is <code>2101</code>.
-      </p>
     </div>
   `;
 
@@ -2224,8 +2461,9 @@ function openOwnerPinModal() {
     const currentPin = localStorage.getItem('vaka-owner-pin') || OWNER_DEFAULT_PIN;
 
     if (enteredPin === currentPin) {
+      sessionStorage.setItem('vaka-role-selected', 'owner');
+      setOwnerMode(true, true);
       closeModal();
-      setOwnerMode(true);
     } else {
       if (errorMsg) errorMsg.style.display = 'block';
       if (input) {

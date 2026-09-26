@@ -2985,5 +2985,98 @@ body:not(.owner-mode-active) .owner-only {
   box-shadow: 0 8px 24px rgba(251, 191, 36, 0.4);
 }
 
+/* ==========================================================================
+   ROLE SELECTION MODAL (VIEWER vs OWNER)
+   ========================================================================== */
+.role-choice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 22px 0 16px;
+}
+
+@media (max-width: 600px) {
+  .role-choice-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.role-choice-card {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 22px 18px;
+  text-align: left;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+
+.role-choice-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent-primary);
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.2);
+}
+
+.role-choice-card.role-owner:hover {
+  border-color: #fbbf24;
+  box-shadow: 0 8px 24px rgba(251, 191, 36, 0.22);
+}
+
+.role-choice-icon {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+}
+
+.role-choice-title {
+  font-family: var(--font-heading);
+  font-size: 1.18rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.role-choice-badge {
+  font-size: 0.72rem;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  display: inline-block;
+}
+
+.role-badge-visitor {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.role-badge-owner {
+  background: rgba(251, 191, 36, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(251, 191, 36, 0.3);
+}
+
+.role-choice-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin-bottom: 18px;
+  flex-grow: 1;
+}
+
+.role-choice-btn {
+  width: 100%;
+  pointer-events: none;
+}
+
+
 
 
