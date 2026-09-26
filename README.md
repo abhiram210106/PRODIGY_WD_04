@@ -114,7 +114,7 @@ Right-click `index.html` in VS Code and select **"Open with Live Server"**.
 
 10. **Certifications & Accomplishments**:
     - Career Essentials in Generative AI (Microsoft / LinkedIn)
-    - B10x Workshop Certificate (B10x)
+    - Be10x Project Certification (Be10x)
     - ML-CV Supercapacitor Research Recognition (Materials Science & AI Research)
     - Oasis Infobyte / OIBSIP Internship Certificate / Offer Letter.
 

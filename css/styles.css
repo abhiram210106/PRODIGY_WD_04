@@ -2358,6 +2358,267 @@ textarea.form-control {
   cursor: pointer;
 }
 
+/* ==========================================================================
+   CERTIFICATE CARD MEDIA THUMBNAIL (VISUAL PREVIEWS)
+   ========================================================================== */
+.cert-card-media {
+  position: relative;
+  width: 100%;
+  height: 165px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: #060913;
+  border: 1px solid var(--border-subtle);
+  margin-top: 14px;
+  margin-bottom: 18px;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cert-card-media:hover {
+  border-color: var(--accent-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.28);
+}
+
+.cert-card-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cert-card-thumb-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 8, 18, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.cert-card-media:hover .cert-card-thumb-overlay {
+  opacity: 1;
+}
+
+.cert-card-thumb-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid var(--accent-primary);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(6px);
+}
+
+.cert-card-mockup {
+  width: 100%;
+  height: 100%;
+  padding: 16px 18px;
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.65) 0%, rgba(15, 23, 42, 0.95) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-left: 4px solid var(--accent-secondary);
+  position: relative;
+}
+
+.cert-card-mockup-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cert-card-mockup-seal {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(245, 158, 11, 0.2);
+  border: 1.5px solid #f59e0b;
+  color: #fbbf24;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+}
+
+.cert-card-mockup-recipient {
+  font-family: var(--font-heading);
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-top: 8px;
+}
+
+.cert-card-mockup-sub {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.cert-card-mockup-status {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: #10b981;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* ==========================================================================
+   FULLSCREEN CERTIFICATE LIGHTBOX VIEWER
+   ========================================================================== */
+.cert-fullscreen-lightbox {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 5000;
+  background: rgba(3, 6, 15, 0.98);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.cert-fs-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 28px;
+  background: rgba(15, 23, 42, 0.95);
+  border-bottom: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+  z-index: 20;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.cert-fs-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cert-fs-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.cert-fs-org {
+  font-size: 0.85rem;
+  color: var(--accent-secondary);
+  font-weight: 600;
+  margin: 0;
+}
+
+.cert-fs-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.cert-fs-close-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  font-size: 1.6rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.cert-fs-close-btn:hover {
+  background: #ef4444;
+  color: #ffffff;
+  border-color: #ef4444;
+  transform: rotate(90deg);
+}
+
+.cert-fs-stage {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+  padding: 24px;
+  position: relative;
+  touch-action: pinch-zoom;
+}
+
+.cert-fs-img-wrapper {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  max-height: 100%;
+  transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1);
+  transform-origin: center center;
+}
+
+.cert-fs-img {
+  max-width: 90vw;
+  max-height: 82vh;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85);
+  border: 1px solid var(--border-subtle);
+  display: block;
+}
+
+.cert-fs-iframe {
+  width: 90vw;
+  height: 82vh;
+  border-radius: 8px;
+  border: 1px solid var(--border-subtle);
+  background: #ffffff;
+}
+
+.cert-fs-mask-badge {
+  position: absolute;
+  bottom: 24px;
+  left: 6%;
+  right: 6%;
+  padding: 12px 20px;
+  background: rgba(15, 23, 42, 0.94);
+  border: 2px dashed #f59e0b;
+  border-radius: 8px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #fbbf24;
+  z-index: 20;
+}
+
+.cert-fs-mask-badge.hidden {
+  display: none !important;
+}
+
 /* Quick Manager Bar / Edit Buttons */
 .contact-edit-btn {
   display: inline-flex;

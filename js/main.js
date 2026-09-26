@@ -387,26 +387,47 @@ function initScrollEffects() {
 /* ==========================================================================
    8. REAL CERTIFICATES & PRIVACY MASKING SYSTEM
    ========================================================================== */
+window.uploadedCertsCache = window.uploadedCertsCache || {};
+
 function getStoredCert(certId) {
-  try {
-    return localStorage.getItem(`vaka-cert-${certId}`) || null;
-  } catch (e) {
-    return null;
+  if (window.uploadedCertsCache[certId]) {
+    return window.uploadedCertsCache[certId];
   }
+  try {
+    const fromLocal = localStorage.getItem(`vaka-cert-${certId}`);
+    if (fromLocal) {
+      window.uploadedCertsCache[certId] = fromLocal;
+      return fromLocal;
+    }
+    const fromSession = sessionStorage.getItem(`vaka-cert-${certId}`);
+    if (fromSession) {
+      window.uploadedCertsCache[certId] = fromSession;
+      return fromSession;
+    }
+  } catch (e) {}
+  return null;
 }
 
 function setStoredCert(certId, dataUrl) {
+  window.uploadedCertsCache[certId] = dataUrl;
+  try {
+    sessionStorage.setItem(`vaka-cert-${certId}`, dataUrl);
+  } catch (e) {}
   try {
     localStorage.setItem(`vaka-cert-${certId}`, dataUrl);
   } catch (e) {
-    console.warn('Certificate file is large, stored in active session.');
+    console.warn('Quota reached, certificate preserved in session & memory cache');
   }
+  updateCertCardPreviews();
 }
 
 function removeStoredCert(certId) {
+  delete window.uploadedCertsCache[certId];
   try {
     localStorage.removeItem(`vaka-cert-${certId}`);
+    sessionStorage.removeItem(`vaka-cert-${certId}`);
   } catch (e) {}
+  updateCertCardPreviews();
 }
 
 function isCertMaskEnabled() {
@@ -418,79 +439,252 @@ function setCertMaskEnabled(enabled) {
   localStorage.setItem('vaka-cert-mask-enabled', enabled ? 'true' : 'false');
 }
 
-function openCertificateModal(certId, certName, certOrg, certDesc) {
-  const customCert = getStoredCert(certId);
-  const imageSrc = customCert || 'assets/cert-placeholder.svg';
+// Client-side canvas image compression to ensure uploaded certificates NEVER exceed browser storage
+function processAndSaveUploadedCert(certId, file, callback) {
+  const isPdf = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
+  const reader = new FileReader();
+
+  if (isPdf) {
+    reader.onload = (e) => {
+      const dataUrl = e.target.result;
+      setStoredCert(certId, dataUrl);
+      if (callback) callback(dataUrl, true);
+    };
+    reader.readAsDataURL(file);
+    return;
+  }
+
+  // Compress image to max 1600px width/height to guarantee ultra-fast load and zero storage errors
+  reader.onload = (e) => {
+    const rawDataUrl = e.target.result;
+    const img = new Image();
+    img.onload = () => {
+      const maxDim = 1600;
+      let width = img.width;
+      let height = img.height;
+      if (width > maxDim || height > maxDim) {
+        if (width > height) {
+          height = Math.round((height * maxDim) / width);
+          width = maxDim;
+        } else {
+          width = Math.round((width * maxDim) / height);
+          height = maxDim;
+        }
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, width, height);
+      const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.85);
+      setStoredCert(certId, compressedDataUrl);
+      if (callback) callback(compressedDataUrl, false);
+    };
+    img.onerror = () => {
+      setStoredCert(certId, rawDataUrl);
+      if (callback) callback(rawDataUrl, false);
+    };
+    img.src = rawDataUrl;
+  };
+  reader.readAsDataURL(file);
+}
+
+// Update card previews on the main portfolio page so certificates are ALWAYS immediately visible
+function updateCertCardPreviews() {
+  const certList = [
+    { id: 'cert-genai', name: 'Career Essentials in Generative AI', org: 'Microsoft / LinkedIn' },
+    { id: 'cert-b10x', name: 'Be10x Project Certification', org: 'Be10x' },
+    { id: 'cert-mlcv', name: 'ML-CV Supercapacitor Research Recognition', org: 'Materials Science & AI Research' },
+    { id: 'cert-oibsip', name: 'Oasis Infobyte / OIBSIP Internship Certificate', org: 'Oasis Infobyte' }
+  ];
+
+  certList.forEach(cert => {
+    const thumbElem = document.getElementById(`certThumb-${cert.id}`);
+    if (!thumbElem) return;
+
+    const certData = getStoredCert(cert.id);
+    const isPdf = certData && (certData.startsWith('data:application/pdf') || certData.includes('application/pdf'));
+
+    if (certData && !isPdf) {
+      thumbElem.innerHTML = `
+        <img src="${certData}" alt="${escapeHtml(cert.name)}" class="cert-card-thumb-img">
+        <div class="cert-card-thumb-overlay">
+          <span class="cert-card-thumb-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+            ⛶ Open Fullscreen
+          </span>
+        </div>
+      `;
+    } else if (certData && isPdf) {
+      thumbElem.innerHTML = `
+        <div class="cert-card-mockup" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.22) 0%, rgba(15, 23, 42, 0.95) 100%);">
+          <div class="cert-card-mockup-top">
+            <span class="badge badge-emerald">PDF Uploaded ✓</span>
+            <div class="cert-card-mockup-seal">📄</div>
+          </div>
+          <div>
+            <div class="cert-card-mockup-recipient">${escapeHtml(cert.name)}</div>
+            <div class="cert-card-mockup-sub">Vaka Abhiram • ${escapeHtml(cert.org)}</div>
+          </div>
+          <div class="cert-card-mockup-status">
+            <span>● Click to view interactive Fullscreen PDF</span>
+          </div>
+        </div>
+        <div class="cert-card-thumb-overlay">
+          <span class="cert-card-thumb-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+            ⛶ Open Fullscreen PDF
+          </span>
+        </div>
+      `;
+    } else {
+      thumbElem.innerHTML = `
+        <div class="cert-card-mockup">
+          <div class="cert-card-mockup-top">
+            <span class="badge badge-primary">Verified Milestone</span>
+            <div class="cert-card-mockup-seal">★</div>
+          </div>
+          <div>
+            <div class="cert-card-mockup-recipient">${escapeHtml(cert.name)}</div>
+            <div class="cert-card-mockup-sub">Issued to: Vaka Abhiram &bull; ${escapeHtml(cert.org)}</div>
+          </div>
+          <div class="cert-card-mockup-status">
+            <span>● Official Credential Record</span>
+          </div>
+        </div>
+        <div class="cert-card-thumb-overlay">
+          <span class="cert-card-thumb-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+            ⛶ Open Fullscreen
+          </span>
+        </div>
+      `;
+    }
+
+    thumbElem.onclick = (e) => {
+      e.preventDefault();
+      openFullscreenCert(cert.id, cert.name, cert.org);
+    };
+  });
+}
+
+// Fullscreen Certificate Lightbox Viewer
+let certFsCurrentZoom = 1.0;
+let currentFsCertId = null;
+
+function openFullscreenCert(certId, certName, certOrg) {
+  currentFsCertId = certId;
+  const certData = getStoredCert(certId);
   const isMasked = isCertMaskEnabled();
+  const isPdf = certData && (certData.startsWith('data:application/pdf') || certData.includes('application/pdf'));
 
-  const content = `
-    <div style="text-align: center;">
-      <!-- Interactive Privacy Mask Toggle Bar -->
-      <div class="mask-toggle-bar">
-        <label class="toggle-switch-label" for="modalMaskCheckbox">
-          <input type="checkbox" id="modalMaskCheckbox" ${isMasked ? 'checked' : ''}>
-          <span>🔒 Privacy Mask (Hide sensitive ID &amp; verification codes)</span>
-        </label>
-        <span id="maskStatusBadge" class="badge ${isMasked ? 'badge-primary' : 'badge'}">${isMasked ? 'MASK ACTIVE' : 'UNMASKED'}</span>
-      </div>
+  const lb = document.getElementById('certFullscreenLightbox');
+  const titleElem = document.getElementById('certFsTitle');
+  const orgElem = document.getElementById('certFsOrg');
+  const stage = document.getElementById('certFsStage');
+  const maskToggle = document.getElementById('certFsMaskToggle');
 
-      <!-- Certificate Preview with Dynamic Mask Overlay -->
-      <div class="cert-preview-container">
-        <img id="certModalImage" src="${imageSrc}" alt="${escapeHtml(certName)}" class="cert-preview-img">
-        <div id="certModalMaskOverlay" class="cert-privacy-mask ${isMasked ? '' : 'hidden'}">
+  if (!lb || !stage) return;
+
+  if (titleElem) titleElem.textContent = certName || 'Certificate';
+  if (orgElem) orgElem.textContent = certOrg || 'Verified Credential';
+  if (maskToggle) maskToggle.checked = isMasked;
+
+  certFsCurrentZoom = 1.0;
+
+  if (certData) {
+    if (isPdf) {
+      stage.innerHTML = `
+        <iframe src="${certData}" class="cert-fs-iframe" title="${escapeHtml(certName)}"></iframe>
+      `;
+    } else {
+      stage.innerHTML = `
+        <div class="cert-fs-img-wrapper" id="certFsImgWrapper">
+          <img src="${certData}" alt="${escapeHtml(certName)}" class="cert-fs-img" id="certFsImg">
+          <div class="cert-fs-mask-badge ${isMasked ? '' : 'hidden'}" id="certFsMaskBadge">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <span>VERIFIED CREDENTIAL • RECIPIENT: VAKA ABHIRAM • SENSITIVE IDs MASKED</span>
+          </div>
+        </div>
+      `;
+    }
+  } else {
+    stage.innerHTML = `
+      <div class="cert-fs-img-wrapper" id="certFsImgWrapper">
+        <img src="assets/cert-placeholder.svg" alt="${escapeHtml(certName)}" class="cert-fs-img" id="certFsImg">
+        <div class="cert-fs-mask-badge ${isMasked ? '' : 'hidden'}" id="certFsMaskBadge">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-          <span>VERIFIED CREDENTIAL • ID &amp; SENSITIVE DETAILS MASKED</span>
+          <span>VERIFIED CREDENTIAL • VAKA ABHIRAM • ${escapeHtml(certOrg)}</span>
         </div>
       </div>
+    `;
+  }
 
-      <h4 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 6px; color: var(--text-primary);">${escapeHtml(certName)}</h4>
-      <p style="font-size: 0.95rem; color: var(--accent-secondary); font-weight: 600; margin-bottom: 10px;">${escapeHtml(certOrg)}</p>
-      <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 22px; max-width: 580px; margin-left: auto; margin-right: auto;">
-        ${escapeHtml(certDesc)}
-      </p>
+  lb.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
 
-      <!-- Action & Upload Controls (Upload is Owner Only; Visitors only see Close) -->
-      <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; padding-top: 14px; border-top: 1px solid var(--border-subtle);">
-        <button class="btn btn-primary btn-sm owner-only" type="button" onclick="triggerCertUpload('${certId}')">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-          ${customCert ? 'Upload Replacement File' : 'Upload Real Certificate (Image/PDF)'}
-        </button>
-        ${customCert ? `
-          <button class="btn btn-outline btn-sm owner-only" type="button" onclick="resetCertToDefault('${certId}', '${escapeHtml(certName)}', '${escapeHtml(certOrg)}', '${escapeHtml(certDesc)}')">
-            Reset to Default
-          </button>
-        ` : ''}
-        <button class="btn btn-secondary btn-sm" type="button" onclick="closeModal()">Close</button>
-      </div>
-    </div>
-  `;
+function closeFullscreenCert() {
+  const lb = document.getElementById('certFullscreenLightbox');
+  if (lb) lb.style.display = 'none';
+  document.body.style.overflow = '';
+  if (document.fullscreenElement) {
+    try { document.exitFullscreen(); } catch (e) {}
+  }
+}
 
-  openModal(certName, content);
+function initFullscreenLightbox() {
+  const lb = document.getElementById('certFullscreenLightbox');
+  const closeBtn = document.getElementById('certFsCloseBtn');
+  const zoomInBtn = document.getElementById('certFsZoomInBtn');
+  const zoomOutBtn = document.getElementById('certFsZoomOutBtn');
+  const zoomResetBtn = document.getElementById('certFsZoomResetBtn');
+  const nativeFsBtn = document.getElementById('certFsNativeFsBtn');
+  const maskToggle = document.getElementById('certFsMaskToggle');
 
-  // Hook up mask checkbox listener
-  const checkbox = document.getElementById('modalMaskCheckbox');
-  const overlay = document.getElementById('certModalMaskOverlay');
-  const badge = document.getElementById('maskStatusBadge');
+  closeBtn?.addEventListener('click', closeFullscreenCert);
 
-  checkbox?.addEventListener('change', (e) => {
-    const checked = e.target.checked;
-    setCertMaskEnabled(checked);
-    if (checked) {
-      overlay?.classList.remove('hidden');
-      if (badge) {
-        badge.textContent = 'MASK ACTIVE';
-        badge.className = 'badge badge-primary';
-      }
-      showToast('Privacy Mask Enabled: Sensitive verification details hidden');
+  function applyZoom(zoom) {
+    certFsCurrentZoom = Math.min(Math.max(zoom, 0.5), 3.0);
+    const wrapper = document.getElementById('certFsImgWrapper');
+    if (wrapper) {
+      wrapper.style.transform = `scale(${certFsCurrentZoom})`;
+    }
+  }
+
+  zoomInBtn?.addEventListener('click', () => applyZoom(certFsCurrentZoom + 0.25));
+  zoomOutBtn?.addEventListener('click', () => applyZoom(certFsCurrentZoom - 0.25));
+  zoomResetBtn?.addEventListener('click', () => applyZoom(1.0));
+
+  nativeFsBtn?.addEventListener('click', () => {
+    if (!document.fullscreenElement) {
+      lb?.requestFullscreen().catch(() => {});
     } else {
-      overlay?.classList.add('hidden');
-      if (badge) {
-        badge.textContent = 'UNMASKED';
-        badge.className = 'badge';
-      }
-      showToast('Privacy Mask Disabled: Showing complete certificate');
+      document.exitFullscreen().catch(() => {});
     }
   });
+
+  maskToggle?.addEventListener('change', (e) => {
+    const checked = e.target.checked;
+    setCertMaskEnabled(checked);
+    const badge = document.getElementById('certFsMaskBadge');
+    if (badge) {
+      if (checked) badge.classList.remove('hidden');
+      else badge.classList.add('hidden');
+    }
+    showToast(checked ? 'Privacy Mask Enabled' : 'Privacy Mask Disabled');
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && lb && lb.style.display === 'flex') {
+      closeFullscreenCert();
+    }
+  });
+}
+
+function openCertificateModal(certId, certName, certOrg, certDesc) {
+  // If someone wants to view certificate, open directly in Fullscreen!
+  openFullscreenCert(certId, certName, certOrg);
 }
 
 // Global triggers for cert uploads
@@ -504,7 +698,8 @@ window.triggerCertUpload = function(certId) {
 window.resetCertToDefault = function(certId, certName, certOrg, certDesc) {
   removeStoredCert(certId);
   showToast('Reset certificate to default template.');
-  openCertificateModal(certId, certName, certOrg, certDesc);
+  updateCertCardPreviews();
+  openFullscreenCert(certId, certName, certOrg);
 };
 
 /* ==========================================================================
@@ -796,23 +991,15 @@ function initFileInputListeners() {
     const file = e.target.files?.[0];
     if (!file || !activeCertUploadId) return;
 
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const dataUrl = event.target.result;
-      setStoredCert(activeCertUploadId, dataUrl);
-      showToast('Certificate uploaded successfully with Privacy Mask active!');
-      
-      // If modal is open, re-render it
+    processAndSaveUploadedCert(activeCertUploadId, file, (dataUrl, isPdf) => {
+      showToast('✓ Real certificate uploaded & visible with Privacy Mask active!');
+      updateCertCardPreviews();
       const btn = document.querySelector(`.view-cert-btn[data-cert-id="${activeCertUploadId}"]`);
-      if (btn) {
-        const certName = btn.getAttribute('data-cert-name');
-        const certOrg = btn.getAttribute('data-cert-org');
-        const certDesc = btn.getAttribute('data-cert-desc');
-        openCertificateModal(activeCertUploadId, certName, certOrg, certDesc);
-      }
-    };
+      const certName = btn ? btn.getAttribute('data-cert-name') : 'Certificate';
+      const certOrg = btn ? btn.getAttribute('data-cert-org') : 'Organization';
+      openFullscreenCert(activeCertUploadId, certName, certOrg);
+    });
 
-    reader.readAsDataURL(file);
     certInput.value = '';
   });
 
@@ -909,15 +1096,14 @@ function initModalHandlers() {
     triggerResumeUpload();
   });
 
-  // Certificate cards "View Certificate"
+  // Certificate cards "View Fullscreen"
   document.querySelectorAll('.view-cert-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       const certId = btn.getAttribute('data-cert-id') || 'cert-default';
       const certName = btn.getAttribute('data-cert-name') || 'Accomplishment Certificate';
       const certOrg = btn.getAttribute('data-cert-org') || 'Issuing Organization';
-      const certDesc = btn.getAttribute('data-cert-desc') || '';
-      openCertificateModal(certId, certName, certOrg, certDesc);
+      openFullscreenCert(certId, certName, certOrg);
     });
   });
 
@@ -940,10 +1126,12 @@ function initModalHandlers() {
   // Floating manager button
   document.getElementById('openAssetManagerBtn')?.addEventListener('click', openAllInOneAssetManager);
 
-  // Initialize contact DOM, file inputs, and project demo links
+  // Initialize contact DOM, file inputs, project demo links, cert previews, and fullscreen lightbox
   updateContactDOM();
   initFileInputListeners();
   initProjectLinks();
+  initFullscreenLightbox();
+  updateCertCardPreviews();
 }
 
 /* ==========================================================================
