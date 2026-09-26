@@ -24,6 +24,19 @@
 </head>
 <body>
 
+  <!-- Owner Mode Banner (Hidden for normal viewers, visible only when Abhiram unlocks Owner Mode) -->
+  <div id="ownerModeBanner" class="owner-mode-banner owner-only" aria-live="polite">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <span style="font-size: 1.1rem;">👑</span>
+      <span style="font-weight: 700; font-size: 0.85rem; color: #fbbf24;">Owner Management Mode</span>
+      <span style="font-size: 0.78rem; color: #94a3b8;">• Uploading &amp; Editing Enabled</span>
+    </div>
+    <div style="display: flex; gap: 8px; align-items: center;">
+      <button class="btn btn-primary btn-sm" style="font-size: 0.75rem; padding: 4px 10px;" id="ownerBannerManagerBtn" type="button">Manage All Files</button>
+      <button class="btn btn-outline btn-sm" style="font-size: 0.75rem; padding: 4px 10px; border-color: rgba(239,68,68,0.5); color: #f87171;" id="ownerBannerExitBtn" type="button">🔒 Lock / Exit to Viewer Mode</button>
+    </div>
+  </div>
+
   <!-- Ambient Glowing Background Elements -->
   <div class="ambient-bg" aria-hidden="true">
     <div class="ambient-orb ambient-orb-1"></div>
@@ -199,8 +212,8 @@
             <div class="profile-avatar-inner">
               <img id="mainProfileImg" class="profile-image-elem" src="assets/profile-placeholder.svg" alt="Vaka Abhiram Profile Photo Placeholder">
             </div>
-            <!-- Interactive Photo Upload Button -->
-            <button class="photo-upload-overlay-trigger trigger-photo-upload" title="Upload your photograph" aria-label="Upload your photograph">
+            <!-- Interactive Photo Upload Button (Owner Only) -->
+            <button class="photo-upload-overlay-trigger trigger-photo-upload owner-only" title="Upload your photograph" aria-label="Upload your photograph">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"></path>
                 <circle cx="12" cy="13" r="3"></circle>
@@ -226,10 +239,10 @@
             </div>
           </div>
 
-          <p class="profile-upload-helper">
+          <p class="profile-upload-helper owner-only">
             Professional photo placeholder. <span class="profile-upload-btn-link trigger-photo-upload">Upload photo</span> or save as <code>assets/profile.jpg</code>.
           </p>
-          <button id="resetPhotoBtn" class="btn btn-outline btn-sm" style="display: none; margin-top: 10px;">Reset Photo</button>
+          <button id="resetPhotoBtn" class="btn btn-outline btn-sm owner-only" style="display: none; margin-top: 10px;">Reset Photo</button>
         </div>
       </div>
 
@@ -717,7 +730,7 @@
               </div>
               <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-size: 0.8rem; color: var(--text-muted);">
                 <span>Preview: OpenCV &amp; ML Architecture</span>
-                <button class="btn-outline btn-sm" id="uploadMlcvScreenshotBtn" type="button" style="font-size: 0.75rem; padding: 4px 10px;">
+                <button class="btn-outline btn-sm owner-only" id="uploadMlcvScreenshotBtn" type="button" style="font-size: 0.75rem; padding: 4px 10px;">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
                   Upload Custom Screenshot
                 </button>
@@ -1231,27 +1244,11 @@
               Foundational certification covering generative artificial intelligence principles, core capabilities, real-world applications, and ethical implementation frameworks.
             </p>
           </div>
-        <!-- Certificate 1: Career Essentials in Generative AI -->
-        <div class="cert-card">
-          <div>
-            <div class="cert-top-row">
-              <div class="cert-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
-              </div>
-              <div>
-                <h3 class="cert-name">Career Essentials in Generative AI</h3>
-                <p class="cert-org">Microsoft / LinkedIn</p>
-              </div>
-            </div>
-            <p class="cert-desc">
-              Foundational certification covering generative artificial intelligence principles, core capabilities, real-world applications, and ethical implementation frameworks.
-            </p>
-          </div>
           <div class="cert-footer" style="display: flex; gap: 8px; flex-wrap: wrap;">
             <button class="btn btn-primary btn-sm view-cert-btn" data-cert-id="cert-genai" data-cert-name="Career Essentials in Generative AI" data-cert-org="Microsoft / LinkedIn" data-cert-desc="Foundational certification covering generative artificial intelligence principles and ethical implementation.">
               View Certificate
             </button>
-            <button class="btn btn-outline btn-sm upload-cert-btn" data-cert-id="cert-genai" type="button">
+            <button class="btn btn-outline btn-sm upload-cert-btn owner-only" data-cert-id="cert-genai" type="button">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
               Upload Real Cert
             </button>
@@ -1278,7 +1275,7 @@
             <button class="btn btn-primary btn-sm view-cert-btn" data-cert-id="cert-b10x" data-cert-name="B10x Workshop Certificate" data-cert-org="B10x" data-cert-desc="Hands-on workshop certification on modern developer productivity and applied toolsets.">
               View Certificate
             </button>
-            <button class="btn btn-outline btn-sm upload-cert-btn" data-cert-id="cert-b10x" type="button">
+            <button class="btn btn-outline btn-sm upload-cert-btn owner-only" data-cert-id="cert-b10x" type="button">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
               Upload Real Cert
             </button>
@@ -1305,7 +1302,7 @@
             <button class="btn btn-primary btn-sm view-cert-btn" data-cert-id="cert-mlcv" data-cert-name="MLCV Project Certificate" data-cert-org="MLCV Project Recognition" data-cert-desc="Recognition for practical implementation of Machine Learning and Computer Vision models.">
               View Certificate
             </button>
-            <button class="btn btn-outline btn-sm upload-cert-btn" data-cert-id="cert-mlcv" type="button">
+            <button class="btn btn-outline btn-sm upload-cert-btn owner-only" data-cert-id="cert-mlcv" type="button">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
               Upload Real Cert
             </button>
@@ -1332,7 +1329,7 @@
             <button class="btn btn-primary btn-sm view-cert-btn" data-cert-id="cert-oibsip" data-cert-name="Oasis Infobyte / OIBSIP Internship Certificate" data-cert-org="Oasis Infobyte" data-cert-desc="Verification of Java Development internship completion and project deliverables.">
               View Certificate
             </button>
-            <button class="btn btn-outline btn-sm upload-cert-btn" data-cert-id="cert-oibsip" type="button">
+            <button class="btn btn-outline btn-sm upload-cert-btn owner-only" data-cert-id="cert-oibsip" type="button">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
               Upload Real Cert
             </button>
@@ -1362,7 +1359,7 @@
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
             Download Resume
           </button>
-          <button class="btn btn-outline action-upload-resume" type="button" id="uploadResumeBtn">
+          <button class="btn btn-outline action-upload-resume owner-only" type="button" id="uploadResumeBtn">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
             Upload Real Resume (PDF)
           </button>
@@ -1389,7 +1386,7 @@
           
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
             <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Contact Information</span>
-            <button class="contact-edit-btn" id="openContactEditModalBtn" type="button">
+            <button class="contact-edit-btn owner-only" id="openContactEditModalBtn" type="button">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
               Set My Gmail &amp; Links
             </button>
@@ -1423,7 +1420,7 @@
               <h4>Email Address</h4>
               <p class="contact-placeholder-val" id="contactEmailVal">ganaanjan51@gmail.com</p>
             </div>
-            <button class="contact-edit-btn" id="editEmailQuickBtn" type="button">Edit</button>
+            <button class="contact-edit-btn owner-only" id="editEmailQuickBtn" type="button">Edit</button>
           </div>
 
           <div class="contact-detail-card">
@@ -1434,7 +1431,7 @@
               <h4>GitHub Profile</h4>
               <p class="contact-placeholder-val" id="contactGithubVal"><a href="https://github.com/abhiram210106" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration: underline;">https://github.com/abhiram210106</a></p>
             </div>
-            <button class="contact-edit-btn" id="editGithubQuickBtn" type="button">Edit</button>
+            <button class="contact-edit-btn owner-only" id="editGithubQuickBtn" type="button">Edit</button>
           </div>
 
           <div class="contact-detail-card">
@@ -1445,7 +1442,7 @@
               <h4>LinkedIn Profile</h4>
               <p class="contact-placeholder-val" id="contactLinkedinVal">[ADD LINKEDIN URL]</p>
             </div>
-            <button class="contact-edit-btn" id="editLinkedinQuickBtn" type="button">Edit</button>
+            <button class="contact-edit-btn owner-only" id="editLinkedinQuickBtn" type="button">Edit</button>
           </div>
 
           <div class="contact-detail-card">
@@ -1456,7 +1453,7 @@
               <h4>Phone Number</h4>
               <p class="contact-placeholder-val" id="contactPhoneVal">+91 [PHONE MASKED]</p>
             </div>
-            <button class="contact-edit-btn" id="editPhoneQuickBtn" type="button">Edit</button>
+            <button class="contact-edit-btn owner-only" id="editPhoneQuickBtn" type="button">Edit</button>
           </div>
 
         </div>
@@ -1525,7 +1522,7 @@
 
       <div class="footer-bottom">
         <p>&copy; 2026 Vaka Abhiram. All rights reserved. Web Development Task-04 Submission.</p>
-        <p>Built with Vanilla HTML5, CSS3 &amp; JavaScript. Modern Dark &amp; Light UI.</p>
+        <p>Built with Vanilla HTML5, CSS3 &amp; JavaScript. Modern Dark &amp; Light UI. <a href="#" id="ownerLoginFooterLink" style="color: var(--text-muted); opacity: 0.6; font-size: 0.75rem; text-decoration: none; margin-left: 8px;" title="Owner Portal">🔐 Owner Portal</a></p>
       </div>
     </div>
   </footer>
@@ -1553,8 +1550,8 @@
   <!-- Toast Notification Container -->
   <div class="toast-container" id="toastContainer" aria-live="polite"></div>
 
-  <!-- Floating File & Credentials Manager Button -->
-  <button id="openAssetManagerBtn" class="floating-manager-btn" type="button" title="Upload and Manage Files">
+  <!-- Floating File & Credentials Manager Button (Owner Only) -->
+  <button id="openAssetManagerBtn" class="floating-manager-btn owner-only" type="button" title="Upload and Manage Files">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
     Upload &amp; Manage Files
   </button>

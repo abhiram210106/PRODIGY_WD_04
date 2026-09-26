@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollEffects();
   initModalHandlers();
   initMlcvDemo();
+  initOwnerMode();
 });
 
 /* ==========================================================================
@@ -437,14 +438,14 @@ function openCertificateModal(certId, certName, certOrg, certDesc) {
         ${escapeHtml(certDesc)}
       </p>
 
-      <!-- Action & Upload Controls -->
+      <!-- Action & Upload Controls (Upload is Owner Only; Visitors only see Close) -->
       <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; padding-top: 14px; border-top: 1px solid var(--border-subtle);">
-        <button class="btn btn-primary btn-sm" type="button" onclick="triggerCertUpload('${certId}')">
+        <button class="btn btn-primary btn-sm owner-only" type="button" onclick="triggerCertUpload('${certId}')">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
           ${customCert ? 'Upload Replacement File' : 'Upload Real Certificate (Image/PDF)'}
         </button>
         ${customCert ? `
-          <button class="btn btn-outline btn-sm" type="button" onclick="resetCertToDefault('${certId}', '${escapeHtml(certName)}', '${escapeHtml(certOrg)}', '${escapeHtml(certDesc)}')">
+          <button class="btn btn-outline btn-sm owner-only" type="button" onclick="resetCertToDefault('${certId}', '${escapeHtml(certName)}', '${escapeHtml(certOrg)}', '${escapeHtml(certDesc)}')">
             Reset to Default
           </button>
         ` : ''}
@@ -519,7 +520,7 @@ function openResumeViewerModal() {
       `<div style="text-align: left;">
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; background: var(--bg-tertiary); padding: 10px 14px; border-radius: 8px;">
           <span style="font-size: 0.88rem; color: #34d399; font-weight: 600;">✓ Real Resume Loaded: ${escapeHtml(fileName)}</span>
-          <button class="btn btn-outline btn-sm" onclick="triggerResumeUpload()">Replace PDF</button>
+          <button class="btn btn-outline btn-sm owner-only" onclick="triggerResumeUpload()">Replace PDF</button>
         </div>
         <iframe src="${dataUrl}" style="width: 100%; height: 500px; border-radius: 8px; border: 1px solid var(--border-subtle); margin-bottom: 16px;" title="Vaka Abhiram Resume PDF"></iframe>
         <div style="display: flex; justify-content: flex-end; gap: 10px;">
@@ -533,7 +534,7 @@ function openResumeViewerModal() {
     openModal(
       'Vaka Abhiram – Resume Preview',
       `<div style="text-align: left; line-height: 1.7;">
-        <div style="background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.3); border-radius: 8px; padding: 16px; margin-bottom: 20px;">
+        <div class="owner-only" style="background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.3); border-radius: 8px; padding: 16px; margin-bottom: 20px;">
           <h4 style="font-size: 1rem; color: #818cf8; margin-bottom: 6px;">Upload Your Actual Resume PDF</h4>
           <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 12px;">
             You can upload your real <code>resume.pdf</code> right now. Once uploaded, the "View Resume" and "Download Resume" buttons will directly serve your actual file!
@@ -1325,5 +1326,159 @@ function initSandboxInteractions() {
     showToast('Inference stream reset to default benchmark.');
   });
 }
+
+/* ==========================================================================
+   16. OWNER / ADMIN MODE (VISITORS ONLY WATCH, OWNER CAN UPLOAD & EDIT)
+   ========================================================================== */
+const OWNER_DEFAULT_PIN = '2101'; // Default Owner PIN for Vaka Abhiram
+
+function isOwnerActive() {
+  return document.body.classList.contains('owner-mode-active');
+}
+
+function setOwnerMode(active, showFeedback = true) {
+  if (active) {
+    document.body.classList.add('owner-mode-active');
+    localStorage.setItem('vaka-portfolio-owner-mode', 'true');
+    if (showFeedback) {
+      showToast('👑 Owner Mode Unlocked! You can now upload certificates, resume, and photos.');
+    }
+  } else {
+    document.body.classList.remove('owner-mode-active');
+    localStorage.removeItem('vaka-portfolio-owner-mode');
+    if (showFeedback) {
+      showToast('🔒 Switched to Viewer Mode. Upload controls hidden for visitors.');
+    }
+  }
+}
+
+function initOwnerMode() {
+  // Check if owner mode was previously active or if ?owner / ?admin is in URL
+  const storedOwner = localStorage.getItem('vaka-portfolio-owner-mode');
+  const urlParams = new URLSearchParams(window.location.search);
+  const wantsOwner = urlParams.has('owner') || urlParams.has('admin') || urlParams.has('edit');
+
+  if (storedOwner === 'true') {
+    setOwnerMode(true, false);
+  } else if (wantsOwner) {
+    // If URL has ?owner or ?admin, prompt for PIN
+    setTimeout(() => {
+      openOwnerPinModal();
+    }, 400);
+  }
+
+  // Footer link trigger
+  document.getElementById('ownerLoginFooterLink')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    openOwnerPinModal();
+  });
+
+  // Double-click on Monogram or Brand Logo in header
+  document.querySelectorAll('.brand-logo, .brand-monogram').forEach(elem => {
+    elem.addEventListener('dblclick', (e) => {
+      e.preventDefault();
+      openOwnerPinModal();
+    });
+  });
+
+  // Keyboard shortcut: Ctrl + Shift + A
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'A' || e.key === 'a' || e.key === 'O' || e.key === 'o')) {
+      e.preventDefault();
+      openOwnerPinModal();
+    }
+  });
+
+  // Owner banner buttons
+  document.getElementById('ownerBannerExitBtn')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    setOwnerMode(false);
+  });
+
+  document.getElementById('ownerBannerManagerBtn')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    openAllInOneAssetManager();
+  });
+}
+
+function openOwnerPinModal() {
+  if (isOwnerActive()) {
+    // Already in owner mode - offer to lock or manage
+    const content = `
+      <div style="text-align: center; line-height: 1.6;">
+        <div style="font-size: 2.2rem; margin-bottom: 12px;">👑</div>
+        <h4 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 8px;">Owner Management Mode is Active</h4>
+        <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 24px;">
+          You currently have full upload and edit permissions. Visitors to your deployed site will only see the view-only version.
+        </p>
+        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+          <button class="btn btn-primary btn-sm" onclick="closeModal(); openAllInOneAssetManager();">
+            Manage Files &amp; Certs
+          </button>
+          <button class="btn btn-outline btn-sm" style="border-color: #ef4444; color: #f87171;" onclick="setOwnerMode(false); closeModal();">
+            🔒 Lock / Exit to Viewer Mode
+          </button>
+          <button class="btn btn-secondary btn-sm" onclick="closeModal()">Close</button>
+        </div>
+      </div>
+    `;
+    openModal('Owner Management Mode', content);
+    return;
+  }
+
+  // Not in owner mode - prompt for PIN
+  const content = `
+    <div style="text-align: center; line-height: 1.6;">
+      <div style="font-size: 2.2rem; margin-bottom: 12px;">🔐</div>
+      <h4 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 6px;">Owner Authentication</h4>
+      <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 20px;">
+        Enter your Owner PIN to unlock certificate uploading, resume replacement, and portfolio file management.
+      </p>
+
+      <form id="ownerPinForm" style="max-width: 300px; margin: 0 auto;">
+        <div class="form-group" style="text-align: left; margin-bottom: 16px;">
+          <label class="form-label" for="ownerPinInput">Owner PIN</label>
+          <input type="password" id="ownerPinInput" class="form-control" placeholder="Enter PIN (Default: 2101)" required autofocus style="text-align: center; font-size: 1.2rem; letter-spacing: 4px;">
+          <div id="pinErrorMsg" style="display: none; color: #ef4444; font-size: 0.8rem; margin-top: 6px; font-weight: 600;">
+            ✕ Incorrect PIN. Please try again.
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="closeModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Unlock Owner Mode</button>
+        </div>
+      </form>
+
+      <p style="font-size: 0.76rem; color: var(--text-muted); margin-top: 18px;">
+        💡 Default Owner PIN is <code>2101</code>. Normal site visitors cannot access upload controls.
+      </p>
+    </div>
+  `;
+
+  openModal('🔐 Owner Verification', content);
+
+  const form = document.getElementById('ownerPinForm');
+  const input = document.getElementById('ownerPinInput');
+  const errorMsg = document.getElementById('pinErrorMsg');
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const enteredPin = input?.value.trim();
+    const currentPin = localStorage.getItem('vaka-owner-pin') || OWNER_DEFAULT_PIN;
+
+    if (enteredPin === currentPin) {
+      closeModal();
+      setOwnerMode(true);
+    } else {
+      if (errorMsg) errorMsg.style.display = 'block';
+      if (input) {
+        input.value = '';
+        input.focus();
+      }
+    }
+  });
+}
+
 
 
