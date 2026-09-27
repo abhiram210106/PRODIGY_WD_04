@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initModalHandlers();
   initMlcvDemo();
   initOwnerMode();
+  loadLiveServerConfig();
 });
 
 /* ==========================================================================
@@ -997,6 +998,17 @@ function openAllInOneAssetManager() {
             Edit Contact Info
           </button>
         </div>
+
+        <!-- Item 6: Live Server & GitHub Sync -->
+        <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(5, 150, 105, 0.08) 100%); padding: 16px; border-radius: 10px; border: 1px solid #10b981; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+          <div>
+            <h4 style="font-size: 1rem; font-weight: 700; color: #34d399;">6. 🚀 Publish Live to GitHub Pages</h4>
+            <p style="font-size: 0.85rem; color: var(--text-secondary);">Push all your updates to GitHub so all worldwide visitors see changes immediately.</p>
+          </div>
+          <button class="btn btn-primary btn-sm" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);" onclick="closeModal(); openLivePublisherModal();">
+            Publish Live
+          </button>
+        </div>
       </div>
 
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; padding-top: 14px; border-top: 1px solid var(--border-subtle);">
@@ -1160,8 +1172,9 @@ function initModalHandlers() {
   document.getElementById('editLinkedinQuickBtn')?.addEventListener('click', openContactEditModal);
   document.getElementById('editPhoneQuickBtn')?.addEventListener('click', openContactEditModal);
 
-  // Floating manager button
+  // Floating manager buttons
   document.getElementById('openAssetManagerBtn')?.addEventListener('click', openAllInOneAssetManager);
+  document.getElementById('openLivePublisherBtn')?.addEventListener('click', openLivePublisherModal);
 
   // Initialize contact DOM, file inputs, project demo links, cert previews, and fullscreen lightbox
   updateContactDOM();
@@ -2478,6 +2491,403 @@ function openOwnerPinModal() {
         input.value = '';
         input.focus();
       }
+    }
+  });
+}
+
+/* ==========================================================================
+   16. LIVE SERVER & GITHUB DEPLOYMENT ENGINE (OWNER MODE -> PRODUCTION)
+   ========================================================================== */
+const GITHUB_REPO_CONFIG = {
+  owner: 'abhiram210106',
+  repo: 'PRODIGY_WD_04',
+  branch: 'main',
+  liveUrl: 'https://abhiram210106.github.io/PRODIGY_WD_04/'
+};
+
+window.LIVE_PORTFOLIO_CONFIG = null;
+
+// Automatically load live server configuration for all visitors
+async function loadLiveServerConfig() {
+  const timestamp = Date.now();
+  let loaded = false;
+
+  // 1. Try local repository / GitHub Pages path
+  try {
+    const res = await fetch(`data/live-config.json?v=${timestamp}`);
+    if (res.ok) {
+      const config = await res.json();
+      window.LIVE_PORTFOLIO_CONFIG = config;
+      applyLiveConfigToDOM(config);
+      loaded = true;
+    }
+  } catch (e) {}
+
+  // 2. Fallback to raw GitHub CDN for instant 0-second live updates
+  if (!loaded) {
+    try {
+      const rawUrl = `https://raw.githubusercontent.com/${GITHUB_REPO_CONFIG.owner}/${GITHUB_REPO_CONFIG.repo}/${GITHUB_REPO_CONFIG.branch}/data/live-config.json?t=${timestamp}`;
+      const res = await fetch(rawUrl);
+      if (res.ok) {
+        const config = await res.json();
+        window.LIVE_PORTFOLIO_CONFIG = config;
+        applyLiveConfigToDOM(config);
+      }
+    } catch (e) {}
+  }
+}
+
+// Apply live config to all visitors
+function applyLiveConfigToDOM(config) {
+  if (!config) return;
+
+  // 1. Apply contact info
+  if (config.contact) {
+    const emailElem = document.getElementById('contactEmailVal');
+    if (emailElem && config.contact.email) {
+      emailElem.innerHTML = `<a href="mailto:${escapeHtml(config.contact.email)}" style="color:inherit; text-decoration: underline;">${escapeHtml(config.contact.email)}</a>`;
+    }
+    const ghElem = document.getElementById('contactGithubVal');
+    if (ghElem && config.contact.github) {
+      ghElem.innerHTML = `<a href="${escapeHtml(config.contact.github)}" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration: underline;">${escapeHtml(config.contact.github)}</a>`;
+    }
+    const liElem = document.getElementById('contactLinkedinVal');
+    if (liElem && config.contact.linkedin) {
+      liElem.innerHTML = `<a href="${escapeHtml(config.contact.linkedin)}" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration: underline;">${escapeHtml(config.contact.linkedin)}</a>`;
+    }
+    const phoneElem = document.getElementById('contactPhoneVal');
+    if (phoneElem && config.contact.phone) {
+      phoneElem.textContent = config.contact.phone;
+    }
+  }
+
+  // 2. Apply projects demo links
+  if (config.projects) {
+    Object.keys(config.projects).forEach(projId => {
+      const proj = config.projects[projId];
+      const demoBtn = document.getElementById(`projDemo-${projId}`);
+      if (demoBtn && proj.demoUrl) {
+        demoBtn.classList.remove('btn-secondary');
+        demoBtn.classList.add('btn-primary');
+        const span = demoBtn.querySelector('.demo-btn-label');
+        if (span) span.textContent = 'Live Demo ↗';
+        demoBtn.onclick = (e) => {
+          e.preventDefault();
+          window.open(proj.demoUrl, '_blank', 'noopener,noreferrer');
+        };
+      }
+      const ghBtn = document.getElementById(`projGithub-${projId}`);
+      if (ghBtn && proj.githubUrl) {
+        ghBtn.href = proj.githubUrl;
+      }
+    });
+  }
+
+  // 3. Apply profile image if updated
+  if (config.profile?.image) {
+    const profileImg = document.getElementById('mainProfileImg');
+    if (profileImg && !localStorage.getItem('vaka-custom-profile-photo')) {
+      profileImg.src = config.profile.image;
+    }
+  }
+
+  // 4. Apply certificates if updated in config
+  if (config.certificates) {
+    Object.keys(config.certificates).forEach(certId => {
+      if (OFFICIAL_CERTIFICATES[certId]) {
+        OFFICIAL_CERTIFICATES[certId] = Object.assign({}, OFFICIAL_CERTIFICATES[certId], config.certificates[certId]);
+      } else {
+        OFFICIAL_CERTIFICATES[certId] = config.certificates[certId];
+      }
+    });
+    updateCertCardPreviews();
+  }
+}
+
+// GitHub REST API Commit Helper
+async function commitFileToGitHubRepo(path, contentBase64, commitMessage) {
+  const token = localStorage.getItem('vaka-owner-gh-token');
+  if (!token) throw new Error('MISSING_TOKEN');
+
+  const { owner, repo, branch } = GITHUB_REPO_CONFIG;
+  const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+
+  // Get current SHA
+  let sha = null;
+  try {
+    const checkRes = await fetch(url, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/vnd.github.v3+json'
+      }
+    });
+    if (checkRes.ok) {
+      const data = await checkRes.json();
+      sha = data.sha;
+    }
+  } catch (e) {}
+
+  const cleanBase64 = contentBase64.replace(/^data:[^;]+;base64,/, '');
+
+  const payload = {
+    message: commitMessage || `Update ${path} via Owner Mode`,
+    content: cleanBase64,
+    branch: branch
+  };
+  if (sha) payload.sha = sha;
+
+  const res = await fetch(url, {
+    method: 'PUT',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Accept': 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload)
+  });
+
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.message || 'GitHub commit failed');
+  }
+
+  return await res.json();
+}
+
+// Build unified config object representing current owner updates
+function buildCurrentLiveConfigObject() {
+  const contact = getStoredContact();
+
+  const certsCopy = JSON.parse(JSON.stringify(OFFICIAL_CERTIFICATES));
+  ['cert-genai', 'cert-nestle', 'cert-mlcv', 'cert-oibsip'].forEach(certId => {
+    const custom = window.uploadedCertsCache?.[certId] || localStorage.getItem(`vaka-cert-${certId}`);
+    if (custom && certsCopy[certId]) {
+      const isPdf = custom.startsWith('data:application/pdf') || custom.includes('application/pdf');
+      if (isPdf) {
+        certsCopy[certId].pdf = `assets/${certId}.pdf`;
+      } else {
+        certsCopy[certId].image = `assets/${certId}.png`;
+      }
+    }
+  });
+
+  return {
+    version: '1.2',
+    lastUpdated: new Date().toISOString(),
+    updatedBy: 'Vaka Abhiram (Owner)',
+    contact: {
+      email: contact.email,
+      github: contact.github,
+      linkedin: contact.linkedin,
+      phone: contact.phone,
+      location: 'Hyderabad, Telangana, India',
+      college: 'Keshav Memorial College of Engineering (KMCE)'
+    },
+    projects: {
+      mlcv: getProjectLinks('mlcv'),
+      reservation: getProjectLinks('reservation'),
+      atm: getProjectLinks('atm'),
+      exam: getProjectLinks('exam'),
+      library: getProjectLinks('library')
+    },
+    certificates: certsCopy,
+    resume: {
+      pdf: 'assets/resume.pdf',
+      name: 'Vaka_Abhiram_Resume.pdf'
+    },
+    profile: {
+      image: 'assets/profile.png'
+    }
+  };
+}
+
+// Modal for Owner to configure GitHub token and Publish to Live Server
+function openLivePublisherModal() {
+  if (!isOwnerActive()) {
+    openOwnerPinModal();
+    return;
+  }
+
+  const savedToken = localStorage.getItem('vaka-owner-gh-token') || '';
+  const isConnected = !!savedToken;
+
+  const content = `
+    <div style="text-align: left; line-height: 1.6;">
+      <p style="font-size: 0.92rem; color: var(--text-secondary); margin-bottom: 18px;">
+        Publish all your owner mode changes directly to GitHub so anyone visiting <strong>https://abhiram210106.github.io/PRODIGY_WD_04/</strong> sees them in real time.
+      </p>
+
+      <!-- Status Card -->
+      <div style="background: var(--bg-tertiary); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 16px; margin-bottom: 20px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+          <span style="font-size: 0.95rem; font-weight: 700; color: var(--text-primary);">GitHub Pages Production Target</span>
+          <span class="badge ${isConnected ? 'badge-emerald' : 'badge-amber'}">
+            ${isConnected ? '✓ Connected' : '⚠️ Token Required'}
+          </span>
+        </div>
+        <div style="font-size: 0.84rem; color: var(--text-muted); font-family: var(--font-mono);">
+          Repo: abhiram210106/PRODIGY_WD_04 (branch: main)
+        </div>
+        <div style="font-size: 0.84rem; color: #38bdf8; margin-top: 4px;">
+          Live Site: <a href="https://abhiram210106.github.io/PRODIGY_WD_04/" target="_blank" style="color: inherit; text-decoration: underline;">https://abhiram210106.github.io/PRODIGY_WD_04/</a>
+        </div>
+      </div>
+
+      <!-- Token Configuration Form -->
+      <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 16px; margin-bottom: 20px;">
+        <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 8px;">
+          ${isConnected ? 'Connected GitHub Token' : '1. Connect Your GitHub Personal Access Token'}
+        </h4>
+        <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">
+          Allows your browser to commit changes directly to your GitHub repository. Stored securely only in your private owner session.
+        </p>
+
+        <div class="form-group" style="margin-bottom: 12px;">
+          <input type="password" id="ghPublisherTokenInput" class="form-control" placeholder="ghp_••••••••••••••••••••••••••••••••••••" value="${savedToken}">
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+          <a href="https://github.com/settings/tokens/new?scopes=repo&description=Portfolio+Owner+Mode" target="_blank" rel="noopener noreferrer" style="font-size: 0.8rem; color: #38bdf8; text-decoration: underline;">
+            👉 Generate Token on GitHub (repo scope)
+          </a>
+          <button type="button" class="btn btn-outline btn-sm" id="saveGhTokenBtn">
+            ${isConnected ? 'Update Token' : 'Save & Connect'}
+          </button>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div id="publishProgressBox" style="display:none; margin-bottom: 16px; padding: 12px; border-radius: 8px; background: rgba(16, 185, 129, 0.15); border: 1px solid #10b981; color: #34d399; font-size: 0.88rem;">
+        ⏳ Committing changes to GitHub and triggering live build...
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; border-top: 1px solid var(--border-subtle); padding-top: 16px;">
+        <button type="button" class="btn btn-outline btn-sm" id="downloadConfigBtn" title="Download configuration JSON">
+          📥 Download live-config.json
+        </button>
+        <div style="display: flex; gap: 10px;">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="closeModal()">Close</button>
+          <button type="button" class="btn btn-primary btn-sm" id="publishNowBtn" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+            🚀 Publish Live to GitHub Pages
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  openModal('🌐 Live Server &amp; GitHub Sync', content);
+
+  // Hook save token
+  document.getElementById('saveGhTokenBtn')?.addEventListener('click', () => {
+    const token = document.getElementById('ghPublisherTokenInput')?.value.trim();
+    if (!token) {
+      localStorage.removeItem('vaka-owner-gh-token');
+      showToast('GitHub Token removed.');
+      openLivePublisherModal();
+      return;
+    }
+    localStorage.setItem('vaka-owner-gh-token', token);
+    showToast('✓ GitHub Token connected successfully!');
+    openLivePublisherModal();
+  });
+
+  // Hook download config
+  document.getElementById('downloadConfigBtn')?.addEventListener('click', () => {
+    const config = buildCurrentLiveConfigObject();
+    const blob = new Blob([JSON.stringify(config, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'live-config.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast('Downloaded live-config.json');
+  });
+
+  // Hook publish now
+  document.getElementById('publishNowBtn')?.addEventListener('click', async () => {
+    const token = localStorage.getItem('vaka-owner-gh-token') || document.getElementById('ghPublisherTokenInput')?.value.trim();
+    if (!token) {
+      showToast('⚠️ Please enter your GitHub Token first to publish live.');
+      document.getElementById('ghPublisherTokenInput')?.focus();
+      return;
+    }
+
+    localStorage.setItem('vaka-owner-gh-token', token);
+    const progressBox = document.getElementById('publishProgressBox');
+    const publishBtn = document.getElementById('publishNowBtn');
+    if (progressBox) progressBox.style.display = 'block';
+    if (publishBtn) publishBtn.disabled = true;
+
+    try {
+      const config = buildCurrentLiveConfigObject();
+      const jsonStr = JSON.stringify(config, null, 2);
+      const base64Content = btoa(unescape(encodeURIComponent(jsonStr)));
+
+      // 1. Commit live-config.json
+      await commitFileToGitHubRepo('data/live-config.json', base64Content, `chore: sync portfolio updates via owner mode (${new Date().toLocaleTimeString()})`);
+
+      // 2. If custom profile photo was uploaded in browser, commit to assets/profile.png
+      const customPhoto = localStorage.getItem('vaka-custom-profile-photo');
+      if (customPhoto && customPhoto.startsWith('data:image')) {
+        try {
+          await commitFileToGitHubRepo('assets/profile.png', customPhoto, 'feat: update profile photograph via owner mode');
+        } catch (e) {
+          console.warn('Profile photo commit skipped', e);
+        }
+      }
+
+      // 3. If custom resume was uploaded in browser, commit to assets/resume.pdf
+      const customResume = localStorage.getItem('vaka-custom-resume');
+      if (customResume && customResume.startsWith('data:application/pdf')) {
+        try {
+          await commitFileToGitHubRepo('assets/resume.pdf', customResume, 'feat: update resume PDF via owner mode');
+        } catch (e) {
+          console.warn('Resume commit skipped', e);
+        }
+      }
+
+      // 4. If any custom certificate was uploaded in browser, commit to assets/{certId}.png/.pdf
+      for (const certId of ['cert-genai', 'cert-nestle', 'cert-mlcv', 'cert-oibsip']) {
+        const customCert = window.uploadedCertsCache?.[certId] || localStorage.getItem(`vaka-cert-${certId}`);
+        if (customCert && (customCert.startsWith('data:image') || customCert.startsWith('data:application/pdf'))) {
+          const isPdf = customCert.startsWith('data:application/pdf');
+          const ext = isPdf ? 'pdf' : 'png';
+          try {
+            await commitFileToGitHubRepo(`assets/${certId}.${ext}`, customCert, `feat: update ${certId} certificate via owner mode`);
+          } catch (e) {
+            console.warn(`Cert ${certId} commit skipped`, e);
+          }
+        }
+      }
+
+      // 5. If custom MLCV preview was uploaded in browser, commit to assets/mlcv-preview.png
+      const customMlcv = localStorage.getItem('vaka-custom-mlcv-img');
+      if (customMlcv && customMlcv.startsWith('data:image')) {
+        try {
+          await commitFileToGitHubRepo('assets/mlcv-preview.png', customMlcv, 'feat: update MLCV project preview via owner mode');
+        } catch (e) {
+          console.warn('MLCV preview commit skipped', e);
+        }
+      }
+
+      if (progressBox) {
+        progressBox.innerHTML = '✅ Successfully committed to GitHub! Live server build started. Changes will show for all visitors in ~30s.';
+      }
+      showToast('🎉 Live changes published to GitHub Pages!');
+      applyLiveConfigToDOM(config);
+    } catch (err) {
+      if (progressBox) {
+        progressBox.style.background = 'rgba(239, 68, 68, 0.15)';
+        progressBox.style.borderColor = '#ef4444';
+        progressBox.style.color = '#f87171';
+        progressBox.innerHTML = `✕ Error: ${escapeHtml(err.message || 'Commit failed. Verify token permissions.')}`;
+      }
+      showToast(`Publish error: ${err.message}`);
+    } finally {
+      if (publishBtn) publishBtn.disabled = false;
     }
   });
 }

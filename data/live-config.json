@@ -1,0 +1,84 @@
+{
+  "version": "1.0",
+  "lastUpdated": "2026-09-27T12:15:00Z",
+  "updatedBy": "Vaka Abhiram (Owner)",
+  "contact": {
+    "email": "ganaanjan51@gmail.com",
+    "github": "https://github.com/abhiram210106",
+    "linkedin": "https://linkedin.com/in/vaka-abhiram",
+    "phone": "+91 6304071082",
+    "location": "Hyderabad, Telangana, India",
+    "college": "Keshav Memorial College of Engineering (KMCE)"
+  },
+  "projects": {
+    "mlcv": {
+      "title": "ML-Based Prediction of Cyclic Voltammetry for Supercapacitors",
+      "demoUrl": "https://anirudhrao-24.github.io/cv-ml-supercapacitor-bfo/",
+      "apiUrl": "https://cv-ml-supercapacitor-bfo-i0cu.onrender.com/",
+      "githubUrl": "https://github.com/abhiram210106/OIBSIP"
+    },
+    "reservation": {
+      "title": "Online Reservation System",
+      "demoUrl": "",
+      "githubUrl": "https://github.com/abhiram210106/OIBSIP"
+    },
+    "atm": {
+      "title": "ATM Web Interface",
+      "demoUrl": "",
+      "githubUrl": "https://github.com/abhiram210106/OIBSIP"
+    },
+    "exam": {
+      "title": "Online Examination System",
+      "demoUrl": "",
+      "githubUrl": "https://github.com/abhiram210106/OIBSIP"
+    },
+    "library": {
+      "title": "Digital Library Management System",
+      "demoUrl": "",
+      "githubUrl": "https://github.com/abhiram210106/OIBSIP"
+    }
+  },
+  "certificates": {
+    "cert-genai": {
+      "id": "cert-genai",
+      "name": "Career Essentials in Generative AI",
+      "org": "Microsoft & LinkedIn Learning",
+      "image": "assets/cert-genai.png",
+      "pdf": "assets/cert-genai.pdf",
+      "verifyUrl": "https://www.linkedin.com/learning/certificates/f127cbbd1fedc2d6dcaaeeba40e8e35e78f1c19e4a2637fd20b42baa4c343437",
+      "certIdText": "f127cbbd1fedc2d6dcaaeeba40e8e35e78f1c19e4a2637fd20b42baa4c343437"
+    },
+    "cert-nestle": {
+      "id": "cert-nestle",
+      "name": "Nestlé E-learning | Resilience",
+      "org": "Nestlé / Nestlé needs YOUth",
+      "image": "assets/cert-nestle.png",
+      "pdf": "assets/cert-nestle.pdf",
+      "certIdText": "NESTLE-RESILIENCE-2026"
+    },
+    "cert-mlcv": {
+      "id": "cert-mlcv",
+      "name": "KMCE Crystal Domain Project School - ML-CV Supercapacitors",
+      "org": "KMCE • Mentors: Sreenivas P",
+      "image": "assets/cert-mlcv.png",
+      "pdf": "assets/cert-mlcv.pdf",
+      "verifyUrl": "https://anirudhrao-24.github.io/cv-ml-supercapacitor-bfo/",
+      "certIdText": "6789471f-713b-4d09-b434-c871d021b2cd"
+    },
+    "cert-oibsip": {
+      "id": "cert-oibsip",
+      "name": "Oasis Infobyte Java Internship Credential",
+      "org": "Oasis Infobyte (OIBSIP)",
+      "image": "assets/cert-oibsip.svg",
+      "verifyUrl": "https://github.com/abhiram210106/OIBSIP",
+      "certIdText": "OIBSIP/2026/JAVA-VA"
+    }
+  },
+  "resume": {
+    "pdf": "assets/resume.pdf",
+    "name": "Vaka_Abhiram_Resume.pdf"
+  },
+  "profile": {
+    "image": "assets/profile.png"
+  }
+}
