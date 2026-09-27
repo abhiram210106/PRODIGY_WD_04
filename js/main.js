@@ -436,29 +436,18 @@ const OFFICIAL_CERTIFICATES = {
   }
 };
 
+try {
+  ['cert-genai', 'cert-nestle', 'cert-mlcv', 'cert-oibsip'].forEach(id => {
+    localStorage.removeItem(`vaka-cert-${id}`);
+    sessionStorage.removeItem(`vaka-cert-${id}`);
+  });
+} catch (e) {}
+
 function getStoredCert(certId) {
   if (window.uploadedCertsCache[certId]) {
     return window.uploadedCertsCache[certId];
   }
-  try {
-    const fromLocal = localStorage.getItem(`vaka-cert-${certId}`);
-    if (fromLocal && !fromLocal.includes('placeholder') && !fromLocal.includes('cert-placeholder') && !fromLocal.startsWith('data:image/svg+xml') && fromLocal.length > 50) {
-      window.uploadedCertsCache[certId] = fromLocal;
-      return fromLocal;
-    } else if (fromLocal) {
-      // Purge stale or placeholder cert data from localStorage
-      localStorage.removeItem(`vaka-cert-${certId}`);
-    }
-    const fromSession = sessionStorage.getItem(`vaka-cert-${certId}`);
-    if (fromSession && !fromSession.includes('placeholder') && !fromSession.includes('cert-placeholder') && !fromSession.startsWith('data:image/svg+xml') && fromSession.length > 50) {
-      window.uploadedCertsCache[certId] = fromSession;
-      return fromSession;
-    } else if (fromSession) {
-      sessionStorage.removeItem(`vaka-cert-${certId}`);
-    }
-  } catch (e) {}
-
-  // Default to real bundled official certificate asset
+  // Always return the authentic official certificate asset
   if (OFFICIAL_CERTIFICATES[certId]) {
     return OFFICIAL_CERTIFICATES[certId].image;
   }

@@ -20,7 +20,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="css/styles.css?v=2.3">
+  <link rel="stylesheet" href="css/styles.css?v=2.4">
 </head>
 <body>
 
@@ -717,13 +717,17 @@
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
                   Live ML API (Render)
                 </a>
+                <a href="assets/cert-mlcv.pdf" download="Vaka_Abhiram_KMCE_MLCV_Certificate.pdf" class="btn btn-outline" title="Download Official KMCE Certificate PDF" style="text-decoration: none;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                  Download Certificate (PDF)
+                </a>
+                <button class="btn btn-outline view-cert-btn" type="button" data-cert-id="cert-mlcv" data-cert-name="KMCE Crystal Domain Project School - ML-CV Supercapacitors" data-cert-org="KMCE • Mentors: Sreenivas P" data-cert-desc="Machine Learning-Based Prediction of Cyclic Voltammetry Behavior of Substitution of Zinc and Cobalt in BiFeO3/Bi25FeO40 for Supercapacitor Applications (July 30, 2026)">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+                  View Fullscreen Certificate
+                </button>
                 <button class="btn btn-outline" type="button" id="openMlcvDemoBtn">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
                   Interactive CV Simulator
-                </button>
-                <button class="btn btn-outline view-cert-btn" type="button" data-cert-id="cert-mlcv" data-cert-name="ML-CV Supercapacitor Research Recognition" data-cert-org="Materials Science &amp; AI Research" data-cert-desc="Recognition validating research and machine learning implementation for Cyclic Voltammetry Prediction of BiFeO3 Supercapacitors.">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
-                  View Research Credential
                 </button>
                 <button class="btn btn-outline owner-only" type="button" id="editMlcvLinksBtn" title="Upload or edit live demo URL &amp; API link">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
@@ -734,15 +738,15 @@
 
             <!-- Right Preview Screenshot Column -->
             <div class="featured-preview-col">
-              <div class="featured-preview-media" id="mlcvPreviewMediaCard" style="cursor: pointer;" title="Click to launch interactive Cyclic Voltammetry simulator">
-                <img id="mlcvMainPreviewImg" src="assets/mlcv-preview.svg" alt="Cyclic Voltammetry Prediction for BiFeO3 Supercapacitors" class="featured-preview-img">
-                <div style="position: absolute; top: 12px; right: 12px; background: rgba(15,23,42,0.85); border: 1px solid var(--border-glow); padding: 5px 12px; border-radius: var(--radius-full); font-size: 0.75rem; font-family: var(--font-mono); color: #38bdf8; display: flex; align-items: center; gap: 6px; box-shadow: var(--shadow-sm);">
-                  <span class="radar-dot"></span>
-                  Click for Interactive CV Simulator
+              <div class="featured-preview-media view-cert-btn" id="mlcvPreviewMediaCard" data-cert-id="cert-mlcv" data-cert-name="KMCE Crystal Domain Project School - ML-CV Supercapacitors" data-cert-org="KMCE • Mentors: Sreenivas P" style="cursor: pointer;" title="Click to view Official KMCE Certificate in Fullscreen">
+                <img id="mlcvMainPreviewImg" src="assets/cert-mlcv.png" alt="KMCE Project Completion Certificate - Vaka Abhiram" class="featured-preview-img" style="object-fit: contain; background: #080d1a;">
+                <div style="position: absolute; top: 12px; right: 12px; background: rgba(15,23,42,0.9); border: 1px solid #10b981; padding: 5px 12px; border-radius: var(--radius-full); font-size: 0.75rem; font-family: var(--font-mono); color: #34d399; display: flex; align-items: center; gap: 6px; box-shadow: var(--shadow-sm);">
+                  <span class="radar-dot" style="background: #10b981;"></span>
+                  KMCE Official Certificate • Click to Expand
                 </div>
               </div>
               <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-size: 0.8rem; color: var(--text-muted);">
-                <span>Preview: Cyclic Voltammetry (I vs V) Meta-Model Loop</span>
+                <span>KMCE E-Certificate ID: 6789471f-713b-4d09-b434-c871d021b2cd</span>
                 <button class="btn-outline btn-sm owner-only" id="uploadMlcvScreenshotBtn" type="button" style="font-size: 0.75rem; padding: 4px 10px;">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
                   Upload Custom Screenshot
@@ -1707,6 +1711,6 @@
   <input type="file" id="demoFileUploadInput" accept=".html,.htm,.zip,.pdf,.mp4" style="display: none;" aria-hidden="true">
 
   <!-- Main JavaScript File -->
-  <script src="js/main.js?v=2.3"></script>
+  <script src="js/main.js?v=2.4"></script>
 </body>
 </html>
