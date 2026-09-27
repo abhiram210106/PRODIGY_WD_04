@@ -416,13 +416,13 @@ const OFFICIAL_CERTIFICATES = {
   },
   'cert-mlcv': {
     id: 'cert-mlcv',
-    name: 'ML-CV Supercapacitor Research Recognition',
-    org: 'Materials Science & AI Research',
-    desc: 'Scientific validation recognizing machine learning prediction of Cyclic Voltammetry in BiFeO3 supercapacitors achieving an exceptional 99.74% R² test accuracy with ensemble architectures.',
-    image: 'assets/mlcv-preview.svg',
-    pdf: null,
+    name: 'KMCE Crystal Domain Project School - ML-CV Supercapacitors',
+    org: 'KMCE • Mentors: Sreenivas P',
+    desc: 'Machine Learning-Based Prediction of Cyclic Voltammetry Behavior of Substitution of Zinc and Cobalt in BiFeO3/Bi25FeO40 for Supercapacitor Applications. Completed July 30, 2026.',
+    image: 'assets/cert-mlcv.png',
+    pdf: 'assets/cert-mlcv.pdf',
     verifyUrl: 'https://anirudhrao-24.github.io/cv-ml-supercapacitor-bfo/',
-    certIdText: 'MLCV-BIFEO3-9974'
+    certIdText: '6789471f-713b-4d09-b434-c871d021b2cd'
   },
   'cert-oibsip': {
     id: 'cert-oibsip',
