@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0f1d" />
+      <stop offset="50%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#090d16" />
+    </linearGradient>
+    <linearGradient id="goldBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="25%" stop-color="#fef3c7" />
+      <stop offset="50%" stop-color="#d97706" />
+      <stop offset="75%" stop-color="#fef08a" />
+      <stop offset="100%" stop-color="#b45309" />
+    </linearGradient>
+    <linearGradient id="cyanAccent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#3b82f6" />
+    </linearGradient>
+    <pattern id="guilloche" width="40" height="40" patternUnits="userSpaceOnUse">
+      <circle cx="20" cy="20" r="18" fill="none" stroke="rgba(245, 158, 11, 0.04)" stroke-width="1" />
+      <path d="M 0 20 Q 20 0 40 20 Q 20 40 0 20" fill="none" stroke="rgba(56, 189, 248, 0.03)" stroke-width="0.8" />
+    </pattern>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1000" height="700" rx="16" fill="url(#bgGrad)" />
+  <rect width="1000" height="700" rx="16" fill="url(#guilloche)" />
+
+  <!-- Outer Luxurious Gold Border -->
+  <rect x="28" y="28" width="944" height="644" rx="12" fill="none" stroke="url(#goldBorder)" stroke-width="3" />
+  <rect x="38" y="38" width="924" height="624" rx="8" fill="none" stroke="rgba(245, 158, 11, 0.3)" stroke-width="1.2" stroke-dasharray="6 4" />
+  <rect x="46" y="46" width="908" height="608" rx="6" fill="none" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1" />
+
+  <!-- Corner Filigrees -->
+  <g stroke="url(#goldBorder)" stroke-width="2.5" fill="none">
+    <path d="M 52 82 L 52 52 L 82 52" />
+    <circle cx="62" cy="62" r="3.5" fill="#f59e0b" />
+    <path d="M 948 82 L 948 52 L 918 52" />
+    <circle cx="938" cy="62" r="3.5" fill="#f59e0b" />
+    <path d="M 52 618 L 52 648 L 82 648" />
+    <circle cx="62" cy="638" r="3.5" fill="#f59e0b" />
+    <path d="M 948 618 L 948 648 L 918 648" />
+    <circle cx="938" cy="638" r="3.5" fill="#f59e0b" />
+  </g>
+
+  <!-- Header: Issuer Brand -->
+  <g transform="translate(100, 75)">
+    <!-- Organization Logo Icon -->
+    <rect x="0" y="0" width="46" height="46" rx="10" fill="url(#cyanAccent)" />
+    <text x="23" y="32" font-family="'Plus Jakarta Sans', sans-serif" font-size="24" font-weight="900" fill="#ffffff" text-anchor="middle">OI</text>
+    
+    <text x="58" y="24" font-family="'Plus Jakarta Sans', sans-serif" font-size="20" font-weight="800" fill="#ffffff" letter-spacing="1">OASIS INFOBYTE</text>
+    <text x="58" y="40" font-family="'Inter', sans-serif" font-size="11" font-weight="600" fill="#38bdf8" letter-spacing="2">STUDENT INTERNSHIP PROGRAM (OIBSIP)</text>
+  </g>
+
+  <!-- Certificate Registration / Serial -->
+  <g transform="translate(710, 85)">
+    <rect x="0" y="0" width="190" height="28" rx="6" fill="rgba(15, 23, 42, 0.8)" stroke="rgba(245, 158, 11, 0.3)" stroke-width="1" />
+    <text x="95" y="18" font-family="'Fira Code', monospace" font-size="10.5" font-weight="600" fill="#f59e0b" text-anchor="middle">ID: OIBSIP/2026/JAVA-VA</text>
+  </g>
+
+  <!-- Main Certificate Headings -->
+  <text x="500" y="200" font-family="'Plus Jakarta Sans', Georgia, serif" font-size="28" font-weight="800" fill="url(#goldBorder)" text-anchor="middle" letter-spacing="4">CERTIFICATE OF INTERNSHIP</text>
+  <text x="500" y="228" font-family="'Inter', sans-serif" font-size="13" font-weight="600" fill="#94a3b8" text-anchor="middle" letter-spacing="2">THIS CERTIFIES THAT</text>
+
+  <!-- Recipient Name -->
+  <text x="500" y="286" font-family="'Plus Jakarta Sans', sans-serif" font-size="38" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="1.5">VAKA ABHIRAM</text>
+  <line x1="280" y1="305" x2="720" y2="305" stroke="url(#goldBorder)" stroke-width="2" />
+
+  <!-- Body Content -->
+  <text x="500" y="342" font-family="'Inter', sans-serif" font-size="15" fill="#cbd5e1" text-anchor="middle">
+    has successfully completed the virtual internship program in the domain of
+  </text>
+  <rect x="360" y="360" width="280" height="34" rx="8" fill="rgba(6, 182, 212, 0.12)" stroke="rgba(6, 182, 212, 0.4)" stroke-width="1.2" />
+  <text x="500" y="383" font-family="'Plus Jakarta Sans', sans-serif" font-size="15" font-weight="700" fill="#38bdf8" text-anchor="middle" letter-spacing="1">
+    JAVA DEVELOPMENT INTERN
+  </text>
+
+  <text x="500" y="426" font-family="'Inter', sans-serif" font-size="13.5" fill="#94a3b8" text-anchor="middle">
+    Demonstrated technical proficiency in Object-Oriented Programming, MVC architecture, Swing GUI, and JDBC.
+  </text>
+  <text x="500" y="448" font-family="'Inter', sans-serif" font-size="12.5" fill="#64748b" text-anchor="middle">
+    Key Deliverables: Online Reservation System • Number Guessing Game • ATM Interface • Online Examination • Digital Library
+  </text>
+
+  <!-- Official Verified Seal (Center Bottom) -->
+  <g transform="translate(500, 545)">
+    <circle cx="0" cy="0" r="46" fill="rgba(245, 158, 11, 0.08)" stroke="url(#goldBorder)" stroke-width="2.5" />
+    <circle cx="0" cy="0" r="40" fill="none" stroke="rgba(245, 158, 11, 0.4)" stroke-width="1" stroke-dasharray="4 2" />
+    <path d="M -14 26 L -20 62 L 0 52 L 20 62 L 14 26" fill="url(#goldBorder)" opacity="0.85" />
+    <polygon points="0,-16 4,-6 14,-5 6,2 9,12 0,7 -9,12 -6,2 -14,-5 -4,-6" fill="#f59e0b" />
+    <text x="0" y="24" font-family="'Inter', sans-serif" font-size="8" font-weight="800" fill="#fef08a" text-anchor="middle" letter-spacing="1">VERIFIED</text>
+  </g>
+
+  <!-- Left Signature Block -->
+  <g transform="translate(180, 560)">
+    <path d="M 0 0 C 25 -18, 45 10, 75 -12 C 95 -25, 115 5, 140 -8" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" />
+    <line x1="0" y1="12" x2="160" y2="12" stroke="#475569" stroke-width="1" />
+    <text x="80" y="28" font-family="'Inter', sans-serif" font-size="12" font-weight="700" fill="#f1f5f9" text-anchor="middle">Internship Coordinator</text>
+    <text x="80" y="42" font-family="'Inter', sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Oasis Infobyte (OIBSIP)</text>
+  </g>
+
+  <!-- Right Verification Block -->
+  <g transform="translate(680, 560)">
+    <!-- QR Code Mockup -->
+    <rect x="0" y="-30" width="46" height="46" rx="4" fill="#1e293b" stroke="rgba(255,255,255,0.1)" />
+    <rect x="5" y="-25" width="12" height="12" fill="#38bdf8" />
+    <rect x="29" y="-25" width="12" height="12" fill="#38bdf8" />
+    <rect x="5" y="-1" width="12" height="12" fill="#38bdf8" />
+    <rect x="21" y="-9" width="6" height="6" fill="#f59e0b" />
+    <line x1="0" y1="24" x2="160" y2="24" stroke="#475569" stroke-width="1" />
+    <text x="80" y="40" font-family="'Inter', sans-serif" font-size="12" font-weight="700" fill="#f1f5f9" text-anchor="middle">Official Credential</text>
+    <text x="80" y="54" font-family="'Inter', sans-serif" font-size="10" fill="#64748b" text-anchor="middle">oasisinfobyte.com</text>
+  </g>
+
+  <!-- Security Footer -->
+  <rect x="46" y="634" width="908" height="20" fill="rgba(15, 23, 42, 0.6)" />
+  <text x="500" y="648" font-family="'Fira Code', monospace" font-size="9" fill="#64748b" text-anchor="middle">
+    SECURITY HASH: 8f4a9b2c3d1e • OFFICIAL PORTFOLIO SUBMISSION TASK-04 • RECIPIENT: VAKA ABHIRAM
+  </text>
+</svg>

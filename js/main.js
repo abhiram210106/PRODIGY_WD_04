@@ -389,9 +389,52 @@ function initScrollEffects() {
 }
 
 /* ==========================================================================
-   8. REAL CERTIFICATES & PRIVACY MASKING SYSTEM
+   8. REAL CERTIFICATES & CREDENTIALS SYSTEM
    ========================================================================== */
 window.uploadedCertsCache = window.uploadedCertsCache || {};
+
+const OFFICIAL_CERTIFICATES = {
+  'cert-genai': {
+    id: 'cert-genai',
+    name: 'Career Essentials in Generative AI',
+    org: 'Microsoft & LinkedIn Learning',
+    desc: 'Official credential verifying foundational generative AI concepts, Microsoft Copilot, prompt engineering, and ethical AI implementation. Issued to Abhiram Vaka (Aug 2026).',
+    image: 'assets/cert-genai.png',
+    pdf: 'assets/cert-genai.pdf',
+    verifyUrl: 'https://www.linkedin.com/learning/certificates/f127cbbd1fedc2d6dcaaeeba40e8e35e78f1c19e4a2637fd20b42baa4c343437',
+    certIdText: 'f127cbbd1fedc2d6dcaaeeba40e8e35e78f1c19e4a2637fd20b42baa4c343437'
+  },
+  'cert-nestle': {
+    id: 'cert-nestle',
+    name: 'Nestlé E-learning | Resilience',
+    org: 'Nestlé / Nestlé needs YOUth',
+    desc: 'Official Certificate of Completion awarded by Nestlé to Abhiram Vaka for successfully completing the official [Nestlé E-learning 2026 | Resilience] under the global Nesternship program.',
+    image: 'assets/cert-nestle.png',
+    pdf: 'assets/cert-nestle.pdf',
+    verifyUrl: null,
+    certIdText: 'NESTLE-RESILIENCE-2026'
+  },
+  'cert-mlcv': {
+    id: 'cert-mlcv',
+    name: 'ML-CV Supercapacitor Research Recognition',
+    org: 'Materials Science & AI Research',
+    desc: 'Scientific validation recognizing machine learning prediction of Cyclic Voltammetry in BiFeO3 supercapacitors achieving an exceptional 99.74% R² test accuracy with ensemble architectures.',
+    image: 'assets/mlcv-preview.svg',
+    pdf: null,
+    verifyUrl: 'https://anirudhrao-24.github.io/cv-ml-supercapacitor-bfo/',
+    certIdText: 'MLCV-BIFEO3-9974'
+  },
+  'cert-oibsip': {
+    id: 'cert-oibsip',
+    name: 'Oasis Infobyte Java Internship Credential',
+    org: 'Oasis Infobyte (OIBSIP)',
+    desc: 'Official internship milestone record recognizing role as Java Development Intern and full delivery of 5 production software engineering tasks (Reservation System, ATM, Online Exam, Digital Library, Number Game).',
+    image: 'assets/cert-oibsip.svg',
+    pdf: null,
+    verifyUrl: 'https://github.com/abhiram210106/OIBSIP',
+    certIdText: 'OIBSIP/2026/JAVA-VA'
+  }
+};
 
 function getStoredCert(certId) {
   if (window.uploadedCertsCache[certId]) {
@@ -409,6 +452,11 @@ function getStoredCert(certId) {
       return fromSession;
     }
   } catch (e) {}
+
+  // Default to real bundled certificate asset
+  if (OFFICIAL_CERTIFICATES[certId]) {
+    return OFFICIAL_CERTIFICATES[certId].image;
+  }
   return null;
 }
 
@@ -436,7 +484,7 @@ function removeStoredCert(certId) {
 
 function isCertMaskEnabled() {
   const stored = localStorage.getItem('vaka-cert-mask-enabled');
-  return stored !== 'false'; // Default to true (masked)
+  return stored === 'true'; // Default to false (unmasked) so real certificates are fully legible!
 }
 
 function setCertMaskEnabled(enabled) {
@@ -458,12 +506,12 @@ function processAndSaveUploadedCert(certId, file, callback) {
     return;
   }
 
-  // Compress image to max 1600px width/height to guarantee ultra-fast load and zero storage errors
+  // Compress image to max 1800px width/height for ultra-crisp display
   reader.onload = (e) => {
     const rawDataUrl = e.target.result;
     const img = new Image();
     img.onload = () => {
-      const maxDim = 1600;
+      const maxDim = 1800;
       let width = img.width;
       let height = img.height;
       if (width > maxDim || height > maxDim) {
@@ -480,7 +528,7 @@ function processAndSaveUploadedCert(certId, file, callback) {
       canvas.height = height;
       const ctx = canvas.getContext('2d');
       ctx.drawImage(img, 0, 0, width, height);
-      const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.85);
+      const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.90);
       setStoredCert(certId, compressedDataUrl);
       if (callback) callback(compressedDataUrl, false);
     };
@@ -495,34 +543,19 @@ function processAndSaveUploadedCert(certId, file, callback) {
 
 // Update card previews on the main portfolio page so certificates are ALWAYS immediately visible
 function updateCertCardPreviews() {
-  const certList = [
-    { id: 'cert-genai', name: 'Career Essentials in Generative AI', org: 'Microsoft / LinkedIn' },
-    { id: 'cert-mlcv', name: 'ML-CV Supercapacitor Research Recognition', org: 'Materials Science & AI Research' },
-    { id: 'cert-oibsip', name: 'Oasis Infobyte / OIBSIP Internship Certificate', org: 'Oasis Infobyte' }
-  ];
-
-  certList.forEach(cert => {
-    const thumbElem = document.getElementById(`certThumb-${cert.id}`);
+  Object.keys(OFFICIAL_CERTIFICATES).forEach(certId => {
+    const cert = OFFICIAL_CERTIFICATES[certId];
+    const thumbElem = document.getElementById(`certThumb-${certId}`);
     if (!thumbElem) return;
 
-    const certData = getStoredCert(cert.id);
-    const isPdf = certData && (certData.startsWith('data:application/pdf') || certData.includes('application/pdf'));
+    const certData = getStoredCert(certId) || cert.image;
+    const isPdf = certData && (certData.startsWith('data:application/pdf') || certData.includes('application/pdf') || certData.endsWith('.pdf'));
 
-    if (certData && !isPdf) {
-      thumbElem.innerHTML = `
-        <img src="${certData}" alt="${escapeHtml(cert.name)}" class="cert-card-thumb-img">
-        <div class="cert-card-thumb-overlay">
-          <span class="cert-card-thumb-badge">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
-            ⛶ Open Fullscreen
-          </span>
-        </div>
-      `;
-    } else if (certData && isPdf) {
+    if (isPdf) {
       thumbElem.innerHTML = `
         <div class="cert-card-mockup" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.22) 0%, rgba(15, 23, 42, 0.95) 100%);">
           <div class="cert-card-mockup-top">
-            <span class="badge badge-emerald">PDF Uploaded ✓</span>
+            <span class="badge badge-emerald">Official PDF Credential ✓</span>
             <div class="cert-card-mockup-seal">📄</div>
           </div>
           <div>
@@ -542,23 +575,11 @@ function updateCertCardPreviews() {
       `;
     } else {
       thumbElem.innerHTML = `
-        <div class="cert-card-mockup">
-          <div class="cert-card-mockup-top">
-            <span class="badge badge-primary">Verified Milestone</span>
-            <div class="cert-card-mockup-seal">★</div>
-          </div>
-          <div>
-            <div class="cert-card-mockup-recipient">${escapeHtml(cert.name)}</div>
-            <div class="cert-card-mockup-sub">Issued to: Vaka Abhiram &bull; ${escapeHtml(cert.org)}</div>
-          </div>
-          <div class="cert-card-mockup-status">
-            <span>● Official Credential Record</span>
-          </div>
-        </div>
+        <img src="${certData}" alt="${escapeHtml(cert.name)}" class="cert-card-thumb-img" loading="lazy">
         <div class="cert-card-thumb-overlay">
           <span class="cert-card-thumb-badge">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
-            ⛶ Open Fullscreen
+            ⛶ View Original Certificate
           </span>
         </div>
       `;
@@ -566,7 +587,7 @@ function updateCertCardPreviews() {
 
     thumbElem.onclick = (e) => {
       e.preventDefault();
-      openFullscreenCert(cert.id, cert.name, cert.org);
+      openFullscreenCert(certId, cert.name, cert.org);
     };
   });
 }
@@ -577,47 +598,61 @@ let currentFsCertId = null;
 
 function openFullscreenCert(certId, certName, certOrg) {
   currentFsCertId = certId;
-  const certData = getStoredCert(certId);
+  const official = OFFICIAL_CERTIFICATES[certId] || {};
+  const certData = getStoredCert(certId) || official.image;
+  const displayName = certName || official.name || 'Certificate';
+  const displayOrg = certOrg || official.org || 'Verified Credential';
   const isMasked = isCertMaskEnabled();
-  const isPdf = certData && (certData.startsWith('data:application/pdf') || certData.includes('application/pdf'));
+  const isPdf = certData && (certData.startsWith('data:application/pdf') || certData.includes('application/pdf') || certData.endsWith('.pdf'));
 
   const lb = document.getElementById('certFullscreenLightbox');
   const titleElem = document.getElementById('certFsTitle');
   const orgElem = document.getElementById('certFsOrg');
   const stage = document.getElementById('certFsStage');
   const maskToggle = document.getElementById('certFsMaskToggle');
+  const actionGroup = document.getElementById('certFsActionButtons');
 
   if (!lb || !stage) return;
 
-  if (titleElem) titleElem.textContent = certName || 'Certificate';
-  if (orgElem) orgElem.textContent = certOrg || 'Verified Credential';
+  if (titleElem) titleElem.textContent = displayName;
+  if (orgElem) orgElem.textContent = displayOrg;
   if (maskToggle) maskToggle.checked = isMasked;
+
+  if (actionGroup) {
+    let actionHtml = '';
+    const pdfUrl = official.pdf || (isPdf ? certData : null);
+    if (pdfUrl) {
+      actionHtml += `
+        <a href="${pdfUrl}" download="${(displayName || 'Certificate').replace(/[^a-zA-Z0-9]/g, '_')}.pdf" class="btn btn-primary btn-sm" style="text-decoration:none;" title="Download Original PDF">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          Download PDF
+        </a>
+      `;
+    }
+    if (official.verifyUrl) {
+      actionHtml += `
+        <a href="${official.verifyUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm" style="text-decoration:none;" title="Verify Credential Online">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          Verify
+        </a>
+      `;
+    }
+    actionGroup.innerHTML = actionHtml;
+  }
 
   certFsCurrentZoom = 1.0;
 
-  if (certData) {
-    if (isPdf) {
-      stage.innerHTML = `
-        <iframe src="${certData}" class="cert-fs-iframe" title="${escapeHtml(certName)}"></iframe>
-      `;
-    } else {
-      stage.innerHTML = `
-        <div class="cert-fs-img-wrapper" id="certFsImgWrapper">
-          <img src="${certData}" alt="${escapeHtml(certName)}" class="cert-fs-img" id="certFsImg">
-          <div class="cert-fs-mask-badge ${isMasked ? '' : 'hidden'}" id="certFsMaskBadge">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-            <span>VERIFIED CREDENTIAL • RECIPIENT: VAKA ABHIRAM • SENSITIVE IDs MASKED</span>
-          </div>
-        </div>
-      `;
-    }
+  if (isPdf) {
+    stage.innerHTML = `
+      <iframe src="${certData}" class="cert-fs-iframe" title="${escapeHtml(displayName)}"></iframe>
+    `;
   } else {
     stage.innerHTML = `
       <div class="cert-fs-img-wrapper" id="certFsImgWrapper">
-        <img src="assets/cert-placeholder.svg" alt="${escapeHtml(certName)}" class="cert-fs-img" id="certFsImg">
+        <img src="${certData}" alt="${escapeHtml(displayName)}" class="cert-fs-img" id="certFsImg">
         <div class="cert-fs-mask-badge ${isMasked ? '' : 'hidden'}" id="certFsMaskBadge">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-          <span>VERIFIED CREDENTIAL • VAKA ABHIRAM • ${escapeHtml(certOrg)}</span>
+          <span>VERIFIED CREDENTIAL • RECIPIENT: VAKA ABHIRAM • ${escapeHtml(displayOrg)}</span>
         </div>
       </div>
     `;
@@ -714,84 +749,48 @@ window.resetCertToDefault = function(certId, certName, certOrg, certDesc) {
    ========================================================================== */
 function getStoredResume() {
   try {
-    return {
-      dataUrl: localStorage.getItem('vaka-custom-resume') || null,
-      fileName: localStorage.getItem('vaka-resume-name') || 'Vaka_Abhiram_Resume.pdf'
-    };
-  } catch (e) {
-    return { dataUrl: null, fileName: 'Vaka_Abhiram_Resume.pdf' };
-  }
+    const custom = localStorage.getItem('vaka-custom-resume');
+    if (custom) {
+      return {
+        dataUrl: custom,
+        fileName: localStorage.getItem('vaka-resume-name') || 'Vaka_Abhiram_Resume.pdf'
+      };
+    }
+  } catch (e) {}
+  return {
+    dataUrl: 'assets/resume.pdf',
+    fileName: 'Vaka_Abhiram_Resume.pdf'
+  };
 }
 
 function openResumeViewerModal() {
   const { dataUrl, fileName } = getStoredResume();
 
-  if (dataUrl) {
-    // Show embedded viewer for custom resume
-    openModal(
-      `Resume Preview – ${escapeHtml(fileName)}`,
-      `<div style="text-align: left;">
-        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; background: var(--bg-tertiary); padding: 10px 14px; border-radius: 8px;">
-          <span style="font-size: 0.88rem; color: #34d399; font-weight: 600;">✓ Real Resume Loaded: ${escapeHtml(fileName)}</span>
-          <button class="btn btn-outline btn-sm owner-only" onclick="triggerResumeUpload()">Replace PDF</button>
-        </div>
-        <iframe src="${dataUrl}" style="width: 100%; height: 500px; border-radius: 8px; border: 1px solid var(--border-subtle); margin-bottom: 16px;" title="Vaka Abhiram Resume PDF"></iframe>
-        <div style="display: flex; justify-content: flex-end; gap: 10px;">
-          <button class="btn btn-primary btn-sm" onclick="downloadCustomResume()">Download PDF</button>
-          <button class="btn btn-secondary btn-sm" onclick="closeModal()">Close</button>
-        </div>
-      </div>`
-    );
-  } else {
-    // Prompt to upload real resume or view structure
-    openModal(
-      'Vaka Abhiram – Resume Preview',
-      `<div style="text-align: left; line-height: 1.7;">
-        <div class="owner-only" style="background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.3); border-radius: 8px; padding: 16px; margin-bottom: 20px;">
-          <h4 style="font-size: 1rem; color: #818cf8; margin-bottom: 6px;">Upload Your Actual Resume PDF</h4>
-          <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 12px;">
-            You can upload your real <code>resume.pdf</code> right now. Once uploaded, the "View Resume" and "Download Resume" buttons will directly serve your actual file!
-          </p>
-          <button class="btn btn-primary btn-sm" onclick="triggerResumeUpload()">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-            Select &amp; Upload Resume PDF
-          </button>
-        </div>
-
-        <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 4px;">Vaka Abhiram</h3>
-        <p style="font-size: 0.9rem; color: var(--accent-secondary); font-weight: 600; margin-bottom: 12px;">
-          Computer Science Student &amp; Aspiring Software Developer • KMCE Hyderabad (2028)
-        </p>
-        <p style="font-size: 0.95rem; margin-bottom: 10px;"><strong>Primary Objective:</strong> Software Development in Java, Web Development &amp; AI/ML Systems.</p>
-        <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 16px;">
-          <strong>Core Technologies:</strong> Java, Python, HTML, CSS, JavaScript, React, Express.js, OpenCV, CatBoost, Git, GitHub.
-        </p>
-        <div style="text-align: right;">
-          <button class="btn btn-secondary btn-sm" onclick="closeModal()">Close</button>
-        </div>
-      </div>`
-    );
-  }
+  openModal(
+    `Resume Preview – ${escapeHtml(fileName)}`,
+    `<div style="text-align: left;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; background: var(--bg-tertiary); padding: 10px 14px; border-radius: 8px;">
+        <span style="font-size: 0.88rem; color: #34d399; font-weight: 600;">✓ Official Resume Loaded: ${escapeHtml(fileName)}</span>
+        <button class="btn btn-outline btn-sm owner-only" onclick="triggerResumeUpload()">Replace PDF</button>
+      </div>
+      <iframe src="${dataUrl}" style="width: 100%; height: 520px; border-radius: 8px; border: 1px solid var(--border-subtle); margin-bottom: 16px;" title="Vaka Abhiram Resume PDF"></iframe>
+      <div style="display: flex; justify-content: flex-end; gap: 10px;">
+        <a href="${dataUrl}" download="${escapeHtml(fileName)}" class="btn btn-primary btn-sm" style="text-decoration:none;">Download PDF</a>
+        <button class="btn btn-secondary btn-sm" onclick="closeModal()">Close</button>
+      </div>
+    </div>`
+  );
 }
 
 window.downloadCustomResume = function() {
   const { dataUrl, fileName } = getStoredResume();
-  if (dataUrl) {
-    const a = document.createElement('a');
-    a.href = dataUrl;
-    a.download = fileName;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    showToast(`Downloading: ${fileName}`);
-  } else {
-    if (isOwnerActive()) {
-      showToast('Please upload your resume PDF first using the upload button.');
-    } else {
-      showToast('Resume preview opened. Official PDF document will be available shortly.');
-    }
-    openResumeViewerModal();
-  }
+  const a = document.createElement('a');
+  a.href = dataUrl;
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  showToast(`Downloading: ${fileName}`);
 };
 
 window.triggerResumeUpload = function() {
@@ -811,8 +810,8 @@ function getStoredContact() {
     email: localStorage.getItem('vaka-contact-email') || 'ganaanjan51@gmail.com',
     github: localStorage.getItem('vaka-contact-github') || 'https://github.com/abhiram210106',
     linkedin: localStorage.getItem('vaka-contact-linkedin') || 'https://linkedin.com/in/vaka-abhiram',
-    phone: localStorage.getItem('vaka-contact-phone') || '+91 98000 00000',
-    maskPhone: localStorage.getItem('vaka-mask-phone') !== 'false'
+    phone: localStorage.getItem('vaka-contact-phone') || '+91 6304071082',
+    maskPhone: false
   };
 }
 

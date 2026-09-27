@@ -41,13 +41,19 @@ Right-click `index.html` in VS Code and select **"Open with Live Server"**.
 ├── js/
 │   └── main.js                 # Theme switching, nav behavior, project filtering, photo upload, modals
 ├── assets/
-│   ├── profile-placeholder.svg # Monogram avatar & photo upload placeholder
+│   ├── profile.png             # Official profile photograph of Vaka Abhiram
+│   ├── cert-genai.png          # Career Essentials in Generative AI (Microsoft & LinkedIn)
+│   ├── cert-genai.pdf          # Original Generative AI Certificate PDF
+│   ├── cert-nestle.png         # Nestlé E-learning Resilience Certificate of Completion
+│   ├── cert-nestle.pdf         # Original Nestlé Certificate PDF
+│   ├── cert-oibsip.svg         # Oasis Infobyte Java Internship Credential
 │   ├── mlcv-preview.svg        # MLCV Computer Vision & AI architecture diagram
+│   ├── resume.pdf              # Official Vaka Abhiram Resume PDF
+│   ├── resume-preview.png      # Resume document preview render
 │   ├── reservation-preview.svg # Java Online Reservation System UI mock
 │   ├── atm-preview.svg         # ATM Web Interface UI mock
 │   ├── exam-preview.svg        # Online Examination System UI mock
-│   ├── library-preview.svg     # Digital Library Management System UI mock
-│   └── cert-placeholder.svg   # Verified credential certificate template
+│   └── library-preview.svg     # Digital Library Management System UI mock
 └── README.md                   # Documentation and customization guide
 ```
 
@@ -113,17 +119,21 @@ Right-click `index.html` in VS Code and select **"Open with Live Server"**.
    - 6. Product Engineering.
 
 10. **Certifications & Accomplishments**:
-    - Career Essentials in Generative AI (Microsoft / LinkedIn)
+    - Career Essentials in Generative AI (Microsoft & LinkedIn Learning) - Real PDF & Online Verification
+    - Nestlé E-learning | Resilience (Nestlé needs YOUth - Nesternship) - Real PDF Certificate
     - ML-CV Supercapacitor Research Recognition (Materials Science & AI Research)
-    - Oasis Infobyte / OIBSIP Internship Certificate / Offer Letter.
+    - Oasis Infobyte Java Internship Credential (OIBSIP)
 
 11. **Resume Section**:
-    - Strong CTA banner: `"Let's Build Something."` with View and Download handlers.
+    - Embedded Resume Viewer and Instant Direct PDF Download (`assets/resume.pdf`).
 
 12. **Contact Section**:
     - Name: Vaka Abhiram
     - Location: Hyderabad, Telangana, India
-    - Clearly formatted placeholders: `[ADD EMAIL]`, `[ADD GITHUB URL]`, `[ADD LINKEDIN URL]`, `[ADD PHONE]`.
+    - Email: `ganaanjan51@gmail.com`
+    - Phone: `+91 6304071082`
+    - GitHub: `https://github.com/abhiram210106`
+    - LinkedIn: `https://linkedin.com/in/vaka-abhiram`
     - Fully functional client-side interactive message form with validation and toast notifications.
 
 ---
