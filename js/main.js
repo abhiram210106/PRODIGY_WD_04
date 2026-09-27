@@ -442,18 +442,23 @@ function getStoredCert(certId) {
   }
   try {
     const fromLocal = localStorage.getItem(`vaka-cert-${certId}`);
-    if (fromLocal) {
+    if (fromLocal && !fromLocal.includes('placeholder') && !fromLocal.includes('cert-placeholder') && !fromLocal.startsWith('data:image/svg+xml') && fromLocal.length > 50) {
       window.uploadedCertsCache[certId] = fromLocal;
       return fromLocal;
+    } else if (fromLocal) {
+      // Purge stale or placeholder cert data from localStorage
+      localStorage.removeItem(`vaka-cert-${certId}`);
     }
     const fromSession = sessionStorage.getItem(`vaka-cert-${certId}`);
-    if (fromSession) {
+    if (fromSession && !fromSession.includes('placeholder') && !fromSession.includes('cert-placeholder') && !fromSession.startsWith('data:image/svg+xml') && fromSession.length > 50) {
       window.uploadedCertsCache[certId] = fromSession;
       return fromSession;
+    } else if (fromSession) {
+      sessionStorage.removeItem(`vaka-cert-${certId}`);
     }
   } catch (e) {}
 
-  // Default to real bundled certificate asset
+  // Default to real bundled official certificate asset
   if (OFFICIAL_CERTIFICATES[certId]) {
     return OFFICIAL_CERTIFICATES[certId].image;
   }
@@ -718,6 +723,19 @@ function initFullscreenLightbox() {
       closeFullscreenCert();
     }
   });
+
+  // Attach direct click events to all certificate card thumbnails
+  document.querySelectorAll('.cert-card-media').forEach(media => {
+    media.addEventListener('click', (e) => {
+      e.preventDefault();
+      const certId = media.getAttribute('data-cert-id');
+      const certName = media.getAttribute('data-cert-name');
+      const certOrg = media.getAttribute('data-cert-org');
+      if (certId) {
+        openFullscreenCert(certId, certName, certOrg);
+      }
+    });
+  });
 }
 
 function openCertificateModal(certId, certName, certOrg, certDesc) {
@@ -750,11 +768,13 @@ window.resetCertToDefault = function(certId, certName, certOrg, certDesc) {
 function getStoredResume() {
   try {
     const custom = localStorage.getItem('vaka-custom-resume');
-    if (custom) {
+    if (custom && !custom.includes('placeholder') && custom.length > 50) {
       return {
         dataUrl: custom,
         fileName: localStorage.getItem('vaka-resume-name') || 'Vaka_Abhiram_Resume.pdf'
       };
+    } else if (custom) {
+      localStorage.removeItem('vaka-custom-resume');
     }
   } catch (e) {}
   return {
