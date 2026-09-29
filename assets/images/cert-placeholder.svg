@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="certBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0e172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="50%" stop-color="#fbbf24" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+  </defs>
+
+  <rect width="700" height="480" rx="16" fill="url(#certBg)" />
+  
+  <!-- Certificate Border -->
+  <rect x="24" y="24" width="652" height="432" rx="12" fill="none" stroke="url(#goldGrad)" stroke-width="2.5" />
+  <rect x="34" y="34" width="632" height="412" rx="8" fill="none" stroke="rgba(251, 191, 36, 0.25)" stroke-width="1" stroke-dasharray="8 6" />
+
+  <!-- Corner Ornaments -->
+  <path d="M 45 65 L 45 45 L 65 45" fill="none" stroke="#f59e0b" stroke-width="3" />
+  <path d="M 655 65 L 655 45 L 635 45" fill="none" stroke="#f59e0b" stroke-width="3" />
+  <path d="M 45 415 L 45 435 L 65 435" fill="none" stroke="#f59e0b" stroke-width="3" />
+  <path d="M 655 415 L 655 435 L 635 435" fill="none" stroke="#f59e0b" stroke-width="3" />
+
+  <!-- Gold Seal -->
+  <circle cx="350" cy="110" r="38" fill="rgba(245, 158, 11, 0.12)" stroke="url(#goldGrad)" stroke-width="2" />
+  <circle cx="350" cy="110" r="30" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="4 2" />
+  
+  <!-- Ribbon Badge -->
+  <path d="M 340 135 L 332 175 L 350 165 L 368 175 L 360 135" fill="url(#goldGrad)" opacity="0.8" />
+  <!-- Star Icon -->
+  <polygon points="350,96 354,106 364,107 356,114 359,124 350,118 341,124 344,114 336,107 346,106" fill="url(#goldGrad)" />
+
+  <!-- Headings -->
+  <text x="350" y="210" font-family="'Plus Jakarta Sans', Georgia, serif" font-size="24" font-weight="700" fill="#f8fafc" text-anchor="middle" letter-spacing="2">CERTIFICATE OF COMPLETION</text>
+  <text x="350" y="235" font-family="'Inter', sans-serif" font-size="12" fill="#94a3b8" text-anchor="middle" letter-spacing="1">THIS CERTIFIES RECOGNITION CONFERRED UPON</text>
+
+  <!-- Name -->
+  <text x="350" y="280" font-family="'Plus Jakarta Sans', sans-serif" font-size="32" font-weight="800" fill="url(#goldGrad)" text-anchor="middle" letter-spacing="1">VAKA ABHIRAM</text>
+  <line x1="220" y1="295" x2="480" y2="295" stroke="rgba(251, 191, 36, 0.4)" stroke-width="1.5" />
+
+  <!-- Purpose / Accomplishment -->
+  <text x="350" y="325" font-family="'Inter', sans-serif" font-size="13" fill="#cbd5e1" text-anchor="middle">For Successful Program Accomplishment &amp; Technical Proficiency</text>
+  <text x="350" y="348" font-family="'Inter', sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">Verified Credential Record • Task-04 Academic &amp; Industry Portfolio</text>
+
+  <!-- Signatures Line -->
+  <line x1="120" y1="410" x2="270" y2="410" stroke="#64748b" stroke-width="1" />
+  <text x="195" y="425" font-family="'Inter', sans-serif" font-size="10" fill="#94a3b8" text-anchor="middle">Issuing Authority / Organization</text>
+
+  <line x1="430" y1="410" x2="580" y2="410" stroke="#64748b" stroke-width="1" />
+  <text x="505" y="425" font-family="'Inter', sans-serif" font-size="10" fill="#94a3b8" text-anchor="middle">Credential Verification ID</text>
+</svg>

@@ -1,0 +1,153 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="cvBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#080d1a" />
+      <stop offset="60%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#181438" />
+    </linearGradient>
+    <linearGradient id="curveGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="50%" stop-color="#6366f1" />
+      <stop offset="100%" stop-color="#ec4899" />
+    </linearGradient>
+    <linearGradient id="fillLoopGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="rgba(99, 102, 241, 0.28)" />
+      <stop offset="50%" stop-color="rgba(6, 182, 212, 0.14)" />
+      <stop offset="100%" stop-color="rgba(236, 72, 153, 0.04)" />
+    </linearGradient>
+    <pattern id="voltGrid" width="28" height="28" patternUnits="userSpaceOnUse">
+      <path d="M 28 0 L 0 0 0 28" fill="none" stroke="rgba(56, 189, 248, 0.08)" stroke-width="1" />
+    </pattern>
+  </defs>
+
+  <!-- Canvas Frame -->
+  <rect width="840" height="500" rx="16" fill="url(#cvBg)" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" />
+
+  <!-- Top Code/Telemetry Title Bar -->
+  <rect width="840" height="42" rx="16" fill="#0f172a" />
+  <rect y="26" width="840" height="16" fill="#0f172a" />
+  <circle cx="26" cy="21" r="5.5" fill="#ef4444" />
+  <circle cx="44" cy="21" r="5.5" fill="#f59e0b" />
+  <circle cx="62" cy="21" r="5.5" fill="#10b981" />
+  <text x="420" y="26" font-family="'Fira Code', monospace" font-size="11.5" font-weight="600" fill="#94a3b8" text-anchor="middle">ML-CV Pipeline • Cyclic Voltammetry Prediction for BiFeO3 Supercapacitors</text>
+  <rect x="715" y="10" width="105" height="22" rx="11" fill="rgba(16, 185, 129, 0.15)" stroke="rgba(16, 185, 129, 0.4)" />
+  <text x="767" y="25" font-family="'Fira Code', monospace" font-size="10" font-weight="700" fill="#34d399" text-anchor="middle">R²: 99.74%</text>
+
+  <!-- Left: Main Voltammogram Plot Area -->
+  <g transform="translate(25, 60)">
+    <!-- Plot Background -->
+    <rect width="490" height="360" rx="10" fill="#030712" stroke="rgba(255,255,255,0.08)" />
+    <rect width="490" height="360" rx="10" fill="url(#voltGrid)" />
+
+    <!-- Plot Header HUD -->
+    <rect x="15" y="15" width="460" height="32" rx="6" fill="rgba(15, 23, 42, 0.85)" stroke="rgba(56, 189, 248, 0.2)" />
+    <circle cx="30" cy="31" r="4" fill="#38bdf8" />
+    <text x="42" y="35" font-family="'Fira Code', monospace" font-size="10.5" fill="#f1f5f9" font-weight="600">PREDICTED CYCLIC VOLTAMMOGRAM (I vs V)</text>
+    <text x="460" y="35" font-family="'Fira Code', monospace" font-size="10" fill="#38bdf8" text-anchor="end">SCAN RATE: 60 mV/s (UNSEEN TEST)</text>
+
+    <!-- Axes Lines (Origin Center) -->
+    <!-- X-Axis (Potential V) -->
+    <line x1="45" y1="190" x2="455" y2="190" stroke="rgba(148, 163, 184, 0.35)" stroke-width="1.5" stroke-dasharray="4 4" />
+    <!-- Y-Axis (Current mA) -->
+    <line x1="245" y1="55" x2="245" y2="330" stroke="rgba(148, 163, 184, 0.35)" stroke-width="1.5" stroke-dasharray="4 4" />
+
+    <!-- Axes Labels -->
+    <text x="455" y="205" font-family="'Plus Jakarta Sans', sans-serif" font-size="10.5" fill="#94a3b8" text-anchor="end">Potential E (V vs SCE) &#8594;</text>
+    <text x="45" y="180" font-family="'Fira Code', monospace" font-size="9.5" fill="#64748b">-0.2V</text>
+    <text x="245" y="205" font-family="'Fira Code', monospace" font-size="9.5" fill="#64748b" text-anchor="middle">0.3V</text>
+    <text x="440" y="180" font-family="'Fira Code', monospace" font-size="9.5" fill="#64748b" text-anchor="end">0.8V</text>
+
+    <text x="235" y="70" font-family="'Plus Jakarta Sans', sans-serif" font-size="10" fill="#94a3b8" text-anchor="end">&#8593; Anodic Current (+I)</text>
+    <text x="235" y="325" font-family="'Plus Jakarta Sans', sans-serif" font-size="10" fill="#94a3b8" text-anchor="end">&#8595; Cathodic Current (-I)</text>
+
+    <!-- Experimental Lab Benchmark Curve (Dashed White Curve) -->
+    <path d="M 90 200 C 130 145, 200 95, 290 85 C 370 78, 415 130, 425 185 C 410 240, 360 285, 270 295 C 180 305, 120 260, 90 200 Z" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2" stroke-dasharray="6 4" />
+
+    <!-- ML Stacked Meta-Model Predicted CV Curve (Glow Solid Gradient Loop) -->
+    <path d="M 90 198 C 132 143, 202 93, 292 83 C 372 76, 417 128, 426 183 C 412 238, 362 283, 272 293 C 182 303, 122 258, 90 198 Z" fill="url(#fillLoopGrad)" stroke="url(#curveGlow)" stroke-width="3" />
+
+    <!-- Key Peaks Annotations -->
+    <!-- Anodic Oxidation Peak -->
+    <circle cx="292" cy="83" r="5" fill="#ec4899" stroke="#fff" stroke-width="1.5" />
+    <rect x="290" y="55" width="135" height="20" rx="4" fill="#0f172a" stroke="#ec4899" stroke-width="1" />
+    <text x="295" y="69" font-family="'Fira Code', monospace" font-size="9" font-weight="700" fill="#f472b6">I_pa (Oxidation Peak)</text>
+
+    <!-- Cathodic Reduction Peak -->
+    <circle cx="272" cy="293" r="5" fill="#06b6d4" stroke="#fff" stroke-width="1.5" />
+    <rect x="235" y="308" width="140" height="20" rx="4" fill="#0f172a" stroke="#06b6d4" stroke-width="1" />
+    <text x="240" y="322" font-family="'Fira Code', monospace" font-size="9" font-weight="700" fill="#38bdf8">I_pc (Reduction Peak)</text>
+
+    <!-- Legend in Bottom-Left -->
+    <rect x="15" y="318" width="200" height="30" rx="6" fill="rgba(15,23,42,0.92)" stroke="rgba(255,255,255,0.08)" />
+    <line x1="25" y1="333" x2="45" y2="333" stroke="url(#curveGlow)" stroke-width="3" />
+    <text x="52" y="337" font-family="'Inter', sans-serif" font-size="9.5" fill="#f1f5f9" font-weight="600">ML Predicted CV Loop</text>
+    <line x1="135" y1="333" x2="155" y2="333" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-dasharray="4 3" />
+    <text x="162" y="337" font-family="'Inter', sans-serif" font-size="9.5" fill="#94a3b8">Lab Experim.</text>
+  </g>
+
+  <!-- Right: Architecture & Scientific Validation Metrics -->
+  <g transform="translate(530, 60)">
+    <rect width="285" height="360" rx="10" fill="#0f172a" stroke="rgba(255,255,255,0.08)" />
+
+    <!-- Card Title -->
+    <text x="20" y="32" font-family="'Plus Jakarta Sans', sans-serif" font-size="13" font-weight="700" fill="#f8fafc">STACKED META-MODEL PIPELINE</text>
+    <text x="20" y="48" font-family="'Inter', sans-serif" font-size="10" fill="#94a3b8">Supercapacitor AI Architecture</text>
+
+    <!-- Model Stack Breakdown -->
+    <!-- Base Model 1: ANN -->
+    <g transform="translate(20, 62)">
+      <rect width="245" height="42" rx="6" fill="#1e293b" stroke="rgba(6, 182, 212, 0.3)" />
+      <circle cx="18" cy="21" r="8" fill="rgba(6, 182, 212, 0.2)" />
+      <text x="18" y="24" font-family="'Fira Code', monospace" font-size="9" font-weight="700" fill="#06b6d4" text-anchor="middle">1</text>
+      <text x="36" y="18" font-family="'Plus Jakarta Sans', sans-serif" font-size="11" font-weight="700" fill="#f1f5f9">ANN (Artificial Neural Network)</text>
+      <text x="36" y="32" font-family="'Fira Code', monospace" font-size="9" fill="#94a3b8">Deep Keras Multi-Layer Perceptron</text>
+    </g>
+
+    <!-- Base Model 2: Random Forest & XGBoost -->
+    <g transform="translate(20, 112)">
+      <rect width="245" height="42" rx="6" fill="#1e293b" stroke="rgba(99, 102, 241, 0.3)" />
+      <circle cx="18" cy="21" r="8" fill="rgba(99, 102, 241, 0.2)" />
+      <text x="18" y="24" font-family="'Fira Code', monospace" font-size="9" font-weight="700" fill="#818cf8" text-anchor="middle">2</text>
+      <text x="36" y="18" font-family="'Plus Jakarta Sans', sans-serif" font-size="11" font-weight="700" fill="#f1f5f9">Random Forest + XGBoost</text>
+      <text x="36" y="32" font-family="'Fira Code', monospace" font-size="9" fill="#94a3b8">Gradient boosted decision trees</text>
+    </g>
+
+    <!-- Meta-Regressor: RidgeCV -->
+    <g transform="translate(20, 162)">
+      <rect width="245" height="42" rx="6" fill="#1e293b" stroke="rgba(236, 72, 153, 0.3)" />
+      <circle cx="18" cy="21" r="8" fill="rgba(236, 72, 153, 0.2)" />
+      <text x="18" y="24" font-family="'Fira Code', monospace" font-size="9" font-weight="700" fill="#f472b6" text-anchor="middle">3</text>
+      <text x="36" y="18" font-family="'Plus Jakarta Sans', sans-serif" font-size="11" font-weight="700" fill="#f1f5f9">RidgeCV Meta-Regressor</text>
+      <text x="36" y="32" font-family="'Fira Code', monospace" font-size="9" fill="#94a3b8">Ensemble meta-layer fusion</text>
+    </g>
+
+    <!-- Validation Metrics Box -->
+    <g transform="translate(20, 220)">
+      <rect width="245" height="122" rx="8" fill="#030712" stroke="rgba(16, 185, 129, 0.4)" stroke-width="1.5" />
+      <text x="16" y="22" font-family="'Fira Code', monospace" font-size="10" font-weight="700" fill="#34d399">UNSEEN 60 mV/s VALIDATION:</text>
+      
+      <!-- Metric 1 -->
+      <text x="16" y="44" font-family="'Inter', sans-serif" font-size="10" fill="#94a3b8">Model Accuracy R²:</text>
+      <text x="228" y="44" font-family="'Fira Code', monospace" font-size="11" font-weight="700" fill="#10b981" text-anchor="end">99.74%</text>
+
+      <!-- Metric 2 -->
+      <text x="16" y="66" font-family="'Inter', sans-serif" font-size="10" fill="#94a3b8">Prediction Error (RMSE):</text>
+      <text x="228" y="66" font-family="'Fira Code', monospace" font-size="11" font-weight="700" fill="#38bdf8" text-anchor="end">0.000401</text>
+
+      <!-- Metric 3 -->
+      <text x="16" y="88" font-family="'Inter', sans-serif" font-size="10" fill="#94a3b8">Specific Capacitance (Cs):</text>
+      <text x="228" y="88" font-family="'Fira Code', monospace" font-size="11" font-weight="700" fill="#f59e0b" text-anchor="end">114.84 F g⁻¹</text>
+
+      <!-- Metric 4 -->
+      <text x="16" y="108" font-family="'Inter', sans-serif" font-size="9.5" fill="#94a3b8">Lab Benchmark Variance:</text>
+      <text x="228" y="108" font-family="'Fira Code', monospace" font-size="10.5" font-weight="700" fill="#a855f7" text-anchor="end">0.47% Error</text>
+    </g>
+  </g>
+
+  <!-- Bottom Global Telemetry Strip -->
+  <g transform="translate(25, 435)">
+    <rect width="790" height="42" rx="8" fill="#0f172a" stroke="rgba(255,255,255,0.06)" />
+    <circle cx="20" cy="21" r="4.5" fill="#10b981" />
+    <text x="34" y="25" font-family="'Fira Code', monospace" font-size="10.5" fill="#94a3b8">API: <tspan fill="#38bdf8">FASTAPI ON RENDER CLOUD</tspan> | TARGET: <tspan fill="#ec4899">Zn &amp; Co-SUBSTITUTED BiFeO3</tspan> | DASHBOARD: <tspan fill="#a855f7">GITHUB PAGES LIVE</tspan></text>
+  </g>
+</svg>

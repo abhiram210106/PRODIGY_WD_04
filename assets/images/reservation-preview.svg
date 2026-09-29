@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" width="100%" height="100%">
+  <defs>
+    <linearGradient id="resBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1329" />
+      <stop offset="100%" stop-color="#1e1e38" />
+    </linearGradient>
+    <linearGradient id="btnGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3b82f6" />
+      <stop offset="100%" stop-color="#2563eb" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="600" height="360" rx="16" fill="url(#resBg)" />
+
+  <!-- Window Header -->
+  <rect width="600" height="36" rx="16" fill="#1e293b" />
+  <rect y="26" width="600" height="10" fill="#1e293b" />
+  <circle cx="20" cy="18" r="5" fill="#ef4444" />
+  <circle cx="36" cy="18" r="5" fill="#f59e0b" />
+  <circle cx="52" cy="18" r="5" fill="#10b981" />
+  <text x="300" y="22" font-family="'Fira Code', monospace" font-size="11" fill="#94a3b8" text-anchor="middle">Java Online Reservation System • OIBSIP</text>
+
+  <!-- UI Header Bar -->
+  <rect x="25" y="55" width="550" height="42" rx="8" fill="#161f38" stroke="rgba(255,255,255,0.06)" />
+  <text x="45" y="80" font-family="'Plus Jakarta Sans', sans-serif" font-size="13" font-weight="700" fill="#f8fafc">Rail &amp; Travel Reservation Dashboard</text>
+  <rect x="460" y="65" width="100" height="22" rx="4" fill="#3b82f6" />
+  <text x="510" y="80" font-family="'Plus Jakarta Sans', sans-serif" font-size="10" font-weight="700" fill="#ffffff" text-anchor="middle">Java Engine</text>
+
+  <!-- Left Form Simulation -->
+  <rect x="25" y="110" width="310" height="225" rx="10" fill="#10182b" stroke="rgba(255,255,255,0.06)" />
+  <text x="45" y="135" font-family="'Plus Jakarta Sans', sans-serif" font-size="12" font-weight="600" fill="#93c5fd">Reservation Input Form</text>
+
+  <!-- Form Fields -->
+  <g transform="translate(45, 150)">
+    <text x="0" y="0" font-family="'Inter', sans-serif" font-size="10" fill="#94a3b8">Passenger Name</text>
+    <rect x="0" y="6" width="270" height="26" rx="4" fill="#1e293b" stroke="rgba(255,255,255,0.08)" />
+    <text x="10" y="23" font-family="'Fira Code', monospace" font-size="10" fill="#cbd5e1">Vaka Abhiram</text>
+  </g>
+
+  <g transform="translate(45, 195)">
+    <text x="0" y="0" font-family="'Inter', sans-serif" font-size="10" fill="#94a3b8">Train Number / Journey Route</text>
+    <rect x="0" y="6" width="270" height="26" rx="4" fill="#1e293b" stroke="rgba(255,255,255,0.08)" />
+    <text x="10" y="23" font-family="'Fira Code', monospace" font-size="10" fill="#cbd5e1">EXP-12723 (HYD → DEL)</text>
+  </g>
+
+  <g transform="translate(45, 240)">
+    <text x="0" y="0" font-family="'Inter', sans-serif" font-size="10" fill="#94a3b8">Class Selection</text>
+    <rect x="0" y="6" width="125" height="26" rx="4" fill="#1e293b" stroke="rgba(255,255,255,0.08)" />
+    <text x="10" y="23" font-family="'Fira Code', monospace" font-size="10" fill="#cbd5e1">AC 2-Tier (2A)</text>
+
+    <text x="145" y="0" font-family="'Inter', sans-serif" font-size="10" fill="#94a3b8">Date of Journey</text>
+    <rect x="145" y="6" width="125" height="26" rx="4" fill="#1e293b" stroke="rgba(255,255,255,0.08)" />
+    <text x="155" y="23" font-family="'Fira Code', monospace" font-size="10" fill="#cbd5e1">2026-10-15</text>
+  </g>
+
+  <rect x="45" y="285" width="270" height="32" rx="6" fill="url(#btnGrad)" />
+  <text x="180" y="306" font-family="'Plus Jakarta Sans', sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">Confirm &amp; Generate PNR Ticket</text>
+
+  <!-- Right Panel: Ticket / Data Record -->
+  <rect x="350" y="110" width="225" height="225" rx="10" fill="#131e36" stroke="#3b82f6" stroke-width="1" stroke-dasharray="6 4" />
+  <text x="370" y="135" font-family="'Plus Jakarta Sans', sans-serif" font-size="12" font-weight="700" fill="#60a5fa">E-Ticket Summary</text>
+
+  <rect x="365" y="150" width="195" height="135" rx="6" fill="#0b1222" />
+  <text x="380" y="175" font-family="'Fira Code', monospace" font-size="10" fill="#94a3b8">PNR: <tspan fill="#38bdf8">9482-1048-28</tspan></text>
+  <text x="380" y="195" font-family="'Fira Code', monospace" font-size="10" fill="#94a3b8">Status: <tspan fill="#10b981">CONFIRMED (CNF)</tspan></text>
+  <text x="380" y="215" font-family="'Fira Code', monospace" font-size="10" fill="#94a3b8">Coach: <tspan fill="#f1f5f9">B2, Berth 19</tspan></text>
+  <text x="380" y="235" font-family="'Fira Code', monospace" font-size="10" fill="#94a3b8">Module: <tspan fill="#f1f5f9">Java Collections</tspan></text>
+  <text x="380" y="255" font-family="'Fira Code', monospace" font-size="10" fill="#94a3b8">Database: <tspan fill="#f1f5f9">Record Cache</tspan></text>
+
+  <rect x="365" y="295" width="195" height="26" rx="4" fill="rgba(16, 185, 129, 0.15)" stroke="#10b981" stroke-width="1" />
+  <text x="462" y="312" font-family="'Plus Jakarta Sans', sans-serif" font-size="10" font-weight="600" fill="#34d399" text-anchor="middle">✓ Java Backend Synced</text>
+</svg>

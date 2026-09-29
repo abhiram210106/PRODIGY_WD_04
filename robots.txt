@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+Allow: /
+Sitemap: https://abhiram210106.github.io/PRODIGY_WD_04/sitemap.xml
